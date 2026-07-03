@@ -5,7 +5,11 @@ param(
 
     [switch]$Force,
 
+    [switch]$Backup,
+
     [switch]$DryRun,
+
+    [switch]$AllowDirtyTarget,
 
     [switch]$AllowNonGitTarget
 )
@@ -28,7 +32,7 @@ function Get-RelativePathFromRoot {
     return $Path.Substring($normalizedRoot.Length).TrimStart([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
 }
 
-function Get-TargetRoot {
+function Get-TargetInfo {
     param(
         [string]$Path,
         [bool]$AllowNonGit
@@ -38,14 +42,50 @@ function Get-TargetRoot {
     $gitRoot = & git -C $resolved rev-parse --show-toplevel 2>$null
 
     if ($LASTEXITCODE -eq 0 -and $gitRoot) {
-        return $gitRoot.Trim()
+        return [pscustomobject]@{
+            Root = $gitRoot.Trim()
+            IsGitRepository = $true
+        }
     }
 
     if ($AllowNonGit) {
-        return $resolved
+        return [pscustomobject]@{
+            Root = $resolved
+            IsGitRepository = $false
+        }
     }
 
     throw "TargetPath must be inside a Git repository. Use -AllowNonGitTarget to copy into a non-Git directory."
+}
+
+function Test-DirtyGitRepository {
+    param([string]$Root)
+
+    $status = & git -C $Root status --porcelain
+    return [bool]$status
+}
+
+function Write-ChangeSummary {
+    param(
+        [System.Collections.Generic.List[object]]$Changes,
+        [System.Collections.Generic.List[object]]$Conflicts
+    )
+
+    $created = ($Changes | Where-Object { $_.Action -eq "create" }).Count
+    $updated = ($Changes | Where-Object { $_.Action -eq "update" }).Count
+    $unchanged = ($Changes | Where-Object { $_.Action -eq "unchanged" }).Count
+    $conflictCount = $Conflicts.Count
+
+    Write-Host ""
+    Write-Host "Summary:"
+    Write-Host "  created:   $created"
+    Write-Host "  updated:   $updated"
+    Write-Host "  unchanged: $unchanged"
+    Write-Host "  conflicts: $conflictCount"
+}
+
+if ($Backup -and -not $Force) {
+    throw "-Backup requires -Force because backups are only created before overwriting target files."
 }
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
@@ -57,7 +97,27 @@ if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
 }
 
 $sourceRoot = Resolve-ExistingPath -Path $sourceRoot
-$targetRoot = Get-TargetRoot -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
+$targetInfo = Get-TargetInfo -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
+$targetRoot = $targetInfo.Root
+
+Write-Host "Source payload: $sourceRoot"
+Write-Host "Target root:    $targetRoot"
+
+if ($targetInfo.IsGitRepository) {
+    $targetIsDirty = Test-DirtyGitRepository -Root $targetRoot
+
+    if ($targetIsDirty -and -not $AllowDirtyTarget) {
+        if ($DryRun) {
+            Write-Host "Target Git working tree is dirty. A non-dry-run install would fail unless -AllowDirtyTarget is used."
+        } else {
+            throw "Target Git working tree is dirty. Commit, stash, or use -AllowDirtyTarget before installing."
+        }
+    }
+} else {
+    Write-Host "Target is not a Git repository."
+}
+
+Write-Host ""
 
 $sourceFiles = Get-ChildItem -LiteralPath $sourceRoot -Recurse -File -Force
 $plannedChanges = New-Object System.Collections.Generic.List[object]
@@ -104,24 +164,21 @@ foreach ($file in $sourceFiles) {
     }) | Out-Null
 }
 
-Write-Host "Source payload: $sourceRoot"
-Write-Host "Target root:    $targetRoot"
-Write-Host ""
-
-if ($conflicts.Count -gt 0) {
-    Write-Host "Conflicting files were found. Nothing was copied."
-    Write-Host "Use -Force if you intentionally want to overwrite them."
-    Write-Host ""
-
-    foreach ($conflict in $conflicts) {
-        Write-Host "[conflict] $($conflict.Path)"
-    }
-
-    exit 2
-}
-
 foreach ($change in $plannedChanges) {
     Write-Host "[$($change.Action)] $($change.Path)"
+}
+
+foreach ($conflict in $conflicts) {
+    Write-Host "[conflict] $($conflict.Path)"
+}
+
+Write-ChangeSummary -Changes $plannedChanges -Conflicts $conflicts
+
+if ($conflicts.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Conflicting files were found. Nothing was copied."
+    Write-Host "Use -Force if you intentionally want to overwrite them."
+    exit 2
 }
 
 if ($DryRun) {
@@ -129,6 +186,8 @@ if ($DryRun) {
     Write-Host "Dry run complete. No files were copied."
     exit 0
 }
+
+$backupTimestamp = Get-Date -Format "yyyyMMddHHmmss"
 
 foreach ($change in $plannedChanges) {
     if ($change.Action -eq "unchanged") {
@@ -139,6 +198,12 @@ foreach ($change in $plannedChanges) {
 
     if (-not (Test-Path -LiteralPath $destinationDirectory -PathType Container)) {
         New-Item -ItemType Directory -Path $destinationDirectory -Force | Out-Null
+    }
+
+    if ($Backup -and $change.Action -eq "update" -and (Test-Path -LiteralPath $change.Destination -PathType Leaf)) {
+        $backupPath = "$($change.Destination).$backupTimestamp.bak"
+        Copy-Item -LiteralPath $change.Destination -Destination $backupPath -Force
+        Write-Host "[backup] $($change.Path) -> $(Split-Path -Leaf $backupPath)"
     }
 
     Copy-Item -LiteralPath $change.Source -Destination $change.Destination -Force

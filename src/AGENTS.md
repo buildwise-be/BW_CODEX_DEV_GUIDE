@@ -36,6 +36,7 @@ If one or more of these files are missing:
 5. Do not implement code, run Docker, install dependencies, or run tests before this is resolved, unless the user explicitly says to skip the initialization gate for the current task.
 
 When initialization is approved, create concise, factual first versions of the missing files before starting feature work.
+Prefer the starter templates from the guide repository when they are available, but replace placeholders with facts observed in the target repository.
 
 ## Working Rules
 
@@ -55,6 +56,7 @@ If the broader AI workflow structure is missing, propose creating:
 
 - .github/ISSUE_TEMPLATE/codex-task.md
 - .github/pull_request_template.md
+- .codex/guide-version.json
 - docs/ai-context/PROMPTS.md
 - docs/ai-context/CURRENT_STATE.md
 - docs/ai-context/ARCHITECTURE.md

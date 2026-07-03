@@ -57,6 +57,8 @@ A simple structure is usually enough:
 
 This structure is not mandatory, but it creates a clear place for project memory. The goal is not perfect documentation. The goal is enough context for a new Codex session, a new developer, or a future reviewer to understand the project without relying on previous conversations.
 
+When this workflow is installed from a shared guide repository, the installed payload should include `.codex/guide-version.json`. This file records which version of the shared Codex guide was copied into the target repository.
+
 ### Context Initialization Gate
 
 Before starting development work in a repository that uses this workflow, Codex should verify that the minimum AI context files exist.
@@ -74,7 +76,20 @@ If any of these files are missing, Codex should stop before implementation, depe
 
 Only minimal inspection is allowed before this gate is resolved: reading `AGENTS.md`, reading this guide, checking Git branch/status, and listing the missing context files.
 
-When the user approves initialization, Codex should create concise first versions of the missing files and then continue with the normal planning workflow. If the user explicitly asks to skip the gate for a task, Codex should mention the skipped documentation risk in the final summary.
+When the user approves initialization, Codex should create concise first versions of the missing files and then continue with the normal planning workflow. If starter templates are available from the shared guide repository, Codex should use them as structure only and replace placeholders with facts observed in the target repository. If the user explicitly asks to skip the gate for a task, Codex should mention the skipped documentation risk in the final summary.
+
+### Installation and Validation
+
+For repositories that receive this workflow from a shared guide repository, use the provided installation script as the distribution mechanism.
+
+The installer should be conservative:
+
+- run in dry-run mode before updating an existing repository;
+- refuse to overwrite changed target files unless forced;
+- refuse to install into a dirty target Git working tree unless explicitly allowed;
+- create backups before intentional overwrites when requested.
+
+After installation, run the validator from the guide repository to check that the target repository contains the required payload files, version metadata, and project context files.
 
 ## 4. Role of Each Document
 
@@ -210,6 +225,7 @@ Recommended process:
    - `DECISIONS.md`;
    - `KNOWN_ISSUES.md`;
    - `PROMPTS.md`.
+3. Run the target repository validator from the shared guide repository and resolve any missing required files.
 
 This documentation will be incomplete at first. That is acceptable. It should improve over time.
 
@@ -1050,14 +1066,15 @@ Several collaboration patterns work well with Codex:
 2. Open the correct worktree.
 3. Start or resume the Codex session.
 4. Ask Codex to read project context.
-5. Ask for a plan.
-6. Approve one step at a time.
-7. Commit focused changes.
-8. Ask for self-review.
-9. Ask for documentation check.
-10. Prepare Pull Request.
-11. Use a second Codex thread for review.
-12. Merge only when code, tests, and documentation are coherent.
+5. Validate the Codex workflow files when adopting or updating the guide.
+6. Ask for a plan.
+7. Approve one step at a time.
+8. Commit focused changes.
+9. Ask for self-review.
+10. Ask for documentation check.
+11. Prepare Pull Request.
+12. Use a second Codex thread for review.
+13. Merge only when code, tests, and documentation are coherent.
 ```
 
 ## 32. Minimal Prompt Set

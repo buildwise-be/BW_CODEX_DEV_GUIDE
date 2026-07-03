@@ -68,10 +68,14 @@ When a target repository matures, Codex can also maintain the fuller project mem
 /
 |-- README.md                    This repository guide
 |-- scripts/
-|   `-- install.ps1              Integration script for target repositories
+|   |-- install.ps1              Integration script for target repositories
+|   `-- validate-target.ps1      Readiness check for target repositories
+|-- templates/
+|   `-- ai-context/              Starter templates for project-specific memory
 `-- src/                         Canonical payload installed into target repositories
     |-- AGENTS.md                Working rules read by Codex
     |-- .codex/
+    |   |-- guide-version.json   Installed payload version metadata
     |   |-- hooks.json           Codex startup hook configuration
     |   `-- hooks/
     |       `-- session_start.ps1
@@ -91,13 +95,14 @@ When a target repository matures, Codex can also maintain the fuller project mem
 The installer copies the shared payload into a target repository:
 
 - `AGENTS.md`, the mandatory bootstrap file.
+- `.codex/guide-version.json`, the installed guide version metadata.
 - `.codex/hooks.json`, the Codex hook configuration.
 - `.codex/hooks/session_start.ps1`, the startup context checker.
 - `.github/ISSUE_TEMPLATE/codex-task.md`, the Codex task template.
 - `.github/pull_request_template.md`, the PR handoff template.
 - `docs/ai-context/AI_DEVELOPMENT_GUIDE.md`, the full AI development workflow.
 
-The installer does not invent project-specific context. Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, and `DECISIONS.md` must be initialized from facts in each target repository.
+The installer does not invent project-specific context. Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, and `DECISIONS.md` must be initialized from facts in each target repository. Starter templates are available under `templates/ai-context/`, but they are not copied as part of the default payload.
 
 ## Install in a Target Repository
 
@@ -114,7 +119,17 @@ By default, the script refuses to overwrite a different target file. To intentio
 .\scripts\install.ps1 -TargetPath C:\path\to\target-repo -Force
 ```
 
-Use `-DryRun` first when updating an existing repository.
+Use `-DryRun` first when updating an existing repository. The installer also refuses to install into a dirty Git working tree unless `-AllowDirtyTarget` is used. When overwriting with `-Force`, add `-Backup` to create timestamped `.bak` copies beside overwritten files.
+
+## Validate a Target Repository
+
+Use the validator to check whether a repository has the required Codex payload and project context files:
+
+```powershell
+.\scripts\validate-target.ps1 -TargetPath C:\path\to\target-repo
+```
+
+The validator does not modify files. It exits with `0` when the target is Codex-ready and `1` when required files are missing or invalid.
 
 ## After Integration
 
@@ -128,6 +143,8 @@ In the target repository, Codex should initialize or update the project-specific
 - `docs/ai-context/CHANGELOG_AI.md`
 
 These files are intentionally project-specific. The shared guide is versioned here, but the concrete project memory must live in the application repository.
+
+Use the starter templates in `templates/ai-context/` as a first draft only. Replace placeholders with facts observed in the target repository before treating the files as project memory.
 
 ## Operating Rules
 
@@ -154,7 +171,8 @@ The richer project memory can grow progressively as the repository needs it.
 2. Review the expected impact in target repositories.
 3. Commit the new version of this repository.
 4. Install or update target repositories with `scripts/install.ps1`.
-5. In each target repository, review the `git diff`, adapt project-specific context, then commit.
+5. Validate target repositories with `scripts/validate-target.ps1`.
+6. In each target repository, review the `git diff`, adapt project-specific context, then commit.
 
 For target repositories:
 
