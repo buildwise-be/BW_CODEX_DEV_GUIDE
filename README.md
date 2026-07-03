@@ -4,6 +4,8 @@ This repository version-controls a reusable governance layer for Codex-assisted 
 
 It is not application code. It contains the shared instructions, hooks, templates, and documentation that make Codex work consistently across multiple repositories, branches, machines, and conversations.
 
+See [ABOUT.md](ABOUT.md) for a concise project overview.
+
 The core principle is:
 
 ```text
@@ -193,3 +195,7 @@ This repository is adapted to a Buildwise workflow, but it is aligned with publi
 - [DenisSergeevitch/agents-best-practices](https://github.com/DenisSergeevitch/agents-best-practices), provider-neutral guidance for agent skills and harness design.
 
 These are inspirations, not vendored dependencies. The purpose of this repository is narrower: define a practical Codex + GitHub + Markdown memory workflow that can be copied into Buildwise development repositories.
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE).
