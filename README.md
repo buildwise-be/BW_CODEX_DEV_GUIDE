@@ -1,42 +1,42 @@
 # BW Codex Dev Guide
 
-Ce depot centralise les fichiers qui pilotent la maniere dont Codex doit travailler dans les repos de developpement.
+This repository centralizes the files that define how Codex should work in development repositories.
 
-L'objectif est simple: versionner une seule source de bonnes pratiques, puis integrer ces fichiers dans chaque repo applicatif qui doit suivre le meme cadre de travail.
+The goal is simple: version a single source of best practices, then integrate these files into every application repository that should follow the same workflow.
 
 ## Structure
 
 ```text
 /
-|-- src/                         Fichiers a installer dans les repos cibles
-|   |-- AGENTS.md                Regles de travail lues par Codex
-|   |-- .github/                 Templates Issue et Pull Request
-|   |-- .codex/hooks.json        Hook de demarrage Codex
-|   |-- .codex/hooks/            Scripts executes par les hooks
-|   `-- docs/ai-context/         Guide et memoire projet pour Codex
-`-- scripts/install.ps1          Script d'integration vers un repo cible
+|-- src/                         Files to install in target repositories
+|   |-- AGENTS.md                Working rules read by Codex
+|   |-- .github/                 Issue and Pull Request templates
+|   |-- .codex/hooks.json        Codex startup hook
+|   |-- .codex/hooks/            Scripts executed by hooks
+|   `-- docs/ai-context/         Guide and project memory for Codex
+`-- scripts/install.ps1          Integration script for a target repository
 ```
 
-`src/` est le payload canonique. Toute modification destinee aux repos de dev doit etre faite dans `src/`, puis propagee vers les repos cibles.
+`src/` is the canonical payload. Any change intended for development repositories should be made in `src/`, then propagated to target repositories.
 
-## Installer dans un repo cible
+## Install in a Target Repository
 
-Depuis ce depot:
+From this repository:
 
 ```powershell
-.\scripts\install.ps1 -TargetPath C:\chemin\vers\repo-cible -DryRun
-.\scripts\install.ps1 -TargetPath C:\chemin\vers\repo-cible
+.\scripts\install.ps1 -TargetPath C:\path\to\target-repo -DryRun
+.\scripts\install.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-Par defaut, le script refuse d'ecraser un fichier cible different. Pour mettre a jour volontairement les fichiers deja presents:
+By default, the script refuses to overwrite a different target file. To intentionally update existing files:
 
 ```powershell
-.\scripts\install.ps1 -TargetPath C:\chemin\vers\repo-cible -Force
+.\scripts\install.ps1 -TargetPath C:\path\to\target-repo -Force
 ```
 
-## Apres integration
+## After Integration
 
-Dans le repo cible, Codex doit ensuite initialiser ou mettre a jour les fichiers de contexte propres au projet:
+In the target repository, Codex should then initialize or update the project-specific context files:
 
 - `docs/ai-context/PROMPTS.md`
 - `docs/ai-context/CURRENT_STATE.md`
@@ -45,14 +45,14 @@ Dans le repo cible, Codex doit ensuite initialiser ou mettre a jour les fichiers
 - `docs/ai-context/KNOWN_ISSUES.md`
 - `docs/ai-context/CHANGELOG_AI.md`
 
-Ces fichiers sont volontairement specifiques a chaque projet. Le guide commun est versionne ici, mais la memoire concrete du projet doit vivre dans le repo applicatif.
+These files are intentionally project-specific. The shared guide is versioned here, but the concrete project memory must live in the application repository.
 
-## Workflow recommande
+## Recommended Workflow
 
-1. Modifier les fichiers communs dans `src/`.
-2. Relire l'impact attendu dans les repos cibles.
-3. Committer la nouvelle version de ce depot.
-4. Installer ou mettre a jour les repos cibles avec `scripts/install.ps1`.
-5. Dans chaque repo cible, verifier le `git diff`, adapter le contexte projet, puis commit.
+1. Modify shared files in `src/`.
+2. Review the expected impact in target repositories.
+3. Commit the new version of this repository.
+4. Install or update target repositories with `scripts/install.ps1`.
+5. In each target repository, review the `git diff`, adapt the project context, then commit.
 
-Le principe a garder: Codex peut etre temporaire, mais les regles, decisions et contextes doivent rester dans Git.
+The principle to keep in mind: Codex can be temporary, but rules, decisions, and context must remain in Git.
