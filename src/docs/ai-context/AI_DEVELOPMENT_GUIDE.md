@@ -2,11 +2,20 @@
 
 ## 1. Purpose
 
-Codex is a powerful development assistant, but it should not be treated as the long-term memory of a project.
+Codex is a powerful development assistant, but it should not be treated as the
+long-term memory of a project.
 
-A Codex conversation is temporary. It has limited context, does not automatically know what happened in other conversations, and does not reliably preserve decisions made across different laptops, branches, or sessions.
+A Codex conversation is temporary.
+It has limited context, does not automatically know what happened in other
+conversations, and does not reliably preserve decisions made across different
+laptops, branches, or sessions.
 
-When several developers, Codex threads, Git branches, or machines are involved, the risk is not only code conflict. The larger risk is context drift: different conversations may make different assumptions about the architecture, roadmap, conventions, or current state of the project.
+When several developers, Codex threads, Git branches, or machines are involved,
+the risk is not only code conflict.
+
+The larger risk is context drift: different conversations may make different
+assumptions about the architecture, roadmap, conventions, or current state of
+the project.
 
 To avoid this, the repository must become the source of truth.
 
@@ -15,7 +24,9 @@ The basic principle is:
 > Codex is a temporary collaborator.
 > Git is the permanent memory of the project.
 
-Important information must not remain hidden in a Codex thread. It must be captured in Git, GitHub, Pull Requests, Issues, and versioned Markdown documentation.
+Important information must not remain hidden in a Codex thread.
+It must be captured in Git, GitHub, Pull Requests, Issues, and versioned
+Markdown documentation.
 
 A Codex thread should be able to disappear without the project losing knowledge.
 
@@ -28,7 +39,8 @@ A Codex thread should be able to disappear without the project losing knowledge.
 - Markdown files preserve project knowledge.
 - Git is the source of truth.
 
-Every important decision, constraint, assumption, architecture rule, or handoff must be stored in the repository or in GitHub, not only in chat history.
+Every important decision, constraint, assumption, architecture rule, or handoff
+must be stored in the repository or in GitHub, not only in chat history.
 
 ## 3. Recommended Repository Structure
 
@@ -55,13 +67,24 @@ A simple structure is usually enough:
 └── src/
 ```
 
-This structure is not mandatory, but it creates a clear place for project memory. The goal is not perfect documentation. The goal is enough context for a new Codex session, a new developer, or a future reviewer to understand the project without relying on previous conversations.
+This structure is not mandatory, but it creates a clear place for project
+memory.
 
-When this workflow is installed from a shared guide repository, the installed payload should include `.codex/guide-version.json`. This file records which version of the shared Codex guide was copied into the target repository.
+The goal is not perfect documentation.
+The goal is enough context for a new Codex session, a new developer, or a
+future reviewer to understand the project without relying on previous
+conversations.
+
+When this workflow is installed from a shared guide repository, the installed
+payload should include `.codex/guide-version.json`.
+
+This file records which version of the shared Codex guide was copied into the
+target repository.
 
 ### Context Initialization Gate
 
-Before starting development work in a repository that uses this workflow, Codex should verify that the minimum AI context files exist.
+Before starting development work in a repository that uses this workflow, Codex
+should verify that the minimum AI context files exist.
 
 Minimum required files:
 
@@ -72,15 +95,31 @@ Minimum required files:
 - `docs/ai-context/KNOWN_ISSUES.md`;
 - `docs/ai-context/CHANGELOG_AI.md`.
 
-If any of these files are missing, Codex should stop before implementation, dependency installation, Docker startup, test execution, or build execution. It should report the missing files, ask the user whether to initialize them, and wait for explicit approval.
+If any of these files are missing, Codex should stop before implementation,
+dependency installation, Docker startup, test execution, or build execution.
 
-Only minimal inspection is allowed before this gate is resolved: reading `AGENTS.md`, reading this guide, checking Git branch/status, and listing the missing context files.
+It should report the missing files, ask the user whether to initialize them,
+and wait for explicit approval.
 
-When the user approves initialization, Codex should create concise first versions of the missing files and then continue with the normal planning workflow. If starter templates are available from the shared guide repository, Codex should use them as structure only and replace placeholders with facts observed in the target repository. If the user explicitly asks to skip the gate for a task, Codex should mention the skipped documentation risk in the final summary.
+Only minimal inspection is allowed before this gate is resolved: reading
+`AGENTS.md`, reading this guide, checking Git branch/status, and listing the
+missing context files.
+
+When the user approves initialization, Codex should create concise first
+versions of the missing files and then continue with the normal planning
+workflow.
+
+If starter templates are available from the shared guide repository, Codex
+should use them as structure only and replace placeholders with facts observed
+in the target repository.
+
+If the user explicitly asks to skip the gate for a task, Codex should mention
+the skipped documentation risk in the final summary.
 
 ### Installation and Validation
 
-For repositories that receive this workflow from a shared guide repository, use the provided installation script as the distribution mechanism.
+For repositories that receive this workflow from a shared guide repository, use
+the provided installation script as the distribution mechanism.
 
 The installer should be conservative:
 
@@ -89,7 +128,9 @@ The installer should be conservative:
 - refuse to install into a dirty target Git working tree unless explicitly allowed;
 - create backups before intentional overwrites when requested.
 
-After installation, run the validator from the guide repository to check that the target repository contains the required payload files, version metadata, and project context files.
+After installation, run the validator from the guide repository to check that
+the target repository contains the required payload files, version metadata,
+and project context files.
 
 ## 4. Role of Each Document
 
@@ -139,19 +180,29 @@ For larger decisions, use ADR files under `docs/adr/`.
 
 ### `ROADMAP.md`
 
-`ROADMAP.md` contains upcoming work, planned features, priorities, deferred ideas, milestones, and dependencies between initiatives. This helps Codex avoid implementing ideas that are not aligned with the project direction.
+`ROADMAP.md` contains upcoming work, planned features, priorities, deferred
+ideas, milestones, and dependencies between initiatives.
+
+This helps Codex avoid implementing ideas that are not aligned with the project
+direction.
 
 ### `KNOWN_ISSUES.md`
 
-`KNOWN_ISSUES.md` captures known problems: bugs, technical debt, fragile modules, flaky tests, performance issues, and incomplete migrations. This prevents Codex from repeatedly rediscovering the same problems.
+`KNOWN_ISSUES.md` captures known problems: bugs, technical debt, fragile
+modules, flaky tests, performance issues, and incomplete migrations.
+
+This prevents Codex from repeatedly rediscovering the same problems.
 
 ### `CHANGELOG_AI.md`
 
-`CHANGELOG_AI.md` provides a concise summary of meaningful AI-assisted changes. It is not a replacement for Git history. It is a human-readable handoff log.
+`CHANGELOG_AI.md` provides a concise summary of meaningful AI-assisted changes.
+It is not a replacement for Git history.
+It is a human-readable handoff log.
 
 ### `PROMPTS.md`
 
-`PROMPTS.md` stores reusable prompts for the team. This makes Codex usage more consistent across developers and machines.
+`PROMPTS.md` stores reusable prompts for the team.
+This makes Codex usage more consistent across developers and machines.
 
 It can include prompts for:
 
@@ -170,7 +221,11 @@ It can include prompts for:
 
 When starting a new project, define the working framework before writing production code.
 
-Codex can help design the initial structure, but the framework must be reviewed and accepted by the human developer. At this stage, use Codex as an architecture and methodology assistant, not as a code generator.
+Codex can help design the initial structure, but the framework must be reviewed
+and accepted by the human developer.
+
+At this stage, use Codex as an architecture and methodology assistant, not as a
+code generator.
 
 Recommended first outputs:
 
@@ -214,7 +269,11 @@ First produce the proposed structure and methodology, then wait for validation.
 
 Most projects do not start with this discipline. That is normal.
 
-For an existing project, do not try to reconstruct the entire history. Instead, create a reliable snapshot of the current state. The objective is to capture enough knowledge so future Codex sessions can work coherently.
+For an existing project, do not try to reconstruct the entire history.
+Instead, create a reliable snapshot of the current state.
+
+The objective is to capture enough knowledge so future Codex sessions can work
+coherently.
 
 Recommended process:
 
@@ -262,7 +321,10 @@ Clearly separate facts observed in the repository from assumptions.
 
 ## 7. Consolidating Information from Previous Codex Threads
 
-When multiple Codex conversations have already worked on a project, knowledge is often scattered. Before continuing, perform a consolidation phase.
+When multiple Codex conversations have already worked on a project, knowledge
+is often scattered.
+
+Before continuing, perform a consolidation phase.
 
 Sources to review:
 
@@ -310,7 +372,8 @@ Do not change production code during this consolidation step.
 
 ## 8. Git as the Coordination System
 
-In a Codex-heavy workflow, Git is not only a version control system. It is the coordination system between humans and agents.
+In a Codex-heavy workflow, Git is not only a version control system.
+It is the coordination system between humans and agents.
 
 Use this model:
 
@@ -330,7 +393,9 @@ Documentation update
 Merge
 ```
 
-The conversation is not the durable artifact. The durable artifacts are the Issue, branch, commits, Pull Request, and updated documentation.
+The conversation is not the durable artifact.
+The durable artifacts are the Issue, branch, commits, Pull Request, and updated
+documentation.
 
 ## 9. One Issue = One Mission
 
@@ -564,7 +629,8 @@ Do not modify files until the plan is approved.
 
 ## 14. Starting a New Codex Conversation
 
-Every new Codex conversation should begin with context reconstruction. Start with: read the context and explain your understanding.
+Every new Codex conversation should begin with context reconstruction.
+Start with: read the context and explain your understanding.
 
 ### Prompt: New Codex Session
 
@@ -591,7 +657,8 @@ Clearly separate facts from assumptions.
 
 ## 15. Resuming an Existing Branch
 
-Sometimes a branch already contains work, but the Codex conversation is new. In that case, ask Codex to reconstruct what happened.
+Sometimes a branch already contains work, but the Codex conversation is new.
+In that case, ask Codex to reconstruct what happened.
 
 ### Prompt: Resume an Existing Branch
 
@@ -706,7 +773,8 @@ Do not make additional changes during this review.
 
 ## 19. Preventing Scope Creep
 
-Codex may detect nearby problems and start fixing them. This can be useful, but it can also make branches noisy and hard to review.
+Codex may detect nearby problems and start fixing them.
+This can be useful, but it can also make branches noisy and hard to review.
 
 Use explicit constraints.
 
@@ -836,7 +904,10 @@ Do not make changes until I approve the fixes.
 
 ## 24. Using a Second Codex Thread as Reviewer
 
-A strong pattern is to use one Codex thread as the developer and another as the reviewer. The reviewer should critique the change, not continue implementation.
+A strong pattern is to use one Codex thread as the developer and another as the
+reviewer.
+
+The reviewer should critique the change, not continue implementation.
 
 ### Prompt: Reviewer Thread
 
@@ -1082,31 +1153,43 @@ Several collaboration patterns work well with Codex:
 ### New Session
 
 ```text
-Read AGENTS.md, CURRENT_STATE.md, ARCHITECTURE.md, DECISIONS.md, and the related Issue. Compare this branch with main. Summarize your understanding, identify risks, and propose a plan. Do not modify files yet.
+Read AGENTS.md, CURRENT_STATE.md, ARCHITECTURE.md, DECISIONS.md, and the
+related Issue.
+Compare this branch with main.
+Summarize your understanding, identify risks, and propose a plan.
+Do not modify files yet.
 ```
 
 ### Implement Step
 
 ```text
-Implement only the next approved step. Keep the change focused, follow project conventions, avoid unrelated refactors, and summarize the result afterward.
+Implement only the next approved step.
+Keep the change focused, follow project conventions, avoid unrelated refactors,
+and summarize the result afterward.
 ```
 
 ### Self-Review
 
 ```text
-Review your changes for bugs, regressions, missing tests, documentation gaps, convention violations, and out-of-scope changes. Do not fix anything until I approve.
+Review your changes for bugs, regressions, missing tests, documentation gaps,
+convention violations, and out-of-scope changes.
+Do not fix anything until I approve.
 ```
 
 ### Documentation Check
 
 ```text
-Check whether AGENTS.md, CURRENT_STATE.md, ARCHITECTURE.md, DECISIONS.md, KNOWN_ISSUES.md, CHANGELOG_AI.md, or README.md need updates for this change. Propose exact updates.
+Check whether AGENTS.md, CURRENT_STATE.md, ARCHITECTURE.md, DECISIONS.md,
+KNOWN_ISSUES.md, CHANGELOG_AI.md, or README.md need updates for this change.
+Propose exact updates.
 ```
 
 ### Finish Mission
 
 ```text
-Verify that the Issue objectives are covered, tests and documentation are complete, no unrelated changes remain, and the branch is ready for Pull Request. Produce a PR description with summary, tests, risks, and follow-up work.
+Verify that the Issue objectives are covered, tests and documentation are
+complete, no unrelated changes remain, and the branch is ready for Pull Request.
+Produce a PR description with summary, tests, risks, and follow-up work.
 ```
 
 ## 33. Definition of Done for Codex Work
@@ -1131,6 +1214,9 @@ The goal is not to make Codex remember everything.
 
 The goal is to make Codex able to reconstruct what it needs from the repository.
 
-When this workflow is followed, any Codex session can join the project, understand the current state, perform a focused mission, document its work, and exit without taking knowledge away with it.
+When this workflow is followed, any Codex session can join the project,
+understand the current state, perform a focused mission, document its work, and
+exit without taking knowledge away with it.
 
-That is the key difference between using Codex as a chat assistant and using Codex as a disciplined software engineering collaborator.
+That is the key difference between using Codex as a chat assistant and using
+Codex as a disciplined software engineering collaborator.

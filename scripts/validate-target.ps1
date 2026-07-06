@@ -9,7 +9,9 @@ param(
 $ErrorActionPreference = "Stop"
 
 function Resolve-ExistingPath {
-    param([string]$Path)
+    param(
+        [string]$Path
+    )
 
     return (Resolve-Path -LiteralPath $Path).ProviderPath
 }
@@ -25,24 +27,27 @@ function Get-TargetInfo {
 
     if ($LASTEXITCODE -eq 0 -and $gitRoot) {
         return [pscustomobject]@{
-            Root = $gitRoot.Trim()
+            Root            = $gitRoot.Trim()
             IsGitRepository = $true
-            Error = $null
+            Error           = $null
         }
     }
 
     if ($AllowNonGit) {
         return [pscustomobject]@{
-            Root = $resolved
+            Root            = $resolved
             IsGitRepository = $false
-            Error = $null
+            Error           = $null
         }
     }
 
     return [pscustomobject]@{
-        Root = $resolved
+        Root            = $resolved
         IsGitRepository = $false
-        Error = "TargetPath must be inside a Git repository. Use -AllowNonGitTarget to validate a non-Git directory."
+        Error           = (@(
+            "TargetPath must be inside a Git repository."
+            "Use -AllowNonGitTarget to validate a non-Git directory."
+        ) -join " ")
     }
 }
 
@@ -66,7 +71,9 @@ function Get-MissingFiles {
 }
 
 function Test-GuideVersionFile {
-    param([string]$Path)
+    param(
+        [string]$Path
+    )
 
     $issues = New-Object System.Collections.Generic.List[string]
 
@@ -83,8 +90,12 @@ function Test-GuideVersionFile {
 
     if (-not $metadata.version) {
         $issues.Add(".codex/guide-version.json is missing the version field.") | Out-Null
-    } elseif ($metadata.version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$') {
-        $issues.Add(".codex/guide-version.json version is not valid SemVer: $($metadata.version)") | Out-Null
+    } elseif (
+        $metadata.version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+    ) {
+        $issues.Add(
+            ".codex/guide-version.json version is not valid SemVer: $($metadata.version)"
+        ) | Out-Null
     }
 
     return $issues
@@ -168,7 +179,12 @@ if ($versionIssues.Count -gt 0) {
     }
 }
 
-if ($missingPayloadFiles.Count -gt 0 -or $missingContextFiles.Count -gt 0 -or $versionIssues.Count -gt 0) {
+$targetIsNotReady =
+    $missingPayloadFiles.Count -gt 0 -or
+    $missingContextFiles.Count -gt 0 -or
+    $versionIssues.Count -gt 0
+
+if ($targetIsNotReady) {
     Write-Host ""
     Write-Host "Target repository is not Codex-ready."
     exit 1

@@ -1,8 +1,13 @@
 # About BW Codex Dev Guide
 
-BW Codex Dev Guide is a reusable governance package for Codex-assisted software development.
+BW Codex Dev Guide is a reusable governance package for Codex-assisted
+software development.
 
-It provides a versioned set of repository files that can be installed into Buildwise development repositories so Codex sessions start with the same operating rules, project-memory structure, GitHub task templates, and validation tooling.
+It provides a versioned set of repository files that can be installed into
+Buildwise development repositories.
+
+This helps Codex sessions start with the same operating rules,
+project-memory structure, GitHub task templates, and validation tooling.
 
 ## What This Repository Contains
 

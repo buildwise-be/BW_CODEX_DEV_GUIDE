@@ -16,7 +16,8 @@ If they exist, also read:
 
 ## AI Context Initialization Gate
 
-Before starting any development work, coding, dependency installation, Docker run, test run, or build, verify that the AI workflow context exists.
+Before starting any development work, coding, dependency installation,
+Docker run, test run, or build, verify that the AI workflow context exists.
 
 Required AI context files:
 
@@ -33,10 +34,15 @@ If one or more of these files are missing:
 2. Tell the user exactly which files are missing.
 3. Ask whether to initialize the missing AI context files before continuing.
 4. Wait for explicit approval.
-5. Do not implement code, run Docker, install dependencies, or run tests before this is resolved, unless the user explicitly says to skip the initialization gate for the current task.
+5. Do not implement code, run Docker, install dependencies, or run tests before
+   this is resolved, unless the user explicitly says to skip the initialization
+   gate for the current task.
 
-When initialization is approved, create concise, factual first versions of the missing files before starting feature work.
-Prefer the starter templates from the guide repository when they are available, but replace placeholders with facts observed in the target repository.
+When initialization is approved, create concise, factual first versions of the
+missing files before starting feature work.
+
+Prefer the starter templates from the guide repository when they are available,
+but replace placeholders with facts observed in the target repository.
 
 ## Working Rules
 

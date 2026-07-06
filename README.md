@@ -1,200 +1,109 @@
 # BW Codex Dev Guide
 
-This repository version-controls a reusable governance layer for Codex-assisted development.
+Reusable governance layer for Codex-assisted development in Buildwise
+repositories.
 
-It is not application code. It contains the shared instructions, hooks, templates, and documentation that make Codex work consistently across multiple repositories, branches, machines, and conversations.
+This repository contains the shared Codex bootstrap file, full workflow guide,
+GitHub templates, hooks, scripts, and starter AI-context templates used to make
+Codex work consistently across repositories.
 
-See [ABOUT.md](ABOUT.md) for a concise project overview.
+For the full rationale and operating model, read
+[AI_DEVELOPMENT_GUIDE.md](src/docs/ai-context/AI_DEVELOPMENT_GUIDE.md).
+For a concise project overview, read [ABOUT.md](ABOUT.md).
 
-The core principle is:
+## Core Model
 
-```text
-Codex is temporary.
-Git is the durable project memory.
-```
-
-## Guiding Model
-
-This repository follows a small bootstrap plus full manual model:
-
-- `AGENTS.md` is the short operational entry point for Codex.
-- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md` is the full workflow manual.
+- `AGENTS.md` is the bootstrap file Codex should read first in target
+  repositories.
+- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md` is the full guide.
 - GitHub Issues define focused missions.
-- Pull Requests are the review and handoff checkpoint.
-- `docs/ai-context/` stores project-specific memory.
-- Repeated feedback should become a rule, document, template, or check.
+- Pull Requests provide the durable handoff.
+- Project-specific memory lives in each target repository, not in this source
+  repository.
 
-The workflow should not depend on someone remembering the right prompt at the start of every session. The repository must carry enough context for a new Codex thread to reconstruct how to work.
+## Adopt in a Target Repository
 
-## Why Not One Big File
+Run commands from this repository.
 
-A single long guide is easy to maintain, but it is not enough on its own.
-
-Codex needs a short, predictable bootstrap file at the repository root. That file should tell Codex what to read, what gates to respect, and when to stop for approval. Longer explanations belong in referenced Markdown files under `docs/ai-context/`.
-
-This keeps the high-priority instructions small while still preserving the complete workflow in Git.
-
-In this model:
-
-```text
-/
-|-- AGENTS.md                         Short bootstrap, operational rules
-`-- docs/
-    `-- ai-context/
-        `-- AI_DEVELOPMENT_GUIDE.md   Full manual, rationale, prompts, patterns
-```
-
-When a target repository matures, Codex can also maintain the fuller project memory set:
-
-```text
-/
-|-- AGENTS.md
-|-- .github/
-|   |-- ISSUE_TEMPLATE/
-|   |   `-- codex-task.md
-|   `-- pull_request_template.md
-`-- docs/
-    `-- ai-context/
-        |-- AI_DEVELOPMENT_GUIDE.md
-        |-- PROMPTS.md
-        |-- CURRENT_STATE.md
-        |-- ARCHITECTURE.md
-        |-- DECISIONS.md
-        |-- KNOWN_ISSUES.md
-        `-- CHANGELOG_AI.md
-```
-
-## Repository Structure
-
-```text
-/
-|-- README.md                    This repository guide
-|-- scripts/
-|   |-- install.ps1              Integration script for target repositories
-|   `-- validate-target.ps1      Readiness check for target repositories
-|-- templates/
-|   `-- ai-context/              Starter templates for project-specific memory
-`-- src/                         Canonical payload installed into target repositories
-    |-- AGENTS.md                Working rules read by Codex
-    |-- .codex/
-    |   |-- guide-version.json   Installed payload version metadata
-    |   |-- hooks.json           Codex startup hook configuration
-    |   `-- hooks/
-    |       `-- session_start.ps1
-    |-- .github/
-    |   |-- ISSUE_TEMPLATE/
-    |   |   `-- codex-task.md
-    |   `-- pull_request_template.md
-    `-- docs/
-        `-- ai-context/
-            `-- AI_DEVELOPMENT_GUIDE.md
-```
-
-`src/` is the canonical payload. Any change intended for development repositories should be made in `src/`, then propagated to target repositories.
-
-## What Gets Installed
-
-The installer copies the shared payload into a target repository:
-
-- `AGENTS.md`, the mandatory bootstrap file.
-- `.codex/guide-version.json`, the installed guide version metadata.
-- `.codex/hooks.json`, the Codex hook configuration.
-- `.codex/hooks/session_start.ps1`, the startup context checker.
-- `.github/ISSUE_TEMPLATE/codex-task.md`, the Codex task template.
-- `.github/pull_request_template.md`, the PR handoff template.
-- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md`, the full AI development workflow.
-
-The installer does not invent project-specific context. Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, and `DECISIONS.md` must be initialized from facts in each target repository. Starter templates are available under `templates/ai-context/`, but they are not copied as part of the default payload.
-
-## Install in a Target Repository
-
-From this repository:
+First inspect what would be copied:
 
 ```powershell
 .\scripts\install.ps1 -TargetPath C:\path\to\target-repo -DryRun
+```
+
+Then install the guide:
+
+```powershell
 .\scripts\install.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-By default, the script refuses to overwrite a different target file. To intentionally update existing files:
-
-```powershell
-.\scripts\install.ps1 -TargetPath C:\path\to\target-repo -Force
-```
-
-Use `-DryRun` first when updating an existing repository. The installer also refuses to install into a dirty Git working tree unless `-AllowDirtyTarget` is used. When overwriting with `-Force`, add `-Backup` to create timestamped `.bak` copies beside overwritten files.
-
-## Validate a Target Repository
-
-Use the validator to check whether a repository has the required Codex payload and project context files:
+Validate the target repository:
 
 ```powershell
 .\scripts\validate-target.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-The validator does not modify files. It exits with `0` when the target is Codex-ready and `1` when required files are missing or invalid.
+If validation reports missing project context files, initialize them from target
+repository facts and rerun validation.
 
-## After Integration
+The installer refuses to overwrite changed target files unless `-Force` is
+used. When forcing updates, add `-Backup` if you want timestamped `.bak` copies
+beside overwritten files.
 
-In the target repository, Codex should initialize or update the project-specific context files when they are missing:
+## Update Strategy
 
-- `docs/ai-context/PROMPTS.md`
-- `docs/ai-context/CURRENT_STATE.md`
-- `docs/ai-context/ARCHITECTURE.md`
-- `docs/ai-context/DECISIONS.md`
-- `docs/ai-context/KNOWN_ISSUES.md`
-- `docs/ai-context/CHANGELOG_AI.md`
+To detect the installed guide version in a target repository:
 
-These files are intentionally project-specific. The shared guide is versioned here, but the concrete project memory must live in the application repository.
+```powershell
+Get-Content C:\path\to\target-repo\.codex\guide-version.json
+```
 
-Use the starter templates in `templates/ai-context/` as a first draft only. Replace placeholders with facts observed in the target repository before treating the files as project memory.
-
-## Operating Rules
-
-Use these rules as the practical contract for Codex work:
-
-- No Codex thread starts development work without reading `AGENTS.md`.
-- No meaningful task starts without a related Issue or explicit task brief.
-- No code change starts before Codex summarizes the context, risks, and plan.
-- No task ends without known test status, documentation check, and PR-ready summary.
-- No repeated Codex mistake should remain only in chat; turn it into a rule, template, check, or document update.
-
-The minimum viable target setup is:
+Files managed by this repository are copied from `src/`:
 
 - `AGENTS.md`
-- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md`
+- `.codex/guide-version.json`
+- `.codex/hooks.json`
+- `.codex/hooks/session_start.ps1`
 - `.github/ISSUE_TEMPLATE/codex-task.md`
 - `.github/pull_request_template.md`
+- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md`
 
-The richer project memory can grow progressively as the repository needs it.
+Update an already-installed repository like this:
 
-## Recommended Workflow
+1. Commit and push the guide update in this repository.
+2. Run `install.ps1 -DryRun` against the target repository.
+3. Review every planned `create`, `update`, and `conflict`.
+4. Use the real install for clean creates and unchanged managed files.
+5. Use `-Force -Backup` only when you intentionally accept overwriting managed
+   files with the latest guide version.
+6. Run `validate-target.ps1`.
+7. In the target repository, review `git diff` and commit the adopted changes.
 
-1. Modify shared files in `src/`.
-2. Review the expected impact in target repositories.
-3. Commit the new version of this repository.
-4. Install or update target repositories with `scripts/install.ps1`.
-5. Validate target repositories with `scripts/validate-target.ps1`.
-6. In each target repository, review the `git diff`, adapt project-specific context, then commit.
+Preserve target-repository edits when a file contains project-specific
+decisions, local policy, or hand-written project memory. In that case, merge
+the guide update manually instead of overwriting it.
 
-For target repositories:
+## Project-Specific Files
 
-1. Create or select one Issue for the mission.
-2. Work on one focused branch or worktree.
-3. Let Codex reconstruct context from Git and Markdown before coding.
-4. Keep changes small and reviewable.
-5. Update project memory when behavior, architecture, decisions, or known risks change.
-6. Use the PR as the durable handoff document.
+The installer does not create project memory automatically.
 
-## Public Inspirations
+Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`,
+`KNOWN_ISSUES.md`, `PROMPTS.md`, and `CHANGELOG_AI.md` must be initialized from
+facts observed in the target repository.
 
-This repository is adapted to a Buildwise workflow, but it is aligned with public agentic-coding practices:
+These files should remain project-specific and should not be overwritten from
+this repository during routine guide updates.
 
-- [agentsmd/agents.md](https://github.com/agentsmd/agents.md), an open format for guiding coding agents.
-- [shinpr/agentic-code](https://github.com/shinpr/agentic-code), an AGENTS.md-based workflow framework with quality gates.
-- [obviousworks/agentic-coding-rulebook](https://github.com/obviousworks/agentic-coding-rulebook), a collection of AI-assisted coding rules and templates.
-- [DenisSergeevitch/agents-best-practices](https://github.com/DenisSergeevitch/agents-best-practices), provider-neutral guidance for agent skills and harness design.
+Starter templates are available under [templates/ai-context](templates/ai-context).
+Use them as a first draft only.
 
-These are inspirations, not vendored dependencies. The purpose of this repository is narrower: define a practical Codex + GitHub + Markdown memory workflow that can be copied into Buildwise development repositories.
+## Codex Hook Trust
+
+The installed payload includes Codex hook configuration under `.codex/`.
+Depending on the Codex environment, hooks may require explicit trust or approval
+before they run.
+
+Review hook behavior before enabling it in a target repository.
 
 ## License
 

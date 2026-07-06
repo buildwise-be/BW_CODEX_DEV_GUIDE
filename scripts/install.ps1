@@ -17,7 +17,9 @@ param(
 $ErrorActionPreference = "Stop"
 
 function Resolve-ExistingPath {
-    param([string]$Path)
+    param(
+        [string]$Path
+    )
 
     return (Resolve-Path -LiteralPath $Path).ProviderPath
 }
@@ -28,8 +30,15 @@ function Get-RelativePathFromRoot {
         [string]$Path
     )
 
-    $normalizedRoot = $Root.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
-    return $Path.Substring($normalizedRoot.Length).TrimStart([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+    $normalizedRoot = $Root.TrimEnd(
+        [System.IO.Path]::DirectorySeparatorChar,
+        [System.IO.Path]::AltDirectorySeparatorChar
+    )
+
+    return $Path.Substring($normalizedRoot.Length).TrimStart(
+        [System.IO.Path]::DirectorySeparatorChar,
+        [System.IO.Path]::AltDirectorySeparatorChar
+    )
 }
 
 function Get-TargetInfo {
@@ -43,23 +52,28 @@ function Get-TargetInfo {
 
     if ($LASTEXITCODE -eq 0 -and $gitRoot) {
         return [pscustomobject]@{
-            Root = $gitRoot.Trim()
+            Root            = $gitRoot.Trim()
             IsGitRepository = $true
         }
     }
 
     if ($AllowNonGit) {
         return [pscustomobject]@{
-            Root = $resolved
+            Root            = $resolved
             IsGitRepository = $false
         }
     }
 
-    throw "TargetPath must be inside a Git repository. Use -AllowNonGitTarget to copy into a non-Git directory."
+    throw (@(
+        "TargetPath must be inside a Git repository."
+        "Use -AllowNonGitTarget to copy into a non-Git directory."
+    ) -join " ")
 }
 
 function Test-DirtyGitRepository {
-    param([string]$Root)
+    param(
+        [string]$Root
+    )
 
     $status = & git -C $Root status --porcelain
     return [bool]$status
@@ -85,7 +99,10 @@ function Write-ChangeSummary {
 }
 
 if ($Backup -and -not $Force) {
-    throw "-Backup requires -Force because backups are only created before overwriting target files."
+    throw (@(
+        "-Backup requires -Force because backups are only created before"
+        "overwriting target files."
+    ) -join " ")
 }
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
@@ -108,9 +125,15 @@ if ($targetInfo.IsGitRepository) {
 
     if ($targetIsDirty -and -not $AllowDirtyTarget) {
         if ($DryRun) {
-            Write-Host "Target Git working tree is dirty. A non-dry-run install would fail unless -AllowDirtyTarget is used."
+            Write-Host (@(
+                "Target Git working tree is dirty."
+                "A non-dry-run install would fail unless -AllowDirtyTarget is used."
+            ) -join " ")
         } else {
-            throw "Target Git working tree is dirty. Commit, stash, or use -AllowDirtyTarget before installing."
+            throw (@(
+                "Target Git working tree is dirty."
+                "Commit, stash, or use -AllowDirtyTarget before installing."
+            ) -join " ")
         }
     }
 } else {
@@ -134,9 +157,9 @@ foreach ($file in $sourceFiles) {
 
         if ($sourceHash -eq $destinationHash) {
             $plannedChanges.Add([pscustomobject]@{
-                Action = "unchanged"
-                Path = $relativePath
-                Source = $file.FullName
+                Action      = "unchanged"
+                Path        = $relativePath
+                Source      = $file.FullName
                 Destination = $destination
             }) | Out-Null
             continue
@@ -144,8 +167,8 @@ foreach ($file in $sourceFiles) {
 
         if (-not $Force) {
             $conflicts.Add([pscustomobject]@{
-                Path = $relativePath
-                Source = $file.FullName
+                Path        = $relativePath
+                Source      = $file.FullName
                 Destination = $destination
             }) | Out-Null
             continue
@@ -157,9 +180,9 @@ foreach ($file in $sourceFiles) {
     }
 
     $plannedChanges.Add([pscustomobject]@{
-        Action = $action
-        Path = $relativePath
-        Source = $file.FullName
+        Action      = $action
+        Path        = $relativePath
+        Source      = $file.FullName
         Destination = $destination
     }) | Out-Null
 }
@@ -200,7 +223,12 @@ foreach ($change in $plannedChanges) {
         New-Item -ItemType Directory -Path $destinationDirectory -Force | Out-Null
     }
 
-    if ($Backup -and $change.Action -eq "update" -and (Test-Path -LiteralPath $change.Destination -PathType Leaf)) {
+    $shouldCreateBackup =
+        $Backup -and
+        $change.Action -eq "update" -and
+        (Test-Path -LiteralPath $change.Destination -PathType Leaf)
+
+    if ($shouldCreateBackup) {
         $backupPath = "$($change.Destination).$backupTimestamp.bak"
         Copy-Item -LiteralPath $change.Destination -Destination $backupPath -Force
         Write-Host "[backup] $($change.Path) -> $(Split-Path -Leaf $backupPath)"
