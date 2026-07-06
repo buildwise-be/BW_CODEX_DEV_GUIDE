@@ -109,7 +109,7 @@ When the user approves initialization, Codex should create concise first
 versions of the missing files and then continue with the normal planning
 workflow.
 
-If starter templates are available from the shared guide repository, Codex
+If starter templates are installed from the shared guide repository, Codex
 should use them as structure only and replace placeholders with facts observed
 in the target repository.
 
@@ -125,6 +125,8 @@ The installer should be conservative:
 
 - run in dry-run mode before updating an existing repository;
 - refuse to overwrite changed target files unless forced;
+- create missing starter AI-context files from templates;
+- preserve existing project-specific AI-context files;
 - refuse to install into a dirty target Git working tree unless explicitly allowed;
 - create backups before intentional overwrites when requested.
 

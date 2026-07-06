@@ -43,8 +43,9 @@ Validate the target repository:
 .\scripts\validate-target.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-If validation reports missing project context files, initialize them from target
-repository facts and rerun validation.
+The installer also creates missing starter AI-context files from
+`templates/ai-context/`. Existing project context files are preserved and must
+be maintained from target repository facts.
 
 The installer refuses to overwrite changed target files unless `-Force` is
 used. When forcing updates, add `-Backup` if you want timestamped `.bak` copies
@@ -85,7 +86,8 @@ the guide update manually instead of overwriting it.
 
 ## Project-Specific Files
 
-The installer does not create project memory automatically.
+The installer creates missing project-memory files from
+`templates/ai-context/`, but it never overwrites existing ones.
 
 Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`,
 `KNOWN_ISSUES.md`, `PROMPTS.md`, and `CHANGELOG_AI.md` must be initialized from
@@ -94,8 +96,7 @@ facts observed in the target repository.
 These files should remain project-specific and should not be overwritten from
 this repository during routine guide updates.
 
-Starter templates are available under [templates/ai-context](templates/ai-context).
-Use them as a first draft only.
+Use the installed starter templates as a first draft only.
 
 ## Codex Hook Trust
 

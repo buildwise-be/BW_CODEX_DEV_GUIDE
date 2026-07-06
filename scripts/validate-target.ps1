@@ -23,9 +23,18 @@ function Get-TargetInfo {
     )
 
     $resolved = Resolve-ExistingPath -Path $Path
-    $gitRoot = & git -C $resolved rev-parse --show-toplevel 2>$null
+    $gitRoot = $null
+    $gitExitCode = 1
 
-    if ($LASTEXITCODE -eq 0 -and $gitRoot) {
+    try {
+        $gitRoot = & git -C $resolved rev-parse --show-toplevel 2>$null
+        $gitExitCode = $LASTEXITCODE
+    } catch {
+        $gitRoot = $null
+        $gitExitCode = 1
+    }
+
+    if ($gitExitCode -eq 0 -and $gitRoot) {
         return [pscustomobject]@{
             Root            = $gitRoot.Trim()
             IsGitRepository = $true
