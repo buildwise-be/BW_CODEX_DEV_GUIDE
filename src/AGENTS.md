@@ -19,6 +19,10 @@ configuration, or data flow, read the relevant pages under:
 
 - `docs/wiki/`
 
+Before creating or refreshing pages under `docs/wiki/`, read:
+
+- `docs/ai-governance/WIKI_REFRESH_GUIDE.md`
+
 ## Context Initialization Gate
 
 Before starting development work, dependency installation, Docker startup, test
