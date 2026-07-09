@@ -14,6 +14,9 @@ If they exist, also read:
 - `docs/ai-context/KNOWN_ISSUES.md`
 - `docs/ai-context/ROADMAP.md`
 
+Use `docs/ai-governance/PROMPTS.md` when the task matches an existing reusable
+prompt or workflow pattern.
+
 If the task depends on repository structure, APIs, build behavior, tests,
 configuration, or data flow, read the relevant pages under:
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "name": "bw-codex-dev-framework",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "sourceRepository": "https://github.com/buildwise-be/BW_CODEX_DEV_GUIDE",
   "description": "Repository-centric AI development framework for Codex-assisted software engineering.",
   "files": [
