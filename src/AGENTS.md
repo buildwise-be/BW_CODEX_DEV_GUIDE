@@ -2,54 +2,73 @@
 
 ## Mandatory Startup Instructions
 
-Before making any code changes, read:
+Before making code changes, read:
 
-- docs/ai-context/AI_DEVELOPMENT_GUIDE.md
+- `docs/ai-governance/AI_DEVELOPMENT_GUIDE.md`
 
 If they exist, also read:
 
-- docs/ai-context/CURRENT_STATE.md
-- docs/ai-context/ARCHITECTURE.md
-- docs/ai-context/DECISIONS.md
-- docs/ai-context/KNOWN_ISSUES.md
-- docs/ai-context/PROMPTS.md
+- `docs/ai-governance/PROMPTS.md`
+- `docs/ai-context/CURRENT_STATE.md`
+- `docs/ai-context/DECISIONS.md`
+- `docs/ai-context/KNOWN_ISSUES.md`
+- `docs/ai-context/ROADMAP.md`
 
-## AI Context Initialization Gate
+If the task depends on repository structure, APIs, build behavior, tests,
+configuration, or data flow, read the relevant pages under:
 
-Before starting any development work, coding, dependency installation,
-Docker run, test run, or build, verify that the AI workflow context exists.
+- `docs/wiki/`
 
-Required AI context files:
+## Context Initialization Gate
 
-- docs/ai-context/PROMPTS.md
-- docs/ai-context/CURRENT_STATE.md
-- docs/ai-context/ARCHITECTURE.md
-- docs/ai-context/DECISIONS.md
-- docs/ai-context/KNOWN_ISSUES.md
-- docs/ai-context/CHANGELOG_AI.md
+Before starting development work, dependency installation, Docker startup, test
+execution, or build execution, verify that the AI workflow context exists.
 
-If one or more of these files are missing:
+Required framework files:
 
-1. Stop after the minimal repository inspection needed to identify the missing files.
+- `AGENTS.md`
+- `.codex/framework.json`
+- `docs/ai-governance/AI_DEVELOPMENT_GUIDE.md`
+
+Required project memory files:
+
+- `docs/ai-context/CURRENT_STATE.md`
+- `docs/ai-context/DECISIONS.md`
+- `docs/ai-context/KNOWN_ISSUES.md`
+
+If one or more required files are missing:
+
+1. Stop after the minimal repository inspection needed to identify the missing
+   files.
 2. Tell the user exactly which files are missing.
-3. Ask whether to initialize the missing AI context files before continuing.
+3. Ask whether to initialize the missing context before continuing.
 4. Wait for explicit approval.
 5. Do not implement code, run Docker, install dependencies, or run tests before
    this is resolved, unless the user explicitly says to skip the initialization
    gate for the current task.
 
 When initialization is approved, create concise, factual first versions of the
-missing files before starting feature work.
+missing project memory files. Prefer framework templates when available, but
+replace placeholders with facts observed in the target repository.
 
-Prefer the starter templates from the guide repository when they are available,
-but replace placeholders with facts observed in the target repository.
+## Ownership Rules
+
+- `docs/ai-governance/` is framework-managed.
+- `docs/ai-context/` is project-owned operational memory.
+- `docs/wiki/` is generated technical knowledge inferred from the repository.
+
+Apply this rule consistently:
+
+- If information can be inferred from repository files, put it in `docs/wiki/`.
+- If information represents human intent, decisions, priorities, project
+  status, or operational knowledge, put it in `docs/ai-context/`.
 
 ## Working Rules
 
 Before coding:
 
 1. Inspect the current Git branch.
-2. Compare the branch with `main`.
+2. Compare the branch with `main` when available.
 3. Read the related Issue or task description.
 4. Summarize your understanding.
 5. Identify risks and ambiguities.
@@ -58,17 +77,23 @@ Before coding:
 
 ## Repository Setup
 
-If the broader AI workflow structure is missing, propose creating:
+If the broader AI workflow structure is missing, propose installing or creating:
 
-- .github/ISSUE_TEMPLATE/codex-task.md
-- .github/pull_request_template.md
-- .codex/guide-version.json
-- docs/ai-context/PROMPTS.md
-- docs/ai-context/CURRENT_STATE.md
-- docs/ai-context/ARCHITECTURE.md
-- docs/ai-context/DECISIONS.md
-- docs/ai-context/KNOWN_ISSUES.md
-- docs/ai-context/CHANGELOG_AI.md
+- `.codex/framework.json`
+- `.github/ISSUE_TEMPLATE/codex-task.md`
+- `.github/pull_request_template.md`
+- `docs/ai-governance/AI_DEVELOPMENT_GUIDE.md`
+- `docs/ai-context/CURRENT_STATE.md`
+- `docs/ai-context/DECISIONS.md`
+- `docs/ai-context/KNOWN_ISSUES.md`
+
+Optional files:
+
+- `docs/ai-governance/PROMPTS.md`
+- `docs/ai-governance/WIKI_REFRESH_GUIDE.md`
+- `docs/ai-context/ROADMAP.md`
+- `docs/ai-context/CHANGELOG_AI.md`
+- `docs/wiki/`
 
 Do not create or modify this broader structure without approval.
 
@@ -78,7 +103,7 @@ A task is complete only when:
 
 - the Issue objective is covered;
 - tests are added or updated when needed;
-- build/lint/typecheck/test status is known;
+- build, lint, typecheck, and test status is known;
 - documentation is updated if required;
 - risks and limitations are documented;
 - the Pull Request contains a clear summary.

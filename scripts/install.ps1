@@ -11,34 +11,27 @@ param(
 
     [switch]$AllowDirtyTarget,
 
-    [switch]$AllowNonGitTarget
+    [switch]$AllowNonGitTarget,
+
+    [switch]$IncludeWiki
 )
 
 $ErrorActionPreference = "Stop"
 
 function Resolve-ExistingPath {
-    param(
-        [string]$Path
-    )
+    param([string]$Path)
 
     return (Resolve-Path -LiteralPath $Path).ProviderPath
 }
 
-function Get-RelativePathFromRoot {
+function Join-RootPath {
     param(
         [string]$Root,
-        [string]$Path
+        [string]$RelativePath
     )
 
-    $normalizedRoot = $Root.TrimEnd(
-        [System.IO.Path]::DirectorySeparatorChar,
-        [System.IO.Path]::AltDirectorySeparatorChar
-    )
-
-    return $Path.Substring($normalizedRoot.Length).TrimStart(
-        [System.IO.Path]::DirectorySeparatorChar,
-        [System.IO.Path]::AltDirectorySeparatorChar
-    )
+    $normalized = $RelativePath -replace '/', [System.IO.Path]::DirectorySeparatorChar
+    return Join-Path $Root $normalized
 }
 
 function Get-TargetInfo {
@@ -80,12 +73,68 @@ function Get-TargetInfo {
 }
 
 function Test-DirtyGitRepository {
-    param(
-        [string]$Root
-    )
+    param([string]$Root)
 
     $status = & git -C $Root status --porcelain
     return [bool]$status
+}
+
+function Read-FrameworkManifest {
+    param([string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        throw "Framework manifest not found: $Path"
+    }
+
+    $manifest = Get-Content -Raw -LiteralPath $Path | ConvertFrom-Json
+
+    if (-not $manifest.schemaVersion -or $manifest.schemaVersion -lt 2) {
+        throw "Framework manifest must use schemaVersion 2 or later."
+    }
+
+    if (-not $manifest.files) {
+        throw "Framework manifest does not define any files."
+    }
+
+    return $manifest
+}
+
+function Get-InstallFiles {
+    param(
+        [object]$Manifest,
+        [bool]$InstallWiki
+    )
+
+    $files = New-Object System.Collections.Generic.List[object]
+
+    foreach ($file in $Manifest.files) {
+        if ($file.owner -eq "Generated" -and -not $InstallWiki) {
+            continue
+        }
+
+        $files.Add($file) | Out-Null
+    }
+
+    return $files
+}
+
+function Add-Change {
+    param(
+        [System.Collections.Generic.List[object]]$Changes,
+        [string]$Action,
+        [object]$ManifestFile,
+        [string]$Source,
+        [string]$Destination
+    )
+
+    $Changes.Add([pscustomobject]@{
+        Action      = $Action
+        Path        = $ManifestFile.path
+        Owner       = $ManifestFile.owner
+        InstallMode = $ManifestFile.installMode
+        Source      = $Source
+        Destination = $Destination
+    }) | Out-Null
 }
 
 function Write-ChangeSummary {
@@ -118,25 +167,15 @@ if ($Backup -and -not $Force) {
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
 $repoRoot = Resolve-ExistingPath -Path (Join-Path $scriptRoot "..")
-$sourceRoot = Join-Path $repoRoot "src"
-$templateRoot = Join-Path $repoRoot "templates\ai-context"
-
-if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
-    throw "Source payload not found: $sourceRoot"
-}
-
-if (-not (Test-Path -LiteralPath $templateRoot -PathType Container)) {
-    throw "AI context templates not found: $templateRoot"
-}
-
-$sourceRoot = Resolve-ExistingPath -Path $sourceRoot
-$templateRoot = Resolve-ExistingPath -Path $templateRoot
+$manifestPath = Join-Path $repoRoot "src\.codex\framework.json"
+$manifest = Read-FrameworkManifest -Path $manifestPath
 $targetInfo = Get-TargetInfo -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
 $targetRoot = $targetInfo.Root
 
-Write-Host "Source payload: $sourceRoot"
-Write-Host "Templates:      $templateRoot"
-Write-Host "Target root:    $targetRoot"
+Write-Host "Framework:     $($manifest.name) $($manifest.version)"
+Write-Host "Manifest:      $manifestPath"
+Write-Host "Target root:   $targetRoot"
+Write-Host "Include wiki:  $IncludeWiki"
 
 if ($targetInfo.IsGitRepository) {
     $targetIsDirty = Test-DirtyGitRepository -Root $targetRoot
@@ -160,89 +199,71 @@ if ($targetInfo.IsGitRepository) {
 
 Write-Host ""
 
-$sourceFiles = Get-ChildItem -LiteralPath $sourceRoot -Recurse -File -Force
-$templateFiles = Get-ChildItem -LiteralPath $templateRoot -File -Force
 $plannedChanges = New-Object System.Collections.Generic.List[object]
 $conflicts = New-Object System.Collections.Generic.List[object]
+$installFiles = Get-InstallFiles -Manifest $manifest -InstallWiki:$IncludeWiki
 
-foreach ($file in $sourceFiles) {
-    $relativePath = Get-RelativePathFromRoot -Root $sourceRoot -Path $file.FullName
-    $destination = Join-Path $targetRoot $relativePath
+foreach ($file in $installFiles) {
+    $source = Join-RootPath -Root $repoRoot -RelativePath $file.source
+    $destination = Join-RootPath -Root $targetRoot -RelativePath $file.path
     $destinationExists = Test-Path -LiteralPath $destination -PathType Leaf
 
+    if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
+        throw "Manifest source file not found: $($file.source)"
+    }
+
+    if ($file.installMode -eq "create-if-missing") {
+        if ($destinationExists) {
+            Add-Change -Changes $plannedChanges -Action "preserve" -ManifestFile $file -Source $source -Destination $destination
+        } else {
+            Add-Change -Changes $plannedChanges -Action "create" -ManifestFile $file -Source $source -Destination $destination
+        }
+
+        continue
+    }
+
+    if ($file.installMode -ne "managed") {
+        throw "Unsupported installMode '$($file.installMode)' for $($file.path)"
+    }
+
     if ($destinationExists) {
-        $sourceHash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+        $sourceHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
         $destinationHash = (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash
 
         if ($sourceHash -eq $destinationHash) {
-            $plannedChanges.Add([pscustomobject]@{
-                Action      = "unchanged"
-                Path        = $relativePath
-                Source      = $file.FullName
-                Destination = $destination
-            }) | Out-Null
+            Add-Change -Changes $plannedChanges -Action "unchanged" -ManifestFile $file -Source $source -Destination $destination
             continue
         }
 
         if (-not $Force) {
             $conflicts.Add([pscustomobject]@{
-                Path        = $relativePath
-                Source      = $file.FullName
+                Path        = $file.path
+                Owner       = $file.owner
+                Source      = $source
                 Destination = $destination
             }) | Out-Null
             continue
         }
 
-        $action = "update"
+        Add-Change -Changes $plannedChanges -Action "update" -ManifestFile $file -Source $source -Destination $destination
     } else {
-        $action = "create"
+        Add-Change -Changes $plannedChanges -Action "create" -ManifestFile $file -Source $source -Destination $destination
     }
-
-    $plannedChanges.Add([pscustomobject]@{
-        Action      = $action
-        Path        = $relativePath
-        Source      = $file.FullName
-        Destination = $destination
-    }) | Out-Null
-}
-
-foreach ($file in $templateFiles) {
-    $relativeTemplatePath = Get-RelativePathFromRoot -Root $templateRoot -Path $file.FullName
-    $relativePath = Join-Path "docs\ai-context" $relativeTemplatePath
-    $destination = Join-Path $targetRoot $relativePath
-    $destinationExists = Test-Path -LiteralPath $destination -PathType Leaf
-
-    if ($destinationExists) {
-        $plannedChanges.Add([pscustomobject]@{
-            Action      = "preserve"
-            Path        = $relativePath
-            Source      = $file.FullName
-            Destination = $destination
-        }) | Out-Null
-        continue
-    }
-
-    $plannedChanges.Add([pscustomobject]@{
-        Action      = "create"
-        Path        = $relativePath
-        Source      = $file.FullName
-        Destination = $destination
-    }) | Out-Null
 }
 
 foreach ($change in $plannedChanges) {
-    Write-Host "[$($change.Action)] $($change.Path)"
+    Write-Host "[$($change.Action)] $($change.Path) ($($change.Owner))"
 }
 
 foreach ($conflict in $conflicts) {
-    Write-Host "[conflict] $($conflict.Path)"
+    Write-Host "[conflict] $($conflict.Path) ($($conflict.Owner))"
 }
 
 Write-ChangeSummary -Changes $plannedChanges -Conflicts $conflicts
 
 if ($conflicts.Count -gt 0) {
     Write-Host ""
-    Write-Host "Conflicting files were found. Nothing was copied."
+    Write-Host "Conflicting managed files were found. Nothing was copied."
     Write-Host "Use -Force if you intentionally want to overwrite them."
     exit 2
 }
@@ -281,4 +302,4 @@ foreach ($change in $plannedChanges) {
 }
 
 Write-Host ""
-Write-Host "Codex development guide files installed."
+Write-Host "Codex development framework files installed."

@@ -13,3 +13,9 @@
 - Area:
 - Risk:
 - Suggested care:
+
+## Technical Debt
+
+- Debt:
+- Impact:
+- Candidate fix:

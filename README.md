@@ -1,29 +1,77 @@
-# BW Codex Dev Guide
+# BW Codex Development Framework
 
-Reusable governance layer for Codex-assisted development in Buildwise
-repositories.
+Lightweight, repository-centric framework for Codex-assisted software
+engineering in Buildwise repositories.
 
-This repository contains the shared Codex bootstrap file, full workflow guide,
-GitHub templates, hooks, scripts, and starter AI-context templates used to make
-Codex work consistently across repositories.
+The framework installs a small set of AI governance files, GitHub templates,
+Codex hooks, and starter project-memory templates into a target repository.
 
-For the full rationale and operating model, read
-[AI_DEVELOPMENT_GUIDE.md](src/docs/ai-context/AI_DEVELOPMENT_GUIDE.md).
+Git remains the single source of truth.
+
+For the full operating model, read
+[AI_DEVELOPMENT_GUIDE.md](src/docs/ai-governance/AI_DEVELOPMENT_GUIDE.md).
 For a concise project overview, read [ABOUT.md](ABOUT.md).
 
 ## Core Model
 
-- `AGENTS.md` is the bootstrap file Codex should read first in target
-  repositories.
-- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md` is the full guide.
-- GitHub Issues define focused missions.
-- Pull Requests provide the durable handoff.
-- Project-specific memory lives in each target repository, not in this source
-  repository.
+The framework separates three responsibilities:
+
+- AI governance: how Codex and developers should work.
+- Operational project memory: human-maintained state, decisions, priorities,
+  and known issues.
+- Technical knowledge: generated `docs/wiki/` pages inferred from repository
+  facts.
+
+Core rule:
+
+```text
+Repository-inferred facts -> docs/wiki/
+Human intent and operational knowledge -> docs/ai-context/
+```
+
+## Repository Layout
+
+```text
+src/                 framework-managed files copied into targets
+templates/context/   project-owned starter memory files
+templates/wiki/      optional generated wiki starter files
+scripts/             install, validate, and migration report scripts
+schema/              framework manifest schema
+```
+
+The installed target layout is:
+
+```text
+AGENTS.md
+.codex/framework.json
+.codex/hooks.json
+.codex/hooks/session_start.ps1
+.github/ISSUE_TEMPLATE/codex-task.md
+.github/pull_request_template.md
+docs/ai-governance/
+docs/ai-context/
+docs/wiki/
+```
+
+## File Ownership
+
+The manifest at `src/.codex/framework.json` defines every installed file.
+
+Ownership classes:
+
+- `Framework`: managed by this repository and updated by the installer.
+- `Project`: created if missing, then owned by the target repository.
+- `Generated`: optional wiki files created or refreshed from repository
+  analysis.
+
+Install modes:
+
+- `managed`: compare hashes and update only when safe or forced.
+- `create-if-missing`: create starter files without overwriting existing ones.
 
 ## Adopt in a Target Repository
 
-Run commands from this repository.
+Run commands from this framework repository.
 
 First inspect what would be copied:
 
@@ -31,10 +79,16 @@ First inspect what would be copied:
 .\scripts\install.ps1 -TargetPath C:\path\to\target-repo -DryRun
 ```
 
-Then install the guide:
+Then install the framework:
 
 ```powershell
 .\scripts\install.ps1 -TargetPath C:\path\to\target-repo
+```
+
+Install optional wiki starter files when the project is ready to maintain them:
+
+```powershell
+.\scripts\install.ps1 -TargetPath C:\path\to\target-repo -IncludeWiki
 ```
 
 Validate the target repository:
@@ -43,68 +97,57 @@ Validate the target repository:
 .\scripts\validate-target.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-The installer also creates missing starter AI-context files from
-`templates/ai-context/`. Existing project context files are preserved and must
-be maintained from target repository facts.
+Use the full profile when optional project memory should also be present:
 
-The installer refuses to overwrite changed target files unless `-Force` is
-used. When forcing updates, add `-Backup` if you want timestamped `.bak` copies
-beside overwritten files.
+```powershell
+.\scripts\validate-target.ps1 -TargetPath C:\path\to\target-repo -Profile full
+```
 
 ## Update Strategy
 
-To detect the installed guide version in a target repository:
+To detect the installed framework version in a target repository:
 
 ```powershell
-Get-Content C:\path\to\target-repo\.codex\guide-version.json
+Get-Content C:\path\to\target-repo\.codex\framework.json
 ```
 
-Files managed by this repository are copied from `src/`:
+Recommended update flow:
 
-- `AGENTS.md`
-- `.codex/guide-version.json`
-- `.codex/hooks.json`
-- `.codex/hooks/session_start.ps1`
-- `.github/ISSUE_TEMPLATE/codex-task.md`
-- `.github/pull_request_template.md`
-- `docs/ai-context/AI_DEVELOPMENT_GUIDE.md`
-
-Update an already-installed repository like this:
-
-1. Commit and push the guide update in this repository.
+1. Commit and push the framework update in this repository.
 2. Run `install.ps1 -DryRun` against the target repository.
-3. Review every planned `create`, `update`, and `conflict`.
-4. Use the real install for clean creates and unchanged managed files.
-5. Use `-Force -Backup` only when you intentionally accept overwriting managed
-   files with the latest guide version.
+3. Review every planned `create`, `update`, `preserve`, and `conflict`.
+4. Run the real install for clean creates and unchanged managed files.
+5. Use `-Force -Backup` only when intentionally overwriting managed files.
 6. Run `validate-target.ps1`.
 7. In the target repository, review `git diff` and commit the adopted changes.
 
-Preserve target-repository edits when a file contains project-specific
-decisions, local policy, or hand-written project memory. In that case, merge
-the guide update manually instead of overwriting it.
+The installer preserves project-owned and generated files by default.
 
-## Project-Specific Files
+## Migration from V1
 
-The installer creates missing project-memory files from
-`templates/ai-context/`, but it never overwrites existing ones.
+Use the migration report before updating an existing V1 target:
 
-Files such as `CURRENT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`,
-`KNOWN_ISSUES.md`, `PROMPTS.md`, and `CHANGELOG_AI.md` must be initialized from
-facts observed in the target repository.
+```powershell
+.\scripts\migration-report.ps1 -TargetPath C:\path\to\target-repo
+```
 
-These files should remain project-specific and should not be overwritten from
-this repository during routine guide updates.
+V2 replaces `.codex/guide-version.json` with `.codex/framework.json`.
 
-Use the installed starter templates as a first draft only.
+V2 also moves reusable workflow content from `docs/ai-context/` to
+`docs/ai-governance/` and moves repository-inferred architecture facts to
+`docs/wiki/`.
+
+Do not automatically delete old project files. Review them and migrate useful
+content deliberately.
 
 ## Codex Hook Trust
 
-The installed payload includes Codex hook configuration under `.codex/`.
-Depending on the Codex environment, hooks may require explicit trust or approval
-before they run.
+The installed payload includes optional Codex hook configuration under
+`.codex/`.
 
-Review hook behavior before enabling it in a target repository.
+Depending on the Codex environment, hooks may require explicit trust or
+approval before they run. Review hook behavior before enabling it in a target
+repository.
 
 ## License
 

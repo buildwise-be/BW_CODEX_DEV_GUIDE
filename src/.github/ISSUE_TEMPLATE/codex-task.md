@@ -34,22 +34,25 @@ List the tests, checks, or manual verification expected.
 
 ## Affected Areas
 
-List likely files, modules, services, or workflows.
+List likely files, modules, services, workflows, commands, or documentation.
 
 ## Documentation
 
-State whether the following files may need updates:
+State whether this task may require updates to:
 
-- `AGENTS.md`
-- `docs/ai-context/CURRENT_STATE.md`
-- `docs/ai-context/ARCHITECTURE.md`
-- `docs/ai-context/DECISIONS.md`
-- `docs/ai-context/KNOWN_ISSUES.md`
-- `docs/ai-context/CHANGELOG_AI.md`
+- [ ] `docs/ai-context/CURRENT_STATE.md`
+- [ ] `docs/ai-context/DECISIONS.md`
+- [ ] `docs/ai-context/ROADMAP.md`
+- [ ] `docs/ai-context/KNOWN_ISSUES.md`
+- [ ] `docs/ai-context/CHANGELOG_AI.md`
+- [ ] `docs/wiki/`
+- [ ] `README.md`
+- [ ] Framework governance files under `docs/ai-governance/`
 
 ## Risks and Constraints
 
-Document technical risks, product constraints, compatibility requirements, or known fragile areas.
+Document technical risks, product constraints, compatibility requirements, or
+known fragile areas.
 
 ## Open Questions
 

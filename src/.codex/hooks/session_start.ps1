@@ -32,23 +32,46 @@ if ($LASTEXITCODE -eq 0 -and $repoRoot) {
     Set-Location $repoRoot
 }
 
-Write-Host "=== Codex SessionStart: AGENTS protocol ==="
+Write-Host "=== Codex SessionStart: BW Codex Development Framework ==="
 Write-Host "Workspace: $(Get-Location)"
 
-Write-Section "Required context"
+Write-Section "Framework"
 $hasAgents = Write-FileStatus -Path "AGENTS.md" -Required $true
-$hasGuide = Write-FileStatus -Path "docs/ai-context/AI_DEVELOPMENT_GUIDE.md" -Required $true
+$hasManifest = Write-FileStatus -Path ".codex/framework.json" -Required $true
+$hasGuide = Write-FileStatus -Path "docs/ai-governance/AI_DEVELOPMENT_GUIDE.md" -Required $true
+[void](Write-FileStatus -Path "docs/ai-governance/PROMPTS.md")
+[void](Write-FileStatus -Path "docs/ai-governance/WIKI_REFRESH_GUIDE.md")
 
-Write-Section "Optional project memory"
-$optionalDocs = @(
+Write-Section "Project memory"
+$requiredProjectDocs = @(
     "docs/ai-context/CURRENT_STATE.md",
-    "docs/ai-context/ARCHITECTURE.md",
     "docs/ai-context/DECISIONS.md",
-    "docs/ai-context/KNOWN_ISSUES.md",
-    "docs/ai-context/PROMPTS.md"
+    "docs/ai-context/KNOWN_ISSUES.md"
 )
 
-foreach ($doc in $optionalDocs) {
+foreach ($doc in $requiredProjectDocs) {
+    [void](Write-FileStatus -Path $doc -Required $true)
+}
+
+$optionalProjectDocs = @(
+    "docs/ai-context/ROADMAP.md",
+    "docs/ai-context/CHANGELOG_AI.md"
+)
+
+foreach ($doc in $optionalProjectDocs) {
+    [void](Write-FileStatus -Path $doc)
+}
+
+Write-Section "Technical wiki"
+$wikiDocs = @(
+    "docs/wiki/INDEX.md",
+    "docs/wiki/OVERVIEW.md",
+    "docs/wiki/MODULES.md",
+    "docs/wiki/BUILD.md",
+    "docs/wiki/TESTING.md"
+)
+
+foreach ($doc in $wikiDocs) {
     [void](Write-FileStatus -Path $doc)
 }
 
@@ -67,15 +90,17 @@ if ($LASTEXITCODE -eq 0) {
 }
 
 Write-Section "Before code changes"
-Write-Host "1. Read AGENTS.md and required project context."
-Write-Host "2. Read the related Issue or task description."
-Write-Host "3. Summarize understanding, risks, and ambiguities."
-Write-Host "4. Propose a step-by-step plan."
-Write-Host "5. Wait for approval before modifying files."
+Write-Host "1. Read AGENTS.md and framework governance."
+Write-Host "2. Read required project memory."
+Write-Host "3. Read relevant docs/wiki pages if technical facts are needed."
+Write-Host "4. Read the related Issue or task description."
+Write-Host "5. Summarize understanding, risks, and ambiguities."
+Write-Host "6. Propose a step-by-step plan."
+Write-Host "7. Wait for approval before modifying files."
 
-if (-not $hasAgents -or -not $hasGuide) {
+if (-not $hasAgents -or -not $hasManifest -or -not $hasGuide) {
     Write-Host ""
-    Write-Host "Required startup context is missing."
+    Write-Host "Required framework startup context is missing."
     exit 1
 }
 

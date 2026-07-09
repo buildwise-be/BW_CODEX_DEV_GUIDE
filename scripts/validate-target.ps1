@@ -3,17 +3,30 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$TargetPath,
 
-    [switch]$AllowNonGitTarget
+    [ValidateSet("minimal", "full")]
+    [string]$Profile = "minimal",
+
+    [switch]$AllowNonGitTarget,
+
+    [switch]$IncludeWiki
 )
 
 $ErrorActionPreference = "Stop"
 
 function Resolve-ExistingPath {
-    param(
-        [string]$Path
-    )
+    param([string]$Path)
 
     return (Resolve-Path -LiteralPath $Path).ProviderPath
+}
+
+function Join-RootPath {
+    param(
+        [string]$Root,
+        [string]$RelativePath
+    )
+
+    $normalized = $RelativePath -replace '/', [System.IO.Path]::DirectorySeparatorChar
+    return Join-Path $Root $normalized
 }
 
 function Get-TargetInfo {
@@ -60,83 +73,55 @@ function Get-TargetInfo {
     }
 }
 
-function Get-MissingFiles {
+function Read-JsonFile {
+    param([string]$Path)
+
+    try {
+        return Get-Content -Raw -LiteralPath $Path | ConvertFrom-Json
+    } catch {
+        throw "Invalid JSON file: $Path"
+    }
+}
+
+function Test-SemVer {
+    param([string]$Version)
+
+    return $Version -match '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+}
+
+function Get-ExpectedFiles {
     param(
-        [string]$Root,
-        [string[]]$Paths
+        [object]$Manifest,
+        [string]$ValidationProfile,
+        [bool]$ValidateWiki
     )
 
-    $missing = New-Object System.Collections.Generic.List[string]
+    $files = New-Object System.Collections.Generic.List[object]
 
-    foreach ($path in $Paths) {
-        $absolutePath = Join-Path $Root $path
+    foreach ($file in $Manifest.files) {
+        $isFramework = $file.owner -eq "Framework"
+        $isRequiredProjectFile = $file.owner -eq "Project" -and $file.required -eq $true
+        $isFullProjectFile = $file.owner -eq "Project" -and $ValidationProfile -eq "full"
+        $isWikiFile = $file.owner -eq "Generated" -and $ValidateWiki
 
-        if (-not (Test-Path -LiteralPath $absolutePath -PathType Leaf)) {
-            $missing.Add($path) | Out-Null
+        if ($isFramework -or $isRequiredProjectFile -or $isFullProjectFile -or $isWikiFile) {
+            $files.Add($file) | Out-Null
         }
     }
 
-    return $missing
+    return $files
 }
 
-function Test-GuideVersionFile {
-    param(
-        [string]$Path
-    )
-
-    $issues = New-Object System.Collections.Generic.List[string]
-
-    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
-        return $issues
-    }
-
-    try {
-        $metadata = Get-Content -Raw -LiteralPath $Path | ConvertFrom-Json
-    } catch {
-        $issues.Add(".codex/guide-version.json is not valid JSON.") | Out-Null
-        return $issues
-    }
-
-    if (-not $metadata.version) {
-        $issues.Add(".codex/guide-version.json is missing the version field.") | Out-Null
-    } elseif (
-        $metadata.version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
-    ) {
-        $issues.Add(
-            ".codex/guide-version.json version is not valid SemVer: $($metadata.version)"
-        ) | Out-Null
-    }
-
-    return $issues
-}
-
-$payloadFiles = @(
-    "AGENTS.md",
-    ".codex/hooks.json",
-    ".codex/hooks/session_start.ps1",
-    ".codex/guide-version.json",
-    ".github/ISSUE_TEMPLATE/codex-task.md",
-    ".github/pull_request_template.md",
-    "docs/ai-context/AI_DEVELOPMENT_GUIDE.md"
-)
-
-$requiredContextFiles = @(
-    "docs/ai-context/PROMPTS.md",
-    "docs/ai-context/CURRENT_STATE.md",
-    "docs/ai-context/ARCHITECTURE.md",
-    "docs/ai-context/DECISIONS.md",
-    "docs/ai-context/KNOWN_ISSUES.md",
-    "docs/ai-context/CHANGELOG_AI.md"
-)
-
-$optionalContextFiles = @(
-    "docs/ai-context/ROADMAP.md"
-)
-
+$scriptRoot = Split-Path -Parent $PSCommandPath
+$repoRoot = Resolve-ExistingPath -Path (Join-Path $scriptRoot "..")
+$sourceManifestPath = Join-Path $repoRoot "src\.codex\framework.json"
+$sourceManifest = Read-JsonFile -Path $sourceManifestPath
 $targetInfo = Get-TargetInfo -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
 
 Write-Host "Target root: $($targetInfo.Root)"
 Write-Host "Git repository: $($targetInfo.IsGitRepository)"
+Write-Host "Profile: $Profile"
+Write-Host "Include wiki: $IncludeWiki"
 
 if ($targetInfo.Error) {
     Write-Host ""
@@ -144,54 +129,62 @@ if ($targetInfo.Error) {
     exit 1
 }
 
-$missingPayloadFiles = Get-MissingFiles -Root $targetInfo.Root -Paths $payloadFiles
-$missingContextFiles = Get-MissingFiles -Root $targetInfo.Root -Paths $requiredContextFiles
-$missingOptionalContextFiles = Get-MissingFiles -Root $targetInfo.Root -Paths $optionalContextFiles
-$versionIssues = Test-GuideVersionFile -Path (Join-Path $targetInfo.Root ".codex/guide-version.json")
+$targetManifestPath = Join-RootPath -Root $targetInfo.Root -RelativePath ".codex/framework.json"
+$manifest = $null
+$issues = New-Object System.Collections.Generic.List[string]
 
-Write-Host ""
-Write-Host "Payload files:"
-if ($missingPayloadFiles.Count -eq 0) {
-    Write-Host "  [OK] all required payload files are present"
+if (Test-Path -LiteralPath $targetManifestPath -PathType Leaf) {
+    $manifest = Read-JsonFile -Path $targetManifestPath
 } else {
-    foreach ($path in $missingPayloadFiles) {
-        Write-Host "  [missing] $path"
+    $issues.Add(".codex/framework.json is missing.") | Out-Null
+    $manifest = $sourceManifest
+}
+
+if (-not $manifest.schemaVersion -or $manifest.schemaVersion -lt 2) {
+    $issues.Add(".codex/framework.json must use schemaVersion 2 or later.") | Out-Null
+}
+
+if (-not $manifest.version) {
+    $issues.Add(".codex/framework.json is missing the version field.") | Out-Null
+} elseif (-not (Test-SemVer -Version $manifest.version)) {
+    $issues.Add(".codex/framework.json version is not valid SemVer: $($manifest.version)") | Out-Null
+}
+
+if (-not $manifest.files) {
+    $issues.Add(".codex/framework.json does not define files.") | Out-Null
+}
+
+$expectedFiles = Get-ExpectedFiles -Manifest $manifest -ValidationProfile $Profile -ValidateWiki:$IncludeWiki
+$missingFiles = New-Object System.Collections.Generic.List[object]
+
+foreach ($file in $expectedFiles) {
+    $absolutePath = Join-RootPath -Root $targetInfo.Root -RelativePath $file.path
+
+    if (-not (Test-Path -LiteralPath $absolutePath -PathType Leaf)) {
+        $missingFiles.Add($file) | Out-Null
     }
 }
 
 Write-Host ""
-Write-Host "Project context files:"
-if ($missingContextFiles.Count -eq 0) {
-    Write-Host "  [OK] all required project context files are present"
+Write-Host "Expected files:"
+if ($missingFiles.Count -eq 0) {
+    Write-Host "  [OK] all expected files are present"
 } else {
-    foreach ($path in $missingContextFiles) {
-        Write-Host "  [missing] $path"
+    foreach ($file in $missingFiles) {
+        Write-Host "  [missing] $($file.path) ($($file.owner))"
     }
 }
 
-Write-Host ""
-Write-Host "Optional context files:"
-if ($missingOptionalContextFiles.Count -eq 0) {
-    Write-Host "  [OK] all optional context files are present"
-} else {
-    foreach ($path in $missingOptionalContextFiles) {
-        Write-Host "  [optional missing] $path"
-    }
-}
-
-if ($versionIssues.Count -gt 0) {
+if ($issues.Count -gt 0) {
     Write-Host ""
-    Write-Host "Version metadata:"
+    Write-Host "Manifest issues:"
 
-    foreach ($issue in $versionIssues) {
+    foreach ($issue in $issues) {
         Write-Host "  [error] $issue"
     }
 }
 
-$targetIsNotReady =
-    $missingPayloadFiles.Count -gt 0 -or
-    $missingContextFiles.Count -gt 0 -or
-    $versionIssues.Count -gt 0
+$targetIsNotReady = $missingFiles.Count -gt 0 -or $issues.Count -gt 0
 
 if ($targetIsNotReady) {
     Write-Host ""

@@ -19,14 +19,18 @@ Explain why this change is needed.
 - [ ] Manual testing
 - [ ] Build
 - [ ] Lint/typecheck
+- [ ] Not run; explain why:
 
 ## Documentation
 
-- [ ] `AGENTS.md` updated if needed
-- [ ] `CURRENT_STATE.md` updated if needed
-- [ ] `ARCHITECTURE.md` updated if needed
-- [ ] `DECISIONS.md` updated if needed
-- [ ] `CHANGELOG_AI.md` updated if needed
+- [ ] `docs/ai-context/CURRENT_STATE.md` updated if needed
+- [ ] `docs/ai-context/DECISIONS.md` updated if needed
+- [ ] `docs/ai-context/ROADMAP.md` updated if needed
+- [ ] `docs/ai-context/KNOWN_ISSUES.md` updated if needed
+- [ ] `docs/ai-context/CHANGELOG_AI.md` updated if needed
+- [ ] `docs/wiki/` refreshed if generated technical knowledge changed
+- [ ] `README.md` updated if needed
+- [ ] Framework governance updated if workflow rules changed
 
 ## Risks
 

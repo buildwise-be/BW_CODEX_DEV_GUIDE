@@ -6,9 +6,9 @@ Record project decisions that future Codex sessions and developers must know.
 
 ### YYYY-MM-DD: Decision Title
 
-- Decision:
 - Context:
+- Decision:
+- Rationale:
 - Alternatives considered:
-- Reason:
 - Consequences:
 - Related Issue or PR:

@@ -1,6 +1,7 @@
 # AI Change Log
 
-This file records meaningful AI-assisted changes. It complements Git history; it does not replace it.
+This file records meaningful AI-assisted changes. It complements Git history;
+it does not replace it.
 
 ## Unreleased
 
