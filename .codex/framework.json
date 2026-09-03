@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "name": "bw-business-app-builder",
+  "version": "0.2.0",
+  "upstream": {
+    "branch": "codex/v2-framework",
+    "commit": "302aedc8745bc061c3c92be2ed4d0e6f7290269f",
+    "directory": "src",
+    "version": "2.0.0"
+  },
+  "description": "Standalone app-building profile; no distribution installer.",
+  "files": [
+    {
+      "path": "docs/ai-context/FEATURE_CHECKLIST.md",
+      "owner": "Project"
+    },
+    {
+      "path": "docs/ai-context/CHANGELOG_AI.md",
+      "owner": "Project"
+    },
+    {
+      "path": "docs/ai-context/DECISIONS.md",
+      "owner": "Project"
+    },
+    {
+      "path": "assets/brand/buildwise-logo.svg",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-context/KNOWN_ISSUES.md",
+      "owner": "Project"
+    },
+    {
+      "path": "AGENTS.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-governance/AI_DEVELOPMENT_GUIDE.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "scripts/start-local.ps1",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-context/CURRENT_STATE.md",
+      "owner": "Project"
+    },
+    {
+      "path": "docs/ai-context/VALIDATION_CHECKLIST.md",
+      "owner": "Project"
+    },
+    {
+      "path": "docs/ai-context/BUSINESS_BRIEF.md",
+      "owner": "Project"
+    },
+    {
+      "path": "scripts/check-local.ps1",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-context/ROADMAP.md",
+      "owner": "Project"
+    },
+    {
+      "path": "docs/ai-governance/WIKI_REFRESH_GUIDE.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-governance/PROMPTS.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-governance/BEHAVIOR.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-governance/CODING_RULES.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "assets/brand/README.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "assets/brand/theme.css",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/package.json",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/tsconfig.json",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/tsconfig.app.json",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/tsconfig.node.json",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/vite.config.ts",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/index.html",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/main.tsx",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/vite-env.d.ts",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/styles.css",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/App.tsx",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/App.test.ts",
+      "owner": "Framework"
+    },
+    {
+      "path": "scripts/initialize-app.ps1",
+      "owner": "Framework"
+    },
+    {
+      "path": "scripts/validate-framework.ps1",
+      "owner": "Framework"
+    },
+    {
+      "path": "scripts/test-framework.ps1",
+      "owner": "Framework"
+    }
+  ]
+}

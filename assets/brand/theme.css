@@ -1,0 +1,26 @@
+:root {
+  --bw-blue: #0087b7;
+  --bw-turquoise: #00bfb6;
+  --bw-action: #00739c;
+  --bw-text: #1b1b1b;
+  --bw-muted: #595959;
+  --bw-surface: #fff;
+  --bw-background: #f2f2f2;
+  --bw-border: #d9d9d9;
+  --bw-font: "Neue Haas Unica", "neue-haas-unica", Arial, Helvetica, sans-serif;
+  font-family: var(--bw-font);
+  color: var(--bw-text);
+  background: var(--bw-background);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: var(--bw-action); }
+:focus-visible { outline: 3px solid var(--bw-action); outline-offset: 3px; }
+.bw-shell { max-width: 1100px; margin: auto; padding: 24px; }
+.bw-header { display: flex; align-items: center; gap: 24px; padding: 24px; background: var(--bw-surface); border-bottom: 4px solid var(--bw-turquoise); }
+.bw-logo { width: 210px; height: auto; }
+.bw-panel { padding: 24px; margin-block: 24px; border: 1px solid var(--bw-border); border-radius: 16px; background: var(--bw-surface); }
+.bw-button { color: white; background: var(--bw-action); border: 0; border-radius: 999px; padding: 12px 24px; }
+@media (max-width: 600px) { .bw-header { flex-wrap: wrap; } .bw-shell { padding: 16px; } }
