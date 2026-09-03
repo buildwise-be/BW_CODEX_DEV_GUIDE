@@ -1,5 +1,6 @@
 # Checklist de fonctionnalité
 
+- [ ] Le brief métier porte l'état `Validé`.
 - [ ] La mission business et l’utilisateur cible sont décrits.
 - [ ] Le résultat attendu est observable.
 - [ ] La première version est limitée à un parcours principal.

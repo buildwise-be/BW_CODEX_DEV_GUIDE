@@ -31,4 +31,9 @@ if ($package.name -ne "bw-app-starter") { Write-Error "Starter package name must
 if (-not $package.scripts.build) { Write-Error "Starter must expose a build script." }
 if (-not $package.scripts.check) { Write-Error "Starter must expose a check script." }
 
+$brief = Get-Content -Raw -LiteralPath (Join-Path $StarterPath "docs/ai-context/BUSINESS_BRIEF.md")
+if ($brief -notmatch "État\s*:\s*À définir") {
+    Write-Error "The starter business brief must begin in the 'À définir' state."
+}
+
 Write-Output "BW App Starter validation passed: $StarterPath"

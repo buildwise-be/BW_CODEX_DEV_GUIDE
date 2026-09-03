@@ -2,6 +2,9 @@
 
 ## Parcours recommandé
 
+Ce parcours intervient après la définition et la validation de la première
+version de l'application.
+
 Dans Codex, demander simplement :
 
 > Lance l’application pour que je puisse la tester.

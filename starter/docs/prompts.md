@@ -1,5 +1,12 @@
 # Prompts métier
 
+Le cadrage est prédéfini dans `AGENTS.md`. L'utilisateur ne doit pas copier un
+long prompt : une phrase décrivant son idée suffit.
+
+## Commencer une application
+
+> Je veux une application pour mieux suivre les demandes de mon équipe.
+
 ## Décrire une nouvelle fonctionnalité
 
 > Je veux aider [utilisateur] à [mission]. Aujourd’hui [problème]. Il doit pouvoir [action] avec [données]. Le résultat sera réussi si [critère]. Commence par reformuler le besoin et propose une première version simple.

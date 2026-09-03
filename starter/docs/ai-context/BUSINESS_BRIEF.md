@@ -1,42 +1,42 @@
 # Brief métier
 
+État : À définir
+
+Ce document est complété automatiquement par Codex pendant le cadrage. Il ne
+doit pas être rempli manuellement par l'utilisateur.
+
 ## Mission
 
-Fournir un point de départ Buildwise pour transformer une mission métier en application simple et utile avec Codex.
+À définir.
 
-## Utilisateurs cibles
+## Utilisateurs concernés
 
-- Collègues capables de décrire leur besoin métier.
-- Responsables qui valident le résultat attendu.
-- Développeurs qui assurent ensuite la maintenance et les intégrations.
+À définir.
 
-## Problème actuel
+## Problème à résoudre
 
-Les idées d’applications sont souvent exprimées en termes métier, alors que leur réalisation demande de nombreux choix techniques. Le starter doit réduire cette friction sans masquer les contrôles de qualité nécessaires.
+À définir.
 
-## Décisions facilitées
+## Décisions ou actions à faciliter
 
-- Quel problème doit être résolu en priorité ?
-- Quelle information manque pour agir ?
-- Quel projet ou indicateur nécessite une attention ?
-- Quelle est la prochaine action utile ?
+À définir.
 
-## Règles métier
+## Informations nécessaires
 
-- Une fonctionnalité doit aider un utilisateur à comprendre, décider ou agir.
-- Les données de démonstration ne doivent jamais être présentées comme des données réelles.
-- Les indicateurs doivent expliquer leur période, leur cible et leur évolution.
-- Les projets en retard doivent être visibles sans empêcher la consultation des autres projets.
+À définir.
+
+## Première version validée
+
+À définir après reformulation et validation par l'utilisateur.
 
 ## Critères de réussite
 
-- Un collègue non technique comprend le parcours de démarrage.
-- Une première fonctionnalité peut être décrite sans vocabulaire technique.
-- L’application reste lisible sur desktop et mobile.
-- Les changements sont documentés et vérifiables.
+À définir.
 
-## Hors périmètre du pilote
+## Priorités
 
-- Authentification réelle et gestion avancée des rôles.
-- Connexions aux APIs ou données internes Buildwise.
-- Déploiement et observabilité d’entreprise.
+À définir.
+
+## Hors périmètre
+
+À définir.

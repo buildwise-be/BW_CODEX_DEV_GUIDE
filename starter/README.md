@@ -5,9 +5,17 @@ Starter Buildwise pour créer des applications métier avec l’aide de Codex.
 ## Démarrer
 
 1. Ouvrir ce dépôt dans Codex.
-2. Décrire le besoin dans `docs/ai-context/BUSINESS_BRIEF.md` ou directement dans la conversation.
-3. Lancer l’application avec `npm install`, puis `npm run dev`.
-4. Demander à Codex de construire une première version limitée.
+2. Dire en une phrase ce que l'application devrait permettre de faire.
+3. Répondre aux quelques questions métier posées par Codex.
+4. Valider la mission et la première version proposées.
+5. Laisser Codex construire puis lancer l'application pour la tester.
+
+Exemple de premier message :
+
+> Je veux une application pour mieux suivre les demandes de mon équipe.
+
+Il n'est pas nécessaire de connaître la technologie, les fichiers du projet ou
+les commandes de lancement. Codex conduit le cadrage et prépare le projet.
 
 Le projet contient deux exemples autonomes : **Suivi des projets** et **Dashboard KPI**. Ils utilisent des données de démonstration clairement séparées de l’interface.
 
@@ -21,15 +29,17 @@ Codex prépare le projet si nécessaire, démarre l’application et ouvre la
 prévisualisation locale. Le parcours détaillé se trouve dans
 `docs/LOCAL_TESTING.md`.
 
-## Parler à Codex
+## Décrire le besoin
 
-Commencer par le résultat métier : qui doit prendre quelle décision, avec quelles informations et à quel moment ? Codex reformule le besoin avant de modifier le projet. Les détails techniques sont documentés automatiquement mais ne sont pas nécessaires pour démarrer.
+Commencer par le résultat métier. Codex demandera qui utilisera l'application,
+ce qui doit devenir plus simple et comment reconnaître un résultat réussi. Il
+reformule la mission et attend une validation avant de développer.
 
 Exemple :
 
 > Je veux aider les chefs de projet à repérer les projets en retard et à préparer leur prochaine action.
 
-## Commandes utiles
+## Informations pour la maintenance
 
 ```text
 npm install     Installer les dépendances
