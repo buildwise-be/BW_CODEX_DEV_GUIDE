@@ -29,6 +29,17 @@ Repository-inferred facts -> docs/wiki/
 Human intent and operational knowledge -> docs/ai-context/
 ```
 
+## Business App Starter
+
+The `codex/business-app-starter` branch adds an autonomous `starter/` pilot for
+Buildwise business applications. It is designed for colleagues who describe a
+business mission in natural language while Codex handles the technical
+translation, implementation, documentation, and quality checks.
+
+The current repository remains the stable governance framework for specific
+development projects. The starter is intentionally isolated so it can later
+be published as the `bw-app-starter` GitHub Template.
+
 ## Repository Layout
 
 ```text

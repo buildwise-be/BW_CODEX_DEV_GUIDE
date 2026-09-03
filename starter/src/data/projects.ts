@@ -1,0 +1,48 @@
+import type { Project } from "../types";
+
+export const projects: Project[] = [
+  {
+    id: "atlas",
+    name: "Atlas rénovation énergétique",
+    owner: "Sarah M.",
+    initials: "SM",
+    status: "En bonne voie",
+    dueDate: "18 sept. 2026",
+    progress: 72,
+    description: "Accompagner les copropriétés dans leur plan de rénovation.",
+    nextAction: "Valider le dossier de financement",
+  },
+  {
+    id: "horizon",
+    name: "Horizon quartiers durables",
+    owner: "Thomas R.",
+    initials: "TR",
+    status: "À surveiller",
+    dueDate: "02 oct. 2026",
+    progress: 48,
+    description: "Centraliser les indicateurs de performance des quartiers.",
+    nextAction: "Obtenir les données du partenaire",
+  },
+  {
+    id: "nova",
+    name: "Nova accompagnement PME",
+    owner: "Julie V.",
+    initials: "JV",
+    status: "En retard",
+    dueDate: "21 août 2026",
+    progress: 34,
+    description: "Simplifier le parcours d'accompagnement des PME locales.",
+    nextAction: "Replanifier la phase de test",
+  },
+  {
+    id: "cobalt",
+    name: "Cobalt patrimoine public",
+    owner: "Marc D.",
+    initials: "MD",
+    status: "En bonne voie",
+    dueDate: "12 nov. 2026",
+    progress: 61,
+    description: "Aider les communes à prioriser leurs investissements.",
+    nextAction: "Partager la synthèse aux communes",
+  },
+];
