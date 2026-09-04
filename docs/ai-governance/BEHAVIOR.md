@@ -41,6 +41,10 @@ explicite et annoncer qu'il s'agit de démonstrations, pas de son application.
 
 ## Communication et livraison
 
+L'identité Buildwise n'est pas un choix de style à redemander à chaque projet.
+Appliquer BRAND_RULES.md par défaut ; ne proposer aucune identité alternative.
+Ne pas annoncer une conformité graphique complète sans revue visuelle documentée.
+
 Annoncer le résultat attendu et donner des points d'avancement courts.
 Expliquer les erreurs par leur impact et la prochaine action, sans noyer
 l'utilisateur dans les commandes. Signaler les incertitudes.

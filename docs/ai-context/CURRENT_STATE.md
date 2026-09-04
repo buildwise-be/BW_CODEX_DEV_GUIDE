@@ -10,6 +10,21 @@ Le brief vierge est intentionnel. Les exemples sont des références facultative
 Gouvernance issue du src/ V2 promue à la racine. Cadrage intégré, initialisation
 neutre, lancement local et validation structurelle fournis.
 
+## Contrôle graphique — 2026-09-04
+
+Règles graphiques obligatoires, empreintes des ressources et contrôle statique
+intégrés aux futurs npm run check. Tests de régression du contrôle dans
+scripts/check-brand.test.mjs. La revue visuelle métier reste non effectuée.
+
+Vérifié : 17 tests du contrôle graphique réussis, dont valeurs UI et contrastes
+des paires de texte (au moins 4.5:1), tests du générateur réussis,
+check:brand exécuté avec succès dans une application temporaire générée.
+Le build applicatif complet n'a pas été relancé pour cette modification.
+
+UI_SPEC.md définit maintenant les couleurs, Roboto, tailles, espacements, arrondis
+et états. Ces conventions sont implémentées dans assets/brand/theme.css.
+Roboto n'est pas embarqué : son rendu dépend de sa présence sur le poste.
+
 ## Prochaine action utilisateur
 
 Décrire une idée métier en une phrase.

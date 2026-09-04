@@ -5,7 +5,7 @@ $source = Split-Path -Parent $PSScriptRoot
 $fixture = Join-Path ([IO.Path]::GetTempPath()) ("bw-builder-test-" + [guid]::NewGuid())
 New-Item -ItemType Directory -Path $fixture | Out-Null
 # Keep the small test fixture for inspection; never recursively delete a computed path.
-foreach ($folder in @("templates/application", "assets/brand", "docs/ai-context")) {
+foreach ($folder in @("templates/application", "assets/brand", "docs/ai-context", "scripts")) {
     $target = Join-Path $fixture $folder
     New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
     Copy-Item -LiteralPath (Join-Path $source $folder) -Destination $target -Recurse

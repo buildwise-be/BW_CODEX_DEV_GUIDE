@@ -1,5 +1,8 @@
 # Checklist de fonctionnalité
 
+- [ ] BRAND_RULES.md appliqué, contrôle check:brand réussi.
+- [ ] Revue visuelle documentée dans BRAND_REVIEW.md, ou limite explicitement signalée.
+
 - [ ] Le brief métier porte l'état `Validé`.
 - [ ] La mission business et l’utilisateur cible sont décrits.
 - [ ] Le résultat attendu est observable.

@@ -27,6 +27,11 @@ Utiliser un adaptateur asynchrone pour remplacer les mocks par une source réell
 
 ## Présentation Buildwise
 
+Appliquer obligatoirement `docs/ai-governance/BRAND_RULES.md`.
+Lire `docs/ai-governance/UI_SPEC.md` pour toutes les valeurs CSS et variantes.
+Le contrôle `npm run check:brand` fait partie du critère de livraison ; ne pas
+contourner ses erreurs par une copie modifiée du thème ou une désactivation du script.
+
 Lire assets/brand/README.md. Réutiliser logo et tokens fournis ; ne pas recréer
 le logo ni utiliser une palette de marque improvisée.
 Polices locales ou fichiers avec droits vérifiés, pas de dépendance réseau visuelle.

@@ -38,6 +38,10 @@ le dépôt. Les scripts locaux n'ouvrent pas le réseau : serveur lié à 127.0.
 
 ## Qualité et mémoire
 
+La charte est obligatoire : lire BRAND_RULES.md avant toute interface.
+Le contrôle check:brand doit réussir avant tests/build et la revue visuelle doit
+être documentée dans BRAND_REVIEW.md avant d'annoncer une conformité graphique.
+
 Lire les checklists FEATURE_CHECKLIST.md et VALIDATION_CHECKLIST.md.
 Privilégier simplicité, code lisible, petits composants, données séparées,
 tests des règles métier, messages d'erreur utiles et branding centralisé.

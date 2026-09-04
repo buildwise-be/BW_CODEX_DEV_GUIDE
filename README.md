@@ -25,6 +25,11 @@ et toute publication externe. Le framework ne contourne pas les permissions de C
 
 ## Pour la maintenance
 
+La charte est obligatoire : voir [BRAND_RULES.md](docs/ai-governance/BRAND_RULES.md).
+Les nouvelles applications exécutent `check:brand` avant leurs tests et leur build.
+Une revue visuelle documentée reste requise ; le contrôle statique ne suffit pas
+à certifier une conformité complète au site ou à la charte interne.
+
 - `AGENTS.md` : entrée automatique pour Codex.
 - `docs/ai-context/` : brief, décisions, avancement et limites.
 - `docs/ai-governance/` : méthode héritée de V2 et règles métier.

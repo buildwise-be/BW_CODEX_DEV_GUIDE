@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "check": "npm run test && npm run build",
+    "check:brand": "node scripts/check-brand.mjs",
+    "check": "npm run check:brand && npm run test && npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc -b --pretty false"
