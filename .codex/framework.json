@@ -141,6 +141,34 @@
     {
       "path": "scripts/test-framework.ps1",
       "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-governance/I18N_RULES.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-context/I18N_REVIEW.md",
+      "owner": "Project"
+    },
+    {
+      "path": "scripts/check-i18n.mjs",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/i18n/index.ts",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/i18n/index.test.ts",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/i18n/messages/fr.json",
+      "owner": "Framework"
+    },
+    {
+      "path": "templates/application/src/i18n/messages/nl.json",
+      "owner": "Framework"
     }
   ]
 }

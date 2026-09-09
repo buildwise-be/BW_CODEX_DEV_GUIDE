@@ -6,4 +6,5 @@
 - Le socle neutre possède des versions verrouillées et un lockfile ; sa compilation et son test de rendu ont été vérifiés dans une fixture temporaire. Les futures règles métier devront recevoir leurs propres tests.
 - Roboto est demandé pour les applications mais pas embarqué : installé localement ou repli Arial/Helvetica. Un rendu Roboto identique sur tous les postes nécessite des fichiers locaux et leur licence.
 - Branding basé sur les ressources publiques, pas sur une charte interne complète validée.
+- Le contrôle FR/NL détecte catalogues incomplets, valeurs vides et textes JSX/attributs évidents en dur ; il ne garantit pas la qualité linguistique, les pluriels complexes ni les textes générés dynamiquement.
 - Authentification, hébergement externe et accès aux données internes ne sont pas inclus.

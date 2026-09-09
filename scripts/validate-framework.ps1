@@ -6,6 +6,9 @@ if (-not (Test-Path -LiteralPath (Join-Path $root "docs/ai-governance/UI_SPEC.md
 foreach ($path in @("docs/ai-governance/BRAND_RULES.md", "docs/ai-context/BRAND_REVIEW.md", "assets/brand/policy.json", "scripts/check-brand.mjs")) {
     if (-not (Test-Path -LiteralPath (Join-Path $root $path))) { throw "Référence graphique absente : $path" }
 }
+foreach ($path in @("docs/ai-governance/I18N_RULES.md", "docs/ai-context/I18N_REVIEW.md", "scripts/check-i18n.mjs", "templates/application/src/i18n/messages/fr.json", "templates/application/src/i18n/messages/nl.json")) {
+    if (-not (Test-Path -LiteralPath (Join-Path $root $path))) { throw "Référence FR/NL absente : $path" }
+}
 $manifest = Get-Content -Raw -LiteralPath (Join-Path $root ".codex/framework.json") | ConvertFrom-Json
 foreach ($file in $manifest.files) {
     if (-not (Test-Path -LiteralPath (Join-Path $root $file.path) -PathType Leaf)) {
@@ -14,8 +17,10 @@ foreach ($file in $manifest.files) {
 }
 $brief = Get-Content -Raw -LiteralPath (Join-Path $root "docs/ai-context/BUSINESS_BRIEF.md")
 $package = Get-Content -Raw -LiteralPath (Join-Path $root "templates/application/package.json") | ConvertFrom-Json
-if ($package.scripts.'check:brand' -ne 'node scripts/check-brand.mjs' -or $package.scripts.check -notmatch '^npm run check:brand &&') {
-    throw "Le contrôle graphique doit précéder les tests et la compilation."
+if ($package.scripts.'check:i18n' -ne 'node scripts/check-i18n.mjs' -or
+    $package.scripts.'check:brand' -ne 'node scripts/check-brand.mjs' -or
+    $package.scripts.check -notmatch '^npm run check:i18n && npm run check:brand &&') {
+    throw "Les contrôles FR/NL et graphique doivent précéder tests et compilation."
 }
 $lockJson = Get-Content -Raw -LiteralPath (Join-Path $root "templates/application/package-lock.json")
 # PowerShell 5.1 cannot represent an empty JSON property name as a PSObject.

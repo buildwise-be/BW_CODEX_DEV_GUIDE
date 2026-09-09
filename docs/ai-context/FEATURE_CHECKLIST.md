@@ -2,6 +2,8 @@
 
 - [ ] BRAND_RULES.md appliqué, contrôle check:brand réussi.
 - [ ] Revue visuelle documentée dans BRAND_REVIEW.md, ou limite explicitement signalée.
+- [ ] Chaque texte et état existe en FR et NL dans les catalogues centralisés.
+- [ ] check:i18n réussi et revue des deux langues notée dans I18N_REVIEW.md.
 
 - [ ] Le brief métier porte l'état `Validé`.
 - [ ] La mission business et l’utilisateur cible sont décrits.

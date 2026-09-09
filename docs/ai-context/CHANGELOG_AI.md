@@ -1,5 +1,10 @@
 # Historique
 
+## 2026-09-07
+
+FR/NL obligatoires : catalogues centralisés, langue de repli, détection du
+navigateur, préférence locale, sélecteur et contrôle statique bloquant.
+
 ## 2026-09-04
 
 Charte graphique obligatoire : règles dédiées, contrôle statique bloquant,

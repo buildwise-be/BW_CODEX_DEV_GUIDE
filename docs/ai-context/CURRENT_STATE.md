@@ -25,6 +25,17 @@ UI_SPEC.md définit maintenant les couleurs, Roboto, tailles, espacements, arron
 et états. Ces conventions sont implémentées dans assets/brand/theme.css.
 Roboto n'est pas embarqué : son rendu dépend de sa présence sur le poste.
 
+## Bilinguisme — 2026-09-07
+
+Le socle neutre contient FR/NL, sélection initiale, préférence persistée,
+sélecteur accessible et catalogues recherchables. Le contrôle check:i18n bloque
+les clés manquantes, valeurs vides et textes JSX évidents écrits en dur.
+La revue linguistique d'une application réelle reste à effectuer.
+
+Vérifié le 2026-09-07 : 5 tests du contrôle FR/NL, 17 tests graphiques,
+garde-fous du générateur, `check:i18n`, `check:brand`, 4 tests applicatifs,
+compilation TypeScript et build Vite réussis dans une application temporaire.
+
 ## Prochaine action utilisateur
 
 Décrire une idée métier en une phrase.

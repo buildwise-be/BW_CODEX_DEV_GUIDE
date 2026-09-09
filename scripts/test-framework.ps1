@@ -29,6 +29,9 @@ foreach ($file in @("package.json", "src/App.tsx", "src/brand.css", "public/bran
     if (-not (Test-Path (Join-Path $fixture $file))) { throw "Generated file missing: $file" }
 }
 Write-Output "PASS: validated brief initializes neutral app with brand assets, including an empty src directory."
+& node (Join-Path $fixture "scripts/check-i18n.mjs")
+if ($LASTEXITCODE -ne 0) { throw "Generated app failed FR/NL validation." }
+Write-Output "PASS: generated app contains valid FR/NL catalogs and no obvious hard-coded UI text."
 $before = (Get-FileHash (Join-Path $fixture "src/App.tsx")).Hash
 $blocked = $false
 try { & $initialize -ProjectPath $fixture } catch { $blocked = $true }

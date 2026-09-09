@@ -38,6 +38,13 @@ Polices locales ou fichiers avec droits vérifiés, pas de dépendance réseau v
 Contrastes lisibles, libellés accessibles, clavier, focus visible, petits écrans.
 Les couleurs de statut ne remplacent jamais les libellés.
 
+## Français et néerlandais
+
+Appliquer obligatoirement `I18N_RULES.md`. FR et NL sont le minimum permanent.
+Tous les textes d'interface passent par les catalogues `src/i18n/messages/` ;
+aucun libellé, aide, erreur ou attribut accessible en dur dans un composant.
+Le contrôle `npm run check:i18n` doit précéder marque, tests et compilation.
+
 ## Installation et lancement
 
 Initialiser le socle avec scripts/initialize-app.ps1 après validation métier.

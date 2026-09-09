@@ -42,6 +42,9 @@ La charte est obligatoire : lire BRAND_RULES.md avant toute interface.
 Le contrôle check:brand doit réussir avant tests/build et la revue visuelle doit
 être documentée dans BRAND_REVIEW.md avant d'annoncer une conformité graphique.
 
+FR et NL sont obligatoires : lire I18N_RULES.md. Le contrôle check:i18n doit
+précéder check:brand, tests et build ; documenter la revue dans I18N_REVIEW.md.
+
 Lire les checklists FEATURE_CHECKLIST.md et VALIDATION_CHECKLIST.md.
 Privilégier simplicité, code lisible, petits composants, données séparées,
 tests des règles métier, messages d'erreur utiles et branding centralisé.

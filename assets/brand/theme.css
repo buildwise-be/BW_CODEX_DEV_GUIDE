@@ -75,6 +75,9 @@ a:hover { color: var(--bw-action-hover); }
 .bw-shell { max-width: var(--bw-container-width); margin: auto; padding: var(--bw-space-6); }
 .bw-header { display: flex; align-items: center; gap: var(--bw-space-6); padding: var(--bw-space-6); background: var(--bw-surface); border-bottom: 4px solid var(--bw-turquoise); }
 .bw-logo { width: var(--bw-logo-width); max-width: 100%; height: auto; display: block; flex-shrink: 0; }
+.bw-language { display: flex; gap: var(--bw-space-2); margin-left: auto; }
+.bw-language__button { width: var(--bw-control-height); min-height: var(--bw-control-height); padding: 0; border: var(--bw-border-width) solid var(--bw-action); border-radius: var(--bw-radius-pill); color: var(--bw-action); background: var(--bw-surface); font-weight: var(--bw-weight-bold); cursor: pointer; }
+.bw-language__button:hover, .bw-language__button[aria-pressed="true"] { color: var(--bw-surface); background: var(--bw-action); }
 .bw-panel { padding: var(--bw-space-6); margin-block: var(--bw-space-6); border: var(--bw-border-width) solid var(--bw-border); border-radius: var(--bw-radius-panel); background: var(--bw-surface); }
 
 .bw-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--bw-space-2); min-height: var(--bw-control-height); padding: var(--bw-space-3) var(--bw-space-6); border: var(--bw-border-width) solid transparent; border-radius: var(--bw-radius-pill); color: var(--bw-surface); background: var(--bw-action); font-size: var(--bw-text-md); font-weight: var(--bw-weight-bold); line-height: var(--bw-line-body); cursor: pointer; text-decoration: none; transition: background-color var(--bw-motion-duration) ease, border-color var(--bw-motion-duration) ease; }

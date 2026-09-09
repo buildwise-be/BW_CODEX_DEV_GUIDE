@@ -16,6 +16,8 @@ Codex démarre le dialogue en réponse à votre premier message, pas simplement 
 
 Une application adaptée à votre mission, une présentation Buildwise, des tests,
 une documentation et un lancement local géré par Codex.
+Chaque application prévoit au minimum le français et le néerlandais, avec un
+sélecteur et des catalogues centralisés faciles à rechercher et compléter.
 L'application n'existe pas encore dans un nouveau clone : elle est créée après votre validation.
 
 ## Ce qui reste sous votre contrôle

@@ -3,6 +3,8 @@
 - [ ] Logo et thème officiels conservés, aucune palette ou police concurrente ?
 - [ ] Chaque écran principal comparé visuellement à la référence Buildwise ?
 - [ ] Police de repli et écarts éventuels signalés dans BRAND_REVIEW.md ?
+- [ ] Chaque parcours est-il compréhensible et complet en français et néerlandais ?
+- [ ] Le changement de langue conserve-t-il le sens, le layout et la préférence ?
 
 - [ ] Le parcours permet-il d’accomplir la mission annoncée ?
 - [ ] Les libellés sont-ils compréhensibles par un utilisateur non technique ?

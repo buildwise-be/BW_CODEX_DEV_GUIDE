@@ -1,12 +1,12 @@
 {
-  "version": 2,
+  "version": 3,
   "source": "https://www.buildwise.be/fr/",
-  "reviewedAt": "2026-09-04",
+  "reviewedAt": "2026-09-07",
   "resources": [
     {
       "source": "assets/brand/theme.css",
       "target": "src/brand.css",
-      "sha256": "51aa53d3060eccf8e21c7300a643ef396c07969b3aab1b4a39f5934b84525d7d"
+      "sha256": "31e8d144c182bad459eec8a7daefbb5f5900b0698a4e6a3824959d7dfcc34bca"
     },
     {
       "source": "assets/brand/buildwise-logo.svg",

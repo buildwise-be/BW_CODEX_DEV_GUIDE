@@ -23,6 +23,13 @@ documentés dans UI_SPEC.md et implémentés dans le thème central.
 Ces conventions ne sont pas présentées comme une charte interne officielle.
 L'empreinte du thème est mise à jour pour ce changement autorisé.
 
+## 2026-09-07 — Français et néerlandais obligatoires
+
+Chaque application prévoit au minimum FR et NL dès son initialisation. Catalogues
+JSON centralisés à clés stables, français de repli, détection navigateur,
+préférence persistée, sélecteur accessible et contrôle bloquant avant livraison.
+La revue linguistique humaine reste obligatoire dans I18N_REVIEW.md.
+
 ## Application métier — validation
 
 Aucun périmètre validé. Consigner ici le premier accord avant de modifier l'état du brief.

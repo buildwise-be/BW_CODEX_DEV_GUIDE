@@ -9,5 +9,7 @@ describe("socle neutre — les tests métier seront ajoutés par Codex", () => {
     expect(html).toContain('alt="Buildwise"');
     expect(html).toContain("Application en construction");
     expect(html).toContain("Le parcours métier reste à construire");
+    expect(html).toContain("FR");
+    expect(html).toContain("NL");
   });
 });
