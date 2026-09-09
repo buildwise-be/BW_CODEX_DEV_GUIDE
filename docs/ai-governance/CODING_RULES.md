@@ -1,65 +1,44 @@
-# Règles de codage
+# Coding rules
 
-## Simplicité et structure
+## Simplicity and structure
 
-Stack par défaut : React, TypeScript strict, Vite, Tailwind.
-Éviter les frameworks ou dépendances supplémentaires sans nécessité concrète.
-Pas d'architecture générique anticipant des besoins non validés.
+Default stack: React, strict TypeScript, Vite, and Tailwind CSS. Avoid additional frameworks or dependencies without a concrete need. Do not build generic architecture for unvalidated future requirements.
 
-Le code applicatif est créé dans src/ après accord :
-- composants UI petits et réutilisables ;
-- fonctionnalités métier regroupées par mission ;
-- règles/calculs métier séparés et testables ;
-- accès aux données derrière un contrat adapté au brief, jamais dispersé dans les vues.
+Application code is created in `src/` after business approval:
 
-Ne pas copier un exemple entier sans pertinence métier. Exclure les exemples
-de la compilation de l'application. Reprendre les composants nécessaires seulement.
-Nommer clairement, documenter les intentions et contraintes ; éviter les commentaires
-qui répètent le code. Garder les fichiers lisibles et formatés.
+- keep UI components small and reusable;
+- group business features by mission;
+- separate business rules and calculations so they can be tested;
+- place data access behind a contract suited to the brief instead of scattering it through views.
 
-## Données, interactions et sécurité
+Do not copy a complete example unless it is relevant. Exclude examples from application compilation and reuse only the components that are needed. Use clear names and document intent and constraints; avoid comments that merely repeat the code. Keep files readable and formatted.
 
-Données fictives clairement indiquées, pas de faux indicateurs présentés comme réels.
-Prévoir chargement, absence de données, erreur et reprise.
-Valider les saisies ; ne jamais stocker secrets ou données privées dans le client ou Git.
-Ne pas inventer une authentification sécurisée à partir d'un simple écran de connexion.
-Utiliser un adaptateur asynchrone pour remplacer les mocks par une source réelle.
+## Data, interactions, and security
 
-## Présentation Buildwise
+Clearly identify fictional data and never present demonstration metrics as real. Provide loading, empty, error, and retry states. Validate input. Never store secrets or private data in client code or Git. Do not present a simple login screen as secure authentication. Use an asynchronous adapter so mocks can later be replaced by a real data source.
 
-Appliquer obligatoirement `docs/ai-governance/BRAND_RULES.md`.
-Lire `docs/ai-governance/UI_SPEC.md` pour toutes les valeurs CSS et variantes.
-Le contrôle `npm run check:brand` fait partie du critère de livraison ; ne pas
-contourner ses erreurs par une copie modifiée du thème ou une désactivation du script.
+## Buildwise presentation
 
-Lire assets/brand/README.md. Réutiliser logo et tokens fournis ; ne pas recréer
-le logo ni utiliser une palette de marque improvisée.
-Polices locales ou fichiers avec droits vérifiés, pas de dépendance réseau visuelle.
-Contrastes lisibles, libellés accessibles, clavier, focus visible, petits écrans.
-Les couleurs de statut ne remplacent jamais les libellés.
+Apply `docs/ai-governance/BRAND_RULES.md` and use `docs/ai-governance/UI_SPEC.md` for exact CSS values and variants. `npm run check:brand` is part of the delivery criteria. Never bypass a failure by copying a modified theme or disabling the script.
 
-## Français et néerlandais
+Read `assets/brand/README.md`. Reuse the supplied logo and tokens; do not redraw the logo or invent a brand palette. Use local fonts or files with verified rights, not a visual dependency loaded over the network. Provide readable contrast, accessible labels, keyboard use, visible focus, and small-screen support. Status colors never replace text labels.
 
-Appliquer obligatoirement `I18N_RULES.md`. FR et NL sont le minimum permanent.
-Tous les textes d'interface passent par les catalogues `src/i18n/messages/` ;
-aucun libellé, aide, erreur ou attribut accessible en dur dans un composant.
-Le contrôle `npm run check:i18n` doit précéder marque, tests et compilation.
+## French and Dutch
 
-## Installation et lancement
+Apply `I18N_RULES.md`. French and Dutch are the permanent minimum. Route every interface string through the catalogs in `src/i18n/messages/`; do not hard-code labels, help, errors, or accessible attributes in components. Run `npm run check:i18n` before brand checks, tests, and compilation.
 
-Initialiser le socle avec scripts/initialize-app.ps1 après validation métier.
-Vérifier les versions compatibles des dépendances ; créer et versionner le lockfile.
-Préférer npm ci une fois le lockfile présent. Ne pas installer d'outils globaux sans accord.
-Utiliser start-local.ps1 pour l'application racine, jamais automatiquement examples/.
-Attendre l'adresse réellement disponible ; ouvrir l'aperçu avec l'outil Codex si disponible.
-Ne pas ouvrir un port public : écoute locale 127.0.0.1. Arrêter seulement son propre serveur.
+## Installation and local start
 
-## Vérification et documentation
+Initialize the shell with `scripts/initialize-app.ps1` after business approval. Verify compatible dependency versions and commit the lockfile. Prefer `npm ci` once the lockfile exists. Do not install global tools without approval.
 
-Ajouter des tests des règles métier, composants et parcours critiques selon le risque.
-Exécuter npm run check (tests, types, build). Tester le navigateur si disponible.
-Corriger les régressions avant livraison ; sinon documenter précisément le blocage.
-Mettre à jour état, décisions, limites et checklist métier.
-Pour docs/wiki/, lire WIKI_REFRESH_GUIDE.md et ne décrire que des faits observés.
-Les changements purement framework se vérifient avec scripts/validate-framework.ps1
-et scripts/test-framework.ps1, sans fabriquer une application métier.
+Use `start-local.ps1` for the root application and never start `examples/` automatically. Wait for the actual available address and open it with the Codex preview when available. Bind only to `127.0.0.1` and stop only the server started by the current task.
+
+## Verification and documentation
+
+Add tests for business rules, components, and critical journeys in proportion to risk. Run `npm run check`, and test in a browser when available. Fix regressions before delivery or document the precise blocker.
+
+Maintain every Markdown file in English, including the business brief, decisions, reviews, changelog, wiki pages, feature specifications, and READMEs. Translate business information into English when the user communicates in another language. This documentation rule does not change the mandatory French and Dutch application interfaces.
+
+Update project state, decisions, limitations, and the business checklist. For `docs/wiki/`, read `WIKI_REFRESH_GUIDE.md` and document only observed facts.
+
+For framework-only changes, run `scripts/validate-framework.ps1` and `scripts/test-framework.ps1` without inventing a business application.

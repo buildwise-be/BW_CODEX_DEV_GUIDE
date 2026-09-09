@@ -1,9 +1,9 @@
-# Expressions utilisateur
+# Example user requests
 
-Les règles sont déjà dans AGENTS.md. Ces exemples ne sont pas obligatoires.
+The behavior rules are already defined through `AGENTS.md`; users do not need to copy these examples.
 
-- « Je veux une application pour suivre les demandes de mon équipe. » → cadrage métier.
-- « Oui, construis cette première version. » → réalisation dans le périmètre validé.
-- « Je veux la tester. » → vérifier qu'elle existe, puis ouvrir l'aperçu local.
-- « Cette liste est difficile à lire. » → comprendre puis corriger le problème ciblé.
-- « Arrête le test. » → arrêter seulement le serveur de cette session.
+- “I need an application to track my team's requests.” → start business scoping.
+- “Yes, build this first version.” → implement the validated scope.
+- “Let me test it.” → verify that it exists, then open the local preview.
+- “This list is difficult to read.” → understand and correct the targeted problem.
+- “Stop the test.” → stop only the server started in the current session.

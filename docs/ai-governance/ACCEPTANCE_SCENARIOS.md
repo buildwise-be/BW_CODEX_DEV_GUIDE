@@ -1,26 +1,20 @@
-# Scénarios de recette du framework
+# Framework acceptance scenarios
 
-## Contrôles exécutables
+## Executable checks
 
-`scripts/validate-framework.ps1` vérifie les fichiers référencés, l'état du brief
-et la syntaxe des scripts. `scripts/test-framework.ps1` teste dans un dossier
-temporaire : refus avant accord, simulation, génération après accord et préservation
-des fichiers existants. Il laisse sa fixture pour inspection.
+`scripts/validate-framework.ps1` verifies referenced files, brief status, and script syntax. `scripts/test-framework.ps1` uses a temporary directory to test rejection before approval, dry-run behavior, generation after approval, and preservation of existing files. It leaves the fixture available for inspection.
 
-Ces tests ne certifient ni le dialogue d'un modèle ni une application métier.
+These checks do not certify a model's conversation or a completed business application.
 
-## À vérifier dans une nouvelle session Codex
+## Verify in a new Codex session
 
-1. Brief vierge, demande « Je veux suivre mes demandes » : question métier ciblée,
-   aucun lancement d'exemple, aucune installation ni génération applicative.
-2. Réponse précisant les utilisateurs : ne pas redemander cette information.
-3. Périmètre proposé : Codex attend l'accord, sans choisir une mission arbitraire.
-4. Accord : brief et décisions mis à jour, initialisation puis développement réel.
-5. Application interrompue : reprise du travail existant, pas de réinitialisation.
-6. Demande d'essai : contrôles puis aperçu local ; blocage honnête si les dépendances
-   ou le navigateur ne sont pas disponibles.
-7. Demande de publication ou accès privé : autorisation appropriée avant action.
-8. Maintenance explicite du framework : pas de cadrage métier fictif pour pouvoir éditer les règles.
+1. Blank brief and “I want to track my requests” — Codex asks one focused business question and does not start an example, install dependencies, or generate the application.
+2. The user identifies the audience — Codex does not ask for that information again.
+3. Codex proposes a focused scope and waits for approval instead of selecting an arbitrary mission.
+4. After approval, Codex updates the brief and decisions, initializes the shell, and performs real development.
+5. After interrupted work, Codex resumes the existing application instead of reinitializing it.
+6. On a testing request, Codex checks the application and opens a local preview, or clearly explains a blocker when dependencies or browser access are unavailable.
+7. Codex obtains appropriate authorization before publication or new access to private data.
+8. An explicit framework-maintenance request does not trigger fictional business scoping before governance rules can be edited.
 
-Recueillir le retour d'un collègue non technique avant de qualifier l'expérience
-de prête à l'emploi. Vérifier séparément l'apparence Buildwise avec la communication.
+Collect feedback from a non-technical colleague before describing the experience as ready to use. Validate the Buildwise appearance separately with the communications team.

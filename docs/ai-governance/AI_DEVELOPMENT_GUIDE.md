@@ -1,70 +1,43 @@
-# Méthode de construction Buildwise
+# Buildwise application development method
 
-## Origine et responsabilités
+## Origin and responsibilities
 
-Ce profil promeut le contenu src/ du framework V2 à la racine et adapte son
-workflow à un public métier. Il conserve sa séparation :
-gouvernance, mémoire humaine (docs/ai-context/) et faits techniques (docs/wiki/).
-Git reste la mémoire durable. Aucun service, compte API ou hook n'est requis
-pour démarrer le dialogue dans Codex.
+This profile promotes the V2 framework's `src/` content to the repository root and adapts its workflow for a business audience. It preserves the separation between governance, human intent in `docs/ai-context/`, and observed technical facts in `docs/wiki/`.
 
-## Étapes
+Git remains the durable memory. No service, API account, or hook is required to start the conversation in Codex.
 
-1. **Cadrage** : brief « À définir ». Comprendre la mission, les utilisateurs,
-   les informations, le résultat attendu et les limites. Questions courtes,
-   une à la fois, seulement si la réponse change la première version.
-2. **Validation** : résumer le parcours prioritaire et 3 à 5 capacités maximum ;
-   demander l'accord métier. Noter l'accord dans DECISIONS.md, passer le brief à « Validé ».
-3. **Construction** : initialize-app.ps1 crée un socle neutre sans écraser une
-   application existante. Codex implémente le besoin validé avec la stack standard,
-   des tests et la documentation. L'initialisation seule n'est pas une livraison.
-4. **Vérification** : contrôler les critères métier, erreurs, données vides,
-   chargement, navigation clavier, petits écrans, types, tests et compilation.
-   Corriger les échecs dans le périmètre approuvé.
-5. **Essai local** : lancer avec start-local.ps1, attendre que le serveur réponde,
-   ouvrir l'adresse disponible et proposer des tâches métier à essayer.
-6. **Itération** : recueillir le retour, ajuster le besoin et les critères ;
-   une extension importante exige une nouvelle validation.
+## Workflow
 
-## Autonomie et sécurité
+1. **Scope** — the brief is `To define`. Understand the mission, users, information, expected outcome, and limits. Ask short questions, one at a time, only when an answer changes the first version.
+2. **Validate** — summarize the priority journey and no more than three to five capabilities. Ask for business approval, record it in `DECISIONS.md`, and change the brief status to `Validated`.
+3. **Build** — `initialize-app.ps1` creates a neutral shell without overwriting an existing application. Codex implements the approved need with the standard stack, tests, and documentation. Initialization alone is not a delivery.
+4. **Verify** — check business criteria, errors, empty data, loading, keyboard navigation, small screens, types, tests, and compilation. Correct failures within the approved scope.
+5. **Test locally** — start the application with `start-local.ps1`, wait for the server to respond, open the available address, and propose business tasks to try.
+6. **Iterate** — collect feedback and adjust the need and criteria. A material extension requires renewed business approval.
 
-L'utilisateur choisit le résultat métier, Codex prend les décisions techniques
-ordinaires et poursuit jusqu'à une version vérifiée ou un blocage explicite.
-Ne pas demander une approbation à chaque fichier ou commande courante.
-Respecter toutefois les permissions de l'environnement et les autorisations
-requises pour les dépenses, publications, données privées et opérations risquées.
-Ne pas activer automatiquement les hooks, installer Node globalement ou publier
-le dépôt. Les scripts locaux n'ouvrent pas le réseau : serveur lié à 127.0.0.1.
+## Autonomy and safety
 
-## Qualité et mémoire
+The user chooses the business outcome. Codex makes routine technical decisions and continues until it has a verified version or an explicit blocker. Do not request approval for every file or routine command.
 
-La charte est obligatoire : lire BRAND_RULES.md avant toute interface.
-Le contrôle check:brand doit réussir avant tests/build et la revue visuelle doit
-être documentée dans BRAND_REVIEW.md avant d'annoncer une conformité graphique.
+Respect environment permissions and obtain authorization for spending, publication, private data, and risky operations. Do not automatically enable hooks, install Node globally, or publish the repository. Local scripts do not expose the application to the network; the server binds to `127.0.0.1`.
 
-FR et NL sont obligatoires : lire I18N_RULES.md. Le contrôle check:i18n doit
-précéder check:brand, tests et build ; documenter la revue dans I18N_REVIEW.md.
+## Quality and project memory
 
-Lire les checklists FEATURE_CHECKLIST.md et VALIDATION_CHECKLIST.md.
-Privilégier simplicité, code lisible, petits composants, données séparées,
-tests des règles métier, messages d'erreur utiles et branding centralisé.
-L'application choisit un contrat de données adapté au brief ; les mocks sont
-remplaçables et étiquetés. Ne pas intégrer les exemples métier sans pertinence.
+Buildwise branding is mandatory. Read `BRAND_RULES.md` before creating any interface. `check:brand` must pass before tests and build. Record the visual review in `BRAND_REVIEW.md` before claiming visual compliance.
 
-Mettre à jour CURRENT_STATE.md après chaque livraison : capacités réelles,
-preuves de contrôle, prochaine action. DECISIONS.md garde les accords,
-KNOWN_ISSUES.md les limites et CHANGELOG_AI.md les livraisons.
-Ne pas transformer un résultat non vérifié en succès dans la documentation.
+French and Dutch are mandatory. Read `I18N_RULES.md`. Run `check:i18n` before brand checks, tests, and build, and record the review in `I18N_REVIEW.md`.
 
-## Détection et reprise
+Read `FEATURE_CHECKLIST.md` and `VALIDATION_CHECKLIST.md`. Prefer simplicity, readable code, small components, separated data access, tested business rules, useful error messages, and centralized branding. Choose a data contract suited to the brief; mocks must be replaceable and clearly labelled. Do not include example business features unless they are relevant.
 
-AGENTS.md est placé à la racine pour être découvert par Codex.
-Le hook historique V2 est optionnel ; sa présence ne garantit pas son exécution.
-Après interruption, relire brief et état courant, inspecter les fichiers :
-ne pas réinitialiser une application déjà créée.
-Un brief validé et un package.json ne prouvent pas que l'application est terminée.
+Update `CURRENT_STATE.md` after every delivery with actual capabilities, verification evidence, and the next action. `DECISIONS.md` records approvals, `KNOWN_ISSUES.md` records limits, and `CHANGELOG_AI.md` records deliveries. Never turn an unverified result into a documented success.
+
+## Detection and resuming work
+
+`AGENTS.md` is at the root so Codex discovers it automatically. The historical V2 hook is optional; its presence does not guarantee execution.
+
+After an interruption, reread the brief and current state and inspect the files. Do not reinitialize an existing application. A validated brief and a `package.json` do not prove that the application is complete.
 
 ## Sources
 
-- Base V2 : commit 302aedc de codex/v2-framework.
-- Instructions Codex : https://learn.chatgpt.com/docs/agent-configuration/agents-md
+- V2 base: commit `302aedc` on `codex/v2-framework`.
+- Codex instructions: https://learn.chatgpt.com/docs/agent-configuration/agents-md

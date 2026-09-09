@@ -1,35 +1,29 @@
-# Décisions
+# Decisions
 
-## Structure du framework — 2026-09-03
+## Framework structure — 2026-09-03
 
-À la demande de l'utilisateur, cette branche part du contenu src/ de la V2,
-installé à la racine. Le futur src/ contiendra uniquement le code métier.
-Les exemples Projets/KPI sont déplacés sous examples/ ; ils n'imposent pas de mission.
+At the user's request, this branch starts from the V2 `src/` content promoted to the repository root. The future root `src/` directory is reserved for business application code. The Projects/KPI examples live under `examples/` and do not impose a mission.
 
-## 2026-09-04 — Charte obligatoire
+## Mandatory brand identity — 2026-09-04
 
-À la demande de l'utilisateur, logo et thème Buildwise sont verrouillés par
-empreinte. Contrôle statique bloquant avant tests/build, interdiction des palettes
-et polices concurrentes, revue visuelle obligatoire et exceptions soumises à accord.
-Les sources publiques ne remplacent pas une charte interne validée ; le repli de
-police reste explicitement signalé.
+At the user's request, the Buildwise logo and theme are locked by hash. A blocking static check runs before tests and build. Competing palettes and fonts are forbidden; a visual review is mandatory, and exceptions require approval.
 
-## 2026-09-04 — Spécifications UI et Roboto
+Public sources do not replace a validated internal brand guide. Font fallback must remain explicitly documented.
 
-Demande explicite de l'utilisateur : écrire couleurs, arrondis, tailles et Roboto.
-Roboto remplace donc la pile Neue Haas Unica pour les applications uniquement.
-Boutons pilule 999px/48px, champs 8px/48px, cartes 16px ; valeurs et états
-documentés dans UI_SPEC.md et implémentés dans le thème central.
-Ces conventions ne sont pas présentées comme une charte interne officielle.
-L'empreinte du thème est mise à jour pour ce changement autorisé.
+## UI specification and Roboto — 2026-09-04
 
-## 2026-09-07 — Français et néerlandais obligatoires
+The user explicitly requested documented colors, radii, sizes, and Roboto. Roboto therefore replaces the Neue Haas Unica stack for applications only. Buttons use a 999px radius and 48px height, fields use an 8px radius and 48px height, and cards use a 16px radius. Values and states are documented in `UI_SPEC.md` and implemented in the central theme.
 
-Chaque application prévoit au minimum FR et NL dès son initialisation. Catalogues
-JSON centralisés à clés stables, français de repli, détection navigateur,
-préférence persistée, sélecteur accessible et contrôle bloquant avant livraison.
-La revue linguistique humaine reste obligatoire dans I18N_REVIEW.md.
+These conventions are not represented as an official internal Buildwise brand guide. The theme hash was updated for the authorized change.
 
-## Application métier — validation
+## French and Dutch are mandatory — 2026-09-07
 
-Aucun périmètre validé. Consigner ici le premier accord avant de modifier l'état du brief.
+Every application supports at least French and Dutch from initialization. It uses central JSON catalogs with stable keys, French fallback, browser-language detection, a persisted preference, an accessible selector, and a blocking pre-delivery check. Human linguistic review remains mandatory in `I18N_REVIEW.md`.
+
+## English-only Markdown documentation — 2026-09-09
+
+All tracked Markdown files, including governance, context, examples, and generated wiki or feature templates, are maintained in English. This keeps framework maintenance consistent and searchable. It does not change the mandatory French and Dutch languages of generated application interfaces.
+
+## Business application approval
+
+No application scope has been validated. Record the first explicit approval here before changing the brief status.

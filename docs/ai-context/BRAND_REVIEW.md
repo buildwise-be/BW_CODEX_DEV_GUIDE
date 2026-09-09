@@ -1,17 +1,16 @@
-# Revue graphique
+# Visual review
 
-État : Non vérifié
+Status: Not verified
 
-Aucune application métier créée. Ce document est complété par Codex lors de la
-revue visuelle, pas automatiquement par le contrôle statique.
+No business application has been created. Codex completes this document during visual review; the static checker does not complete it automatically.
 
-## Preuves à renseigner
+## Evidence to record
 
-- Écrans et états inspectés :
-- Dimensions desktop / mobile :
-- Captures ou traces de test :
-- Références Buildwise comparées :
-- Police effectivement rendue et droits disponibles :
-- Contraste et navigation clavier :
-- Écarts constatés, corrections et limites restantes :
-- Date et résultat du contrôle check:brand :
+- Screens and states inspected:
+- Desktop and mobile dimensions:
+- Screenshots or test traces:
+- Buildwise references used for comparison:
+- Font actually rendered and available rights:
+- Contrast and keyboard navigation:
+- Differences found, corrections, and remaining limits:
+- Date and result of `npm run check:brand`:

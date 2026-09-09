@@ -1,42 +1,41 @@
-# Brief métier
+# Business brief
 
-État : À définir
+Status: To define
 
-Ce document est complété automatiquement par Codex pendant le cadrage. Il ne
-doit pas être rempli manuellement par l'utilisateur.
+Codex completes this document automatically during business scoping. The user should not need to edit it manually.
 
 ## Mission
 
-À définir.
+To define.
 
-## Utilisateurs concernés
+## Intended users
 
-À définir.
+To define.
 
-## Problème à résoudre
+## Problem to solve
 
-À définir.
+To define.
 
-## Décisions ou actions à faciliter
+## Decisions or actions to support
 
-À définir.
+To define.
 
-## Informations nécessaires
+## Required information
 
-À définir.
+To define.
 
-## Première version validée
+## Validated first version
 
-À définir après reformulation et validation par l'utilisateur.
+To define after Codex reformulates the need and the user approves it.
 
-## Critères de réussite
+## Success criteria
 
-À définir.
+To define.
 
-## Priorités
+## Priorities
 
-À définir.
+To define.
 
-## Hors périmètre
+## Out of scope
 
-À définir.
+To define.

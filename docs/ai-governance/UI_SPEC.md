@@ -1,109 +1,83 @@
-# Spécifications UI / CSS — applications Buildwise
+# UI and CSS specification — Buildwise applications
 
-Version 1 — 2026-09-04. Source exécutable : `assets/brand/theme.css`.
-Cette spécification est obligatoire pour les applications générées.
+Version 1 — 2026-09-04. Executable source: `assets/brand/theme.css`.
+This specification is mandatory for generated applications.
 
-## Origine des choix
+## Origin of the choices
 
-Bleu, turquoise, texte sombre, gris clair et logo proviennent des références
-publiques de buildwise.be listées dans assets/brand/README.md.
-Roboto est demandé explicitement par l'utilisateur pour les applications : ce
-n'est pas la police Neue Haas Unica observée sur le site public.
-Les tailles, espacements, arrondis et états ci-dessous sont des conventions du
-framework, pas des valeurs certifiées par une charte interne Buildwise.
+Blue, turquoise, dark text, light grey, and the logo come from the public buildwise.be references listed in `assets/brand/README.md`. Roboto was explicitly requested for applications; it differs from Neue Haas Unica observed on the public website.
 
-## Couleurs
+The sizes, spacing, radii, and states below are framework conventions, not values certified by an internal Buildwise brand guide.
 
-| Usage / variable CSS | Valeur | Règle |
+## Colors
+
+| Use / CSS variable | Value | Rule |
 | --- | --- | --- |
-| Bleu de marque `--bw-blue` | `#0087B7` | Identité et accents, pas petit texte blanc par défaut |
-| Turquoise `--bw-turquoise` | `#00BFB6` | Accent décoratif, jamais seul pour exprimer un statut |
-| Action `--bw-action` | `#00739C` | Bouton principal, liens et focus ; variante d'interface plus sombre |
-| Survol action `--bw-action-hover` | `#005E80` | État hover |
-| Texte `--bw-text` | `#1B1B1B` | Texte principal |
-| Texte secondaire `--bw-muted` | `#595959` | Aides, légendes, placeholder |
-| Surface `--bw-surface` | `#FFFFFF` | Cartes, champs et en-tête |
-| Fond `--bw-background` | `#F2F2F2` | Page et en-têtes de tableau |
-| Séparation `--bw-border` | `#D9D9D9` | Séparateurs décoratifs, pas seule limite des champs |
-| Bordure champ `--bw-input-border` | `#767676` | Contour perceptible sur blanc |
-| Désactivé `--bw-disabled-bg` / `--bw-disabled-text` | `#E6E6E6` / `#595959` | Pas d'opacité globale réduisant tous les contrastes |
-| Information `--bw-info-bg` | `#E0F7FF` | Fond léger, texte action |
-| Succès `--bw-success` / `--bw-success-bg` | `#176543` / `#EAF5EF` | Libellé obligatoire |
-| Avertissement `--bw-warning` / `--bw-warning-bg` | `#805500` / `#FFF4D6` | Libellé obligatoire |
-| Erreur `--bw-danger` / `--bw-danger-bg` | `#B42318` / `#FFF0EE` | Libellé et aide à la correction |
-| Survol danger `--bw-danger-hover` | `#912018` | Actions destructrices seulement |
+| Brand blue `--bw-blue` | `#0087B7` | Identity and accents; not for small white text by default |
+| Turquoise `--bw-turquoise` | `#00BFB6` | Decorative accent; never the only status indicator |
+| Action `--bw-action` | `#00739C` | Primary button, links, and focus; darker interface variant |
+| Action hover `--bw-action-hover` | `#005E80` | Hover state |
+| Text `--bw-text` | `#1B1B1B` | Primary text |
+| Secondary text `--bw-muted` | `#595959` | Help, captions, and placeholders |
+| Surface `--bw-surface` | `#FFFFFF` | Cards, fields, and header |
+| Background `--bw-background` | `#F2F2F2` | Page and table headers |
+| Divider `--bw-border` | `#D9D9D9` | Decorative dividers; not the only field boundary |
+| Input border `--bw-input-border` | `#767676` | Perceptible outline on white |
+| Disabled `--bw-disabled-bg` / `--bw-disabled-text` | `#E6E6E6` / `#595959` | Do not reduce global opacity and weaken all contrasts |
+| Information `--bw-info-bg` | `#E0F7FF` | Light background with action-colored text |
+| Success `--bw-success` / `--bw-success-bg` | `#176543` / `#EAF5EF` | Text label required |
+| Warning `--bw-warning` / `--bw-warning-bg` | `#805500` / `#FFF4D6` | Text label required |
+| Error `--bw-danger` / `--bw-danger-bg` | `#B42318` / `#FFF0EE` | Label and correction guidance required |
+| Danger hover `--bw-danger-hover` | `#912018` | Destructive actions only |
 
-Les couleurs fonctionnelles sont des choix d'application, pas une extension
-affirmée de la palette institutionnelle. Interdiction des valeurs couleur locales
-dans les écrans : utiliser `var(--bw-...)`. Pas de dégradé ou de thème sombre.
+Functional colors are application choices, not a claimed extension of the institutional palette. Do not use local color values in screens; use `var(--bw-...)`. Do not add gradients or a dark theme.
 
-## Typographie
+## Typography
 
-- Police : `--bw-font: "Roboto", Arial, Helvetica, sans-serif`.
-- Chargement actuel : Roboto installé localement ; sinon Arial/Helvetica. Aucun
-  fichier Roboto n'est embarqué : ne pas prétendre que son rendu est garanti sur
-  un poste neuf. Pour un rendu identique partout, prévoir une livraison locale
-  WOFF2 avec licence et provenance, puis valider et verrouiller cette ressource.
-- Aucun appel Google Fonts ou CDN au moment du rendu.
-- Corps : 16px / interligne 1.5, graisse 400.
-- Aide, légende, badge : 14px / 1.5, pas de texte métier inférieur à 14px.
-- Introduction : 18px / 1.5 via `--bw-text-lg`.
-- H1 : 32px desktop, 24px mobile ; H2 : 24px ; H3 : 20px.
-- Titres : graisse 700, interligne 1.2. Labels et badges : 500.
-- Base 16px ; tailles typographiques en rem pour respecter le zoom utilisateur.
+- Font: `--bw-font: "Roboto", Arial, Helvetica, sans-serif`.
+- Current loading: locally installed Roboto, then Arial/Helvetica. No Roboto file is bundled, so do not claim guaranteed Roboto rendering on a new workstation. For identical rendering everywhere, supply local WOFF2 files with verified license and provenance, then validate and lock the assets.
+- Do not load Google Fonts or a CDN at render time.
+- Body: 16px, line-height 1.5, weight 400.
+- Help, caption, and badge: 14px, line-height 1.5. Business text must not be smaller than 14px.
+- Introduction: 18px, line-height 1.5 through `--bw-text-lg`.
+- H1: 32px desktop and 24px mobile; H2: 24px; H3: 20px.
+- Headings: weight 700, line-height 1.2. Labels and badges: weight 500.
+- Base size: 16px. Define type sizes in `rem` to respect user zoom.
 
-## Boutons
+## Buttons
 
-| Variante | Classes | Dimensions / style |
+| Variant | Classes | Dimensions and style |
 | --- | --- | --- |
-| Principal | `bw-button` | Hauteur minimale 48px, padding 12px 24px, rayon **999px**, Roboto 16px/700, texte blanc sur action |
-| Secondaire | `bw-button bw-button--secondary` | Fond blanc, bordure 1px action, texte action ; mêmes dimensions |
-| Danger | `bw-button bw-button--danger` | Fond danger, texte blanc ; uniquement une action destructive |
-| Compact | `bw-button bw-button--compact` | 40px minimum, padding 8px 16px, 14px ; revient à 48px sur mobile |
-| Désactivé | Attribut natif `disabled` | Fond disabled-bg, texte disabled-text, curseur not-allowed |
+| Primary | `bw-button` | Minimum height 48px, padding 12px 24px, **999px** radius, Roboto 16px/700, white text on action color |
+| Secondary | `bw-button bw-button--secondary` | White background, 1px action border, action text; same dimensions |
+| Danger | `bw-button bw-button--danger` | Danger background and white text; destructive actions only |
+| Compact | `bw-button bw-button--compact` | Minimum 40px, padding 8px 16px, 14px text; returns to 48px on mobile |
+| Disabled | Native `disabled` attribute | Disabled background and text tokens, `not-allowed` cursor |
 
-Largeur selon le libellé, texte jamais tronqué, retour à la ligne permis.
-Icône éventuelle 20px, intervalle 8px ; icône seule avec nom accessible et
-cible minimale 48 × 48px. Le style compact n'est pas utilisé pour une icône seule.
-Chargement : garder le libellé et les dimensions, `aria-busy`, éviter le double clic.
-Focus : contour action **3px**, décalage **3px**, jamais supprimé.
-Transition couleur/bordure : **120ms**, aucune sous `prefers-reduced-motion`.
+Size buttons to their labels, never truncate text, and allow wrapping. Optional icons are 20px with an 8px gap. An icon-only control needs an accessible name and a minimum 48 × 48px target; do not apply the compact style to it.
 
-## Champs, cartes, badges et tableaux
+For loading, preserve the label and dimensions, set `aria-busy`, and prevent duplicate activation. Focus uses a **3px** action-colored outline with a **3px** offset and is never removed. Color and border transitions last **120ms** and are disabled under `prefers-reduced-motion`.
 
-- `bw-input` : hauteur minimale **48px**, padding **12px 16px**, rayon **8px**,
-  bordure **1px** input-border, fond blanc, texte 16px. Utilisable sur input,
-  select et textarea (textarea peut être plus haut).
-- `bw-field`, `bw-label`, `bw-hint`, `bw-error` : label visible, intervalle 8px,
-  aide/erreur 14px. `aria-invalid="true"` colore la bordure, ne remplace pas
-  un message lié au champ par `aria-describedby`.
-- `bw-panel` : rayon **16px**, padding **24px**, bordure **1px**, fond blanc,
-  aucune ombre par défaut. Padding mobile 16px.
-- `bw-badge` : rayon **999px**, padding **4px 12px**, texte 14px/500 ; variantes
-  `bw-badge--success`, `--warning`, `--danger`. Ne pas faire clignoter un statut.
-- `bw-table` dans `bw-table-wrap` : cellules **12px 16px**, séparateurs 1px,
-  en-tête gris clair/700. Défilement horizontal dans le tableau, pas dans la page.
-- Fenêtre modale : surface/padding/rayon de carte, largeur max 640px avec marge
-  viewport de 16px minimum. Utiliser un dialogue accessible ; gestion focus,
-  fermeture clavier et arrière-plan à valider lors de son implémentation.
+## Fields, cards, badges, and tables
 
-## Espacements et mise en page
+- `bw-input`: minimum height **48px**, padding **12px 16px**, radius **8px**, **1px** input-border, white background, and 16px text. Apply to input, select, and textarea; a textarea may be taller.
+- `bw-field`, `bw-label`, `bw-hint`, `bw-error`: visible label, 8px gap, and 14px help or error text. `aria-invalid="true"` changes the border but does not replace a field message connected through `aria-describedby`.
+- `bw-panel`: radius **16px**, padding **24px**, **1px** border, white background, and no shadow by default. Mobile padding is 16px.
+- `bw-badge`: radius **999px**, padding **4px 12px**, and 14px/500 text. Variants: `bw-badge--success`, `--warning`, and `--danger`. Never make a status blink.
+- `bw-table` inside `bw-table-wrap`: cells **12px 16px**, 1px dividers, and a light-grey/700 header. Horizontal scrolling belongs inside the table, not the page.
+- Modal: card surface, padding, and radius; maximum width 640px with at least 16px viewport margin. Use an accessible dialog and verify focus management, keyboard closing, and background behavior when implemented.
 
-- Échelle `--bw-space-*` : **4, 8, 12, 16, 24, 32, 48px** ; utiliser les tokens.
-- `bw-shell` : largeur max **1100px**, centré, padding **24px**.
-- `bw-header` : surface blanche, padding et gap **24px**, accent inférieur
-  turquoise **4px**. Logo : **210px** de large, hauteur automatique.
-- Espace libre autour du logo : au moins 16px (convention applicative).
-- Seuil mobile : **600px** inclus ; padding shell/header/panel **16px**,
-  header peut revenir à la ligne. Pas de mise en page à largeur fixe sur mobile.
-- Vérifier au minimum 390px et 1440px de largeur, zoom 200 %, navigation clavier.
+## Spacing and layout
 
-## Application et contrôle
+- `--bw-space-*` scale: **4, 8, 12, 16, 24, 32, 48px**. Use the tokens.
+- `bw-shell`: maximum width **1100px**, centered, with **24px** padding.
+- `bw-header`: white surface, **24px** padding and gap, with a **4px** turquoise bottom accent. Logo width: **210px**, automatic height.
+- Keep at least 16px clear space around the logo as an application convention.
+- Mobile breakpoint: up to and including **600px**. Shell, header, and panel padding becomes **16px**; the header may wrap. Do not use fixed-width mobile layouts.
+- Verify at minimum 390px and 1440px widths, 200% zoom, and keyboard navigation.
 
-Ne pas modifier `src/brand.css` : il est copié depuis le thème verrouillé.
-Les écrans réutilisent les classes ou tokens ; ne pas surcharger les composants
-de marque. Exemple : `className="bw-button bw-button--secondary"`.
+## Application and verification
 
-Exécuter `npm run check:brand`, puis tests/build et revue visuelle documentée.
-Le contrôle statique ne prouve ni le rendu réel de Roboto, ni les espacements
-finaux, ni les contrastes des contenus personnalisés.
+Do not modify `src/brand.css`; it is copied from the locked theme. Screens reuse the classes or tokens and do not override brand components. Example: `className="bw-button bw-button--secondary"`.
+
+Run `npm run check:brand`, then tests and build, followed by a documented visual review. Static analysis does not prove actual Roboto rendering, final spacing, or the contrast of custom content.

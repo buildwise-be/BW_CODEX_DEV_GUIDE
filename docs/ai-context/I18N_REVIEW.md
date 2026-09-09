@@ -1,21 +1,21 @@
-# Revue linguistique
+# Linguistic review
 
-État : Non vérifié
+Status: Not verified
 
-## Français
+## French
 
-- Parcours et écrans inspectés :
-- Textes manquants ou ambigus :
-- Formats dates, nombres et pluriels :
+- Journeys and screens inspected:
+- Missing or ambiguous text:
+- Dates, numbers, and plural formats:
 
-## Nederlands
+## Dutch
 
-- Gecontroleerde schermen en trajecten:
-- Ontbrekende of onduidelijke teksten:
-- Datums, getallen en meervouden:
+- Journeys and screens inspected:
+- Missing or ambiguous text:
+- Dates, numbers, and plural formats:
 
-## Contrôles
+## Checks
 
-- Date et résultat de `npm run check:i18n` :
-- Sélecteur, préférence persistée et langue du document :
-- Écarts restants et décision :
+- Date and result of `npm run check:i18n`:
+- Language selector, persisted preference, and document language:
+- Remaining differences and decision:

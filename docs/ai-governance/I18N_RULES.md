@@ -1,17 +1,12 @@
-# Règles linguistiques — français et néerlandais obligatoires
+# Language rules — French and Dutch are mandatory
 
-## Contrat minimal
+## Minimum contract
 
-Toute application générée propose au minimum `fr` et `nl`. Aucune fonctionnalité
-n'est terminée tant que ses libellés, aides, erreurs, états vides, notifications,
-textes d'accessibilité et titres existent dans les deux langues.
+Every generated application supports at least `fr` and `nl`. A feature is not complete until its labels, help, errors, empty states, notifications, accessibility text, and titles exist in both languages.
 
-Le français est la langue de repli. Au premier affichage, l'application choisit
-le néerlandais si les préférences du navigateur commencent par `nl`, sinon le
-français. Le choix explicite de l'utilisateur est conservé localement et prime.
-Le document HTML et son titre doivent suivre la langue active.
+French is the fallback language. On first display, select Dutch when browser preferences begin with `nl`; otherwise select French. An explicit user choice is stored locally and takes precedence. The HTML document language and title must follow the active language.
 
-## Structure et recherche
+## Structure and search
 
 ```text
 src/i18n/
@@ -21,37 +16,27 @@ src/i18n/
     └── nl.json
 ```
 
-Utiliser des clés plates, stables et métier : `projects.empty.title`,
-`request.form.submit`, `common.cancel`. Ne jamais utiliser la phrase française
-comme clé. Pour retrouver une traduction :
+Use flat, stable, business-oriented keys such as `projects.empty.title`, `request.form.submit`, and `common.cancel`. Never use the French sentence as the key. To find a translation:
 
 ```text
 rg '"projects.empty.title"' src/i18n/messages
 ```
 
-Un composant importe `t` et utilise `t("clé", langue)`. Aucun texte visible en
-dur dans JSX, sauf noms propres, valeurs issues des données et abréviations
-explicitement acceptées (`Buildwise`, `FR`, `NL`). Ne pas construire une phrase
-par concaténation : créer une traduction complète avec paramètres si nécessaire.
+A component imports `t` and uses `t("key", language)`. Do not hard-code visible text in JSX, except proper names, data values, and explicitly accepted abbreviations such as `Buildwise`, `FR`, and `NL`. Do not construct sentences by concatenation; create a complete parameterized translation when necessary.
 
-## Qualité des traductions
+## Translation quality
 
-- Rédiger dans la langue naturelle, pas mot à mot ; conserver le même sens métier.
-- Même ensemble exact de clés dans FR et NL, aucune valeur vide.
-- Traduire aussi pluriels, dates, nombres et messages d'erreur ; utiliser `Intl`
-  avec la locale active pour les formats, sans stocker des nombres formatés.
-- Prévoir l'allongement néerlandais : boutons et colonnes ne tronquent pas le sens.
-- Le sélecteur de langue reste accessible au clavier et annonce la langue active.
-- Les données utilisateur ne sont jamais traduites automatiquement.
+- Write natural language rather than translating word for word, while preserving the business meaning.
+- Keep the exact same key set in French and Dutch and leave no value empty.
+- Translate plurals, dates, numbers, and error messages. Use `Intl` with the active locale and do not store formatted numbers.
+- Allow for longer Dutch text so buttons and columns do not truncate meaning.
+- Keep the language selector keyboard-accessible and announce the active language.
+- Never translate user-entered data automatically.
 
-## Contrôle
+## Checks
 
-`npm run check:i18n` s'exécute avant le contrôle graphique, les tests et le build.
-Il vérifie les catalogues et recherche les textes JSX évidents en dur. Ne jamais
-le désactiver ou ajouter un contournement pour faire passer une livraison.
-Cette analyse statique ne valide pas la justesse linguistique : chaque parcours
-doit être testé visuellement en FR et NL, avec résultat noté dans
-`docs/ai-context/I18N_REVIEW.md`.
+Run `npm run check:i18n` before the brand check, tests, and build. It validates catalogs and detects obvious hard-coded JSX text. Never disable it or add a workaround merely to pass a delivery.
 
-Une troisième langue peut être ajoutée avec le même contrat, mais FR et NL ne
-peuvent jamais être retirés sans décision explicite au niveau du framework.
+Static analysis does not validate linguistic accuracy. Test every journey visually in French and Dutch and record the result in `docs/ai-context/I18N_REVIEW.md`.
+
+A third language may be added under the same contract, but French and Dutch cannot be removed without an explicit framework-level decision.

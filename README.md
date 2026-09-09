@@ -1,50 +1,84 @@
 # Buildwise App Builder
 
-Décrivez votre besoin. Codex vous aide à le préciser, puis construit votre application.
+Turn a business need into a testable Buildwise application with Codex. No application is predefined in a fresh clone: Codex first helps you define a focused first version, then builds and verifies it after your approval.
 
-## Commencer
+## Start in Codex
 
-1. Clonez ce dépôt sur la branche `codex/business-app-starter` et ouvrez-le à la racine dans Codex.
-2. Écrivez votre idée, par exemple : « Je veux suivre les demandes de mon équipe. »
-3. Répondez uniquement aux questions métier nécessaires.
-4. Validez la première version proposée ; Codex prend en charge sa réalisation et son test local.
+1. Create a new project from this repository on branch `codex/business-app-starter`.
+2. Open the project root in Codex.
+3. Describe the outcome you want in one sentence, for example:
 
-Aucun long prompt, fichier à remplir ou choix technique n'est nécessaire.
-Codex démarre le dialogue en réponse à votre premier message, pas simplement à l'ouverture du dossier.
+   > I want our team to track requests and know which ones need attention.
 
-## Ce que vous recevez
+4. Answer the short business questions Codex asks. You do not need to choose a technical stack or edit a configuration file.
+5. Review the proposed first version. Codex starts development only after you approve its scope.
+6. When the application is ready, ask: `Let me test the application.` Codex verifies it, starts it locally, and opens the preview.
 
-Une application adaptée à votre mission, une présentation Buildwise, des tests,
-une documentation et un lancement local géré par Codex.
-Chaque application prévoit au minimum le français et le néerlandais, avec un
-sélecteur et des catalogues centralisés faciles à rechercher et compléter.
-L'application n'existe pas encore dans un nouveau clone : elle est créée après votre validation.
+Codex automatically reads the project brief and existing decisions. It should ask only for information that changes the business outcome, priority, or scope.
 
-## Ce qui reste sous votre contrôle
+## What Codex will clarify
 
-Le besoin métier, les changements de périmètre, les dépenses, les données privées
-et toute publication externe. Le framework ne contourne pas les permissions de Codex.
+Codex focuses the conversation on:
 
-## Pour la maintenance
+- who will use the application;
+- the problem to solve;
+- the decisions or actions to make easier;
+- the information required;
+- the expected result and success criteria;
+- the priorities and explicit exclusions.
 
-La charte est obligatoire : voir [BRAND_RULES.md](docs/ai-governance/BRAND_RULES.md).
-Les nouvelles applications exécutent `check:brand` avant leurs tests et leur build.
-Une revue visuelle documentée reste requise ; le contrôle statique ne suffit pas
-à certifier une conformité complète au site ou à la charte interne.
+It then proposes one primary journey with three to five capabilities. The approved mission is recorded in `docs/ai-context/BUSINESS_BRIEF.md` before implementation begins.
 
-- `AGENTS.md` : entrée automatique pour Codex.
-- `docs/ai-context/` : brief, décisions, avancement et limites.
-- `docs/ai-governance/` : méthode héritée de V2 et règles métier.
-- `templates/application/` : socle neutre pour la future application.
-- `assets/brand/` : références Buildwise réutilisables.
-- `examples/projects-kpi/` : exemples facultatifs, pas l'application de l'utilisateur.
-- `scripts/validate-framework.ps1` : vérification du framework.
-- `scripts/initialize-app.ps1` : initialisation après validation du brief.
+## What the generated application includes
 
-Cette branche dérive du contenu `src/` de `codex/v2-framework` (commit
-`302aedc`), promu à la racine. Les branches `main` et `codex/v2-framework`
-restent intactes. Les anciens scripts de distribution du framework restent
-accessibles sur ces branches et dans l'historique Git.
+- React, TypeScript, Vite, and Tailwind CSS;
+- reusable Buildwise interface components and centralized brand tokens;
+- French and Dutch on every journey, with searchable translation catalogs;
+- local demonstration data behind a replaceable data adapter;
+- loading, empty, error, and valid-data states;
+- responsive and keyboard-accessible screens;
+- tests for important business behavior;
+- durable documentation of scope, decisions, progress, and known limits;
+- a simple local preview managed from Codex.
 
-Voir [la méthode](docs/ai-governance/AI_DEVELOPMENT_GUIDE.md) et
-[les limites connues](docs/ai-context/KNOWN_ISSUES.md).
+French and Dutch are application requirements even though all framework documentation is maintained in English.
+
+## What remains under your control
+
+You approve the business scope and any material change to it. Codex must also ask before external publication, spending, new access to private data, or other sensitive operations. It does not bypass Codex permissions.
+
+## Try the optional examples
+
+`examples/projects-kpi/` contains project-tracking and KPI demonstration views. They illustrate possible patterns; they are not your application and are never selected automatically.
+
+## Framework map
+
+| Location | Purpose |
+| --- | --- |
+| `AGENTS.md` | Entry point automatically read by Codex |
+| `docs/ai-governance/` | Business-first workflow, coding, brand, and language rules |
+| `docs/ai-context/` | Business brief, decisions, current state, reviews, and limits |
+| `templates/application/` | Neutral application shell created after scope approval |
+| `templates/wiki/` | English templates for observed technical documentation |
+| `assets/brand/` | Reusable Buildwise logo, theme, and brand policy |
+| `examples/projects-kpi/` | Optional demonstrations, not the generated application |
+| `scripts/initialize-app.ps1` | Creates the neutral application without overwriting existing work |
+| `scripts/start-local.ps1` | Starts only the application at the repository root |
+| `scripts/validate-framework.ps1` | Validates framework structure and contracts |
+
+The root `src/` directory is intentionally absent in a fresh clone and is created only after the business scope is approved. `schema/` and `starter/` are not part of the tracked framework; if they appear locally as empty directories, they are harmless workspace remnants and will not appear in a new clone.
+
+## Maintainer workflow
+
+Framework maintenance is allowed while the business brief is still undefined. Validate changes with:
+
+```powershell
+./scripts/validate-framework.ps1
+./scripts/test-framework.ps1
+```
+
+Generated applications must run `npm run check`, which checks translations and branding before tests and build. A documented visual and linguistic review is still required because static checks cannot certify the final experience.
+
+This branch was created from the `src/` content of `codex/v2-framework` at commit `302aedc`, promoted to the repository root. The `main` and `codex/v2-framework` branches remain unchanged.
+
+See the [development method](docs/ai-governance/AI_DEVELOPMENT_GUIDE.md), [local testing guide](docs/LOCAL_TESTING.md), and [known limitations](docs/ai-context/KNOWN_ISSUES.md).

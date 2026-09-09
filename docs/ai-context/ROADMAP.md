@@ -1,5 +1,5 @@
-# Prochaines validations
+# Next validations
 
-- Tester le parcours complet avec une mission métier réelle et un collègue non technique.
-- Valider la charte avec la communication Buildwise.
-- Stabiliser les dépendances et tester sur un poste Windows neuf.
+- Test the complete journey with a real business mission and a non-technical colleague.
+- Validate the brand conventions with Buildwise communications.
+- Stabilize dependencies and test on a clean Windows workstation.

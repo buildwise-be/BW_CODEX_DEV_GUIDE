@@ -1,29 +1,29 @@
-# Nouvelle fonctionnalité
+# New feature
 
 ## Mission
 
-Quel utilisateur doit faire quoi ?
+Which user needs to do what?
 
-## Problème
+## Problem
 
-Quelle difficulté actuelle cette fonctionnalité résout-elle ?
+Which current difficulty does this feature solve?
 
-## Résultat attendu
+## Expected outcome
 
-Quelle décision ou action doit devenir plus simple ?
+Which decision or action should become easier?
 
-## Données
+## Data
 
-Quelles informations sont nécessaires ? Lesquelles sont fiables, calculées ou saisies ?
+Which information is required? Which data is reliable, calculated, or entered by a user?
 
-## Règles métier
+## Business rules
 
-- 
+-
 
-## Hors périmètre
+## Out of scope
 
-- 
+-
 
-## Critères de validation
+## Acceptance criteria
 
 -

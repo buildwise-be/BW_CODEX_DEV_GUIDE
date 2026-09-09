@@ -1,18 +1,17 @@
-# Checklist de fonctionnalité
+# Feature checklist
 
-- [ ] BRAND_RULES.md appliqué, contrôle check:brand réussi.
-- [ ] Revue visuelle documentée dans BRAND_REVIEW.md, ou limite explicitement signalée.
-- [ ] Chaque texte et état existe en FR et NL dans les catalogues centralisés.
-- [ ] check:i18n réussi et revue des deux langues notée dans I18N_REVIEW.md.
-
-- [ ] Le brief métier porte l'état `Validé`.
-- [ ] La mission business et l’utilisateur cible sont décrits.
-- [ ] Le résultat attendu est observable.
-- [ ] La première version est limitée à un parcours principal.
-- [ ] Les états normal, chargement, erreur et absence de données sont prévus.
-- [ ] Les composants Buildwise existants ont été recherchés.
-- [ ] La source de données est séparée de l’interface.
-- [ ] Les règles métier sont documentées.
-- [ ] Les comportements importants sont testés.
-- [ ] Le rendu mobile a été vérifié.
-- [ ] Le brief métier et la documentation ont été mis à jour.
+- [ ] `BRAND_RULES.md` applied and `check:brand` passed.
+- [ ] Visual review recorded in `BRAND_REVIEW.md`, or the limitation explicitly stated.
+- [ ] Every text and state exists in French and Dutch in the central catalogs.
+- [ ] `check:i18n` passed and both languages were reviewed in `I18N_REVIEW.md`.
+- [ ] The business brief has status `Validated`.
+- [ ] The business mission and intended user are described.
+- [ ] The expected outcome is observable.
+- [ ] The first version is limited to one primary journey.
+- [ ] Normal, loading, error, and empty-data states are covered.
+- [ ] Existing Buildwise components were considered before creating new ones.
+- [ ] Data access is separated from the interface.
+- [ ] Business rules are documented.
+- [ ] Important behavior is tested.
+- [ ] Mobile rendering was verified.
+- [ ] The business brief and documentation were updated.

@@ -1,18 +1,17 @@
-# Historique
+# Changelog
+
+## 2026-09-09
+
+Reworked the README around the non-technical business journey. Converted all tracked Markdown documentation and templates to English while preserving mandatory French and Dutch application interfaces.
 
 ## 2026-09-07
 
-FR/NL obligatoires : catalogues centralisés, langue de repli, détection du
-navigateur, préférence locale, sélecteur et contrôle statique bloquant.
+Made French and Dutch mandatory through central catalogs, fallback language, browser detection, local preference, an accessible selector, and a blocking static check.
 
 ## 2026-09-04
 
-Charte graphique obligatoire : règles dédiées, contrôle statique bloquant,
-verrouillage logo/thème, tests négatifs et compte rendu de revue visuelle.
-Ajout des spécifications CSS chiffrées et du thème Roboto demandé par l'utilisateur,
-avec tests des tokens structurants et des contrastes de texte.
+Made the Buildwise identity mandatory through dedicated rules, a blocking static check, locked logo and theme assets, negative tests, and a visual-review record. Added exact CSS specifications and the requested Roboto theme, with tests for structural tokens and text contrast.
 
 ## 2026-09-03
 
-Promotion du socle src/ V2 à la racine. Exemples séparés, cadrage automatique,
-initialisation neutre après accord et outils de lancement local.
+Promoted the V2 `src/` framework to the repository root. Separated examples, introduced automatic business scoping, added neutral initialization after approval, and supplied local startup tools.

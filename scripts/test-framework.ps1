@@ -17,7 +17,7 @@ if (-not $blocked -or (Test-Path (Join-Path $fixture "package.json"))) { throw "
 Write-Output "PASS: unvalidated brief blocks initialization."
 
 $briefFile = Join-Path $fixture "docs/ai-context/BUSINESS_BRIEF.md"
-$brief = (Get-Content -Raw -LiteralPath $briefFile).Replace("État : À définir", "État : Validé")
+$brief = (Get-Content -Raw -LiteralPath $briefFile).Replace("Status: To define", "Status: Validated")
 [IO.File]::WriteAllText($briefFile, $brief)
 & $initialize -ProjectPath $fixture -DryRun
 if (Test-Path (Join-Path $fixture "package.json")) { throw "Dry run wrote files." }

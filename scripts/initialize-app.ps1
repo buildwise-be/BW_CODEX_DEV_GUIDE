@@ -6,13 +6,13 @@ param(
 $ErrorActionPreference = "Stop"
 $root = (Resolve-Path -LiteralPath $ProjectPath).ProviderPath
 $briefPath = Join-Path $root "docs/ai-context/BUSINESS_BRIEF.md"
-if (-not (Test-Path -LiteralPath $briefPath)) { throw "Le brief métier est absent." }
+if (-not (Test-Path -LiteralPath $briefPath)) { throw "The business brief is missing." }
 $brief = Get-Content -Raw -LiteralPath $briefPath
-if ($brief -notmatch '(?m)^État\s*:\s*Validé\s*$') {
-    throw "Définissez et validez d'abord la mission avec Codex."
+if ($brief -notmatch '(?m)^Status\s*:\s*Validated\s*$') {
+    throw "Define and validate the mission with Codex first."
 }
 $template = Join-Path $root "templates/application"
-if (-not (Test-Path -LiteralPath $template)) { throw "Le socle applicatif est absent." }
+if (-not (Test-Path -LiteralPath $template)) { throw "The application template is missing." }
 
 $copies = @()
 foreach ($file in Get-ChildItem -LiteralPath $template -Recurse -File -Force) {
@@ -30,16 +30,16 @@ foreach ($reserved in @("package.json", "src", "public")) {
         $hasContent = @(Get-ChildItem -LiteralPath $reservedPath -Recurse -Force -File).Count -gt 0
     }
     if ($hasContent) {
-        throw "Une application ou des fichiers existent déjà ($reserved). Codex doit les reprendre sans réinitialiser."
+        throw "An application or existing files were found ($reserved). Codex must continue from them without reinitializing."
     }
 }
 foreach ($copy in $copies) {
-    if (-not (Test-Path -LiteralPath $copy.Source -PathType Leaf)) { throw "Ressource absente : $($copy.Source)" }
-    if (Test-Path -LiteralPath $copy.Target) { throw "Fichier existant préservé : $($copy.Target)" }
+    if (-not (Test-Path -LiteralPath $copy.Source -PathType Leaf)) { throw "Missing resource: $($copy.Source)" }
+    if (Test-Path -LiteralPath $copy.Target) { throw "Existing file preserved: $($copy.Target)" }
 }
-if ($DryRun) { Write-Output "Initialisation possible : $($copies.Count) fichiers, aucun fichier modifié."; return }
+if ($DryRun) { Write-Output "Initialization is possible: $($copies.Count) files, no files changed."; return }
 foreach ($copy in $copies) {
     New-Item -ItemType Directory -Path (Split-Path -Parent $copy.Target) -Force | Out-Null
     Copy-Item -LiteralPath $copy.Source -Destination $copy.Target
 }
-Write-Output "Socle créé. Codex doit maintenant réaliser et vérifier le parcours métier validé."
+Write-Output "Application shell created. Codex must now implement and verify the validated business journey."

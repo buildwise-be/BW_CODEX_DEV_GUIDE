@@ -1,51 +1,43 @@
-# État courant
+# Current state
 
-## Application métier
+## Business application
 
-Non définie. Aucun package.json ni code applicatif à la racine.
-Le brief vierge est intentionnel. Les exemples sont des références facultatives.
+Not defined. There is no root `package.json` or application code. The blank brief is intentional, and examples are optional references.
 
 ## Framework
 
-Gouvernance issue du src/ V2 promue à la racine. Cadrage intégré, initialisation
-neutre, lancement local et validation structurelle fournis.
+The governance content from the V2 `src/` directory has been promoted to the repository root. Business scoping, neutral initialization, local startup, and structural validation are available.
 
-## Contrôle graphique — 2026-09-04
+All Markdown documentation is maintained in English. Generated application interfaces still support French and Dutch as mandatory user languages.
 
-Règles graphiques obligatoires, empreintes des ressources et contrôle statique
-intégrés aux futurs npm run check. Tests de régression du contrôle dans
-scripts/check-brand.test.mjs. La revue visuelle métier reste non effectuée.
+## Brand checks — 2026-09-04
 
-Vérifié : 17 tests du contrôle graphique réussis, dont valeurs UI et contrastes
-des paires de texte (au moins 4.5:1), tests du générateur réussis,
-check:brand exécuté avec succès dans une application temporaire générée.
-Le build applicatif complet n'a pas été relancé pour cette modification.
+Mandatory brand rules, asset hashes, and static checks are integrated into future `npm run check` runs. Regression coverage lives in `scripts/check-brand.test.mjs`. No business application has received a visual review yet.
 
-UI_SPEC.md définit maintenant les couleurs, Roboto, tailles, espacements, arrondis
-et états. Ces conventions sont implémentées dans assets/brand/theme.css.
-Roboto n'est pas embarqué : son rendu dépend de sa présence sur le poste.
+Verified: 17 brand-check tests passed, including UI values and text-pair contrast of at least 4.5:1. Generator tests passed, and `check:brand` passed in a temporary generated application. The full application build was not rerun for that specific brand change.
 
-## Bilinguisme — 2026-09-07
+`UI_SPEC.md` defines colors, Roboto, sizes, spacing, radii, and states. These conventions are implemented in `assets/brand/theme.css`. Roboto is not bundled, so rendering depends on its availability on the workstation.
 
-Le socle neutre contient FR/NL, sélection initiale, préférence persistée,
-sélecteur accessible et catalogues recherchables. Le contrôle check:i18n bloque
-les clés manquantes, valeurs vides et textes JSX évidents écrits en dur.
-La revue linguistique d'une application réelle reste à effectuer.
+## Bilingual support — 2026-09-07
 
-Vérifié le 2026-09-07 : 5 tests du contrôle FR/NL, 17 tests graphiques,
-garde-fous du générateur, `check:i18n`, `check:brand`, 4 tests applicatifs,
-compilation TypeScript et build Vite réussis dans une application temporaire.
+The neutral shell includes French and Dutch catalogs, initial language selection, a persisted preference, an accessible selector, and searchable translation keys. `check:i18n` blocks missing keys, empty values, and obvious hard-coded JSX text. A real application's linguistic review remains outstanding.
 
-## Prochaine action utilisateur
+Verified on 2026-09-07: 5 language-check tests, 17 brand tests, generator safeguards, `check:i18n`, `check:brand`, 4 application tests, TypeScript compilation, and the Vite build all passed in a temporary generated application.
 
-Décrire une idée métier en une phrase.
+## Documentation — 2026-09-09
 
-## Vérifications du framework — 2026-09-03
+The README now provides a direct, non-technical path from a one-sentence business need to scope approval and local testing. All tracked Markdown files are written in English, including generated documentation templates.
 
-- Validation structurelle et syntaxique : réussie.
-- Brief vierge : initialisation bloquée sans écriture.
-- Simulation : aucun fichier applicatif créé.
-- Brief validé : socle neutre et ressources de marque créés dans une fixture temporaire.
-- Réinitialisation : bloquée, contenu existant préservé.
-- Parcours conversationnel complet avec un collègue : pas encore évalué.
-- Socle neutre : installation, test de rendu serveur, types et build réussis dans une fixture temporaire. Pas d'inspection visuelle navigateur effectuée.
+## Next user action
+
+Describe a business idea in one sentence.
+
+## Framework verification — 2026-09-03
+
+- Structural and syntax validation: passed.
+- Blank brief: initialization blocked without writing files.
+- Dry run: no application file created.
+- Validated brief: neutral shell and brand assets created in a temporary fixture.
+- Reinitialization: blocked and existing content preserved.
+- Complete conversational journey with a non-technical colleague: not yet evaluated.
+- Neutral shell: installation, server-render test, types, and build passed in a temporary fixture. No visual browser inspection was performed.

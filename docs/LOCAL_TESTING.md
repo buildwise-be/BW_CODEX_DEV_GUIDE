@@ -1,12 +1,13 @@
-# Essai local
+# Local testing
 
-Après validation et construction de votre première version, dites :
+After approving and building the first version, tell Codex:
 
-> Je veux tester mon application.
+> Let me test the application.
 
-Codex prépare les dépendances, lance le serveur local et ouvre son adresse une fois prêt.
-Aucun fichier à modifier ni commande à connaître. Avant la construction, il commence par le cadrage.
-Dites « Arrête le test » pour arrêter le serveur de votre session.
+Codex prepares the dependencies, verifies the application, starts the local server, and opens the available address when it is ready. You do not need to edit files or know any commands. If the application has not yet been defined, Codex starts with business scoping instead.
 
-Maintenance : scripts/start-local.ps1 lance uniquement le package à la racine,
-avec le port 5173 strict et l'écoute 127.0.0.1. scripts/check-local.ps1 vérifie l'application.
+Tell Codex `Stop the test` to stop the server started in the current session.
+
+## Maintainer notes
+
+`scripts/start-local.ps1` starts only the package at the repository root, uses port 5173 strictly, and binds to `127.0.0.1`. `scripts/check-local.ps1` verifies the application.

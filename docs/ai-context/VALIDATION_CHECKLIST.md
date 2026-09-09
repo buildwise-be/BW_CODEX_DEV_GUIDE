@@ -1,18 +1,17 @@
-# Checklist de validation métier
+# Business validation checklist
 
-- [ ] Logo et thème officiels conservés, aucune palette ou police concurrente ?
-- [ ] Chaque écran principal comparé visuellement à la référence Buildwise ?
-- [ ] Police de repli et écarts éventuels signalés dans BRAND_REVIEW.md ?
-- [ ] Chaque parcours est-il compréhensible et complet en français et néerlandais ?
-- [ ] Le changement de langue conserve-t-il le sens, le layout et la préférence ?
-
-- [ ] Le parcours permet-il d’accomplir la mission annoncée ?
-- [ ] Les libellés sont-ils compréhensibles par un utilisateur non technique ?
-- [ ] La prochaine action est-elle évidente ?
-- [ ] Les états vides et les erreurs expliquent-ils quoi faire ?
-- [ ] Les données fictives sont-elles identifiées ?
-- [ ] Les indicateurs affichent-ils une cible et une évolution ?
-- [ ] L’interface reste-t-elle utilisable sur petit écran ?
-- [ ] Les décisions restant à prendre sont-elles listées ?
-- [ ] Le lancement local depuis Codex fonctionne-t-il sans configuration manuelle ?
-- [ ] La vérification (`npm run check`) réussit-elle ?
+- [ ] Are the official logo and theme preserved, with no competing palette or font?
+- [ ] Was every primary screen visually compared with the Buildwise reference?
+- [ ] Are font fallback and visual differences recorded in `BRAND_REVIEW.md`?
+- [ ] Is every journey understandable and complete in French and Dutch?
+- [ ] Does language switching preserve meaning, layout, and preference?
+- [ ] Does the journey accomplish the stated mission?
+- [ ] Are labels understandable to a non-technical user?
+- [ ] Is the next action obvious?
+- [ ] Do empty and error states explain what to do?
+- [ ] Is fictional data clearly identified?
+- [ ] Do indicators show a target and trend when relevant?
+- [ ] Does the interface remain usable on a small screen?
+- [ ] Are outstanding business decisions listed?
+- [ ] Does local startup from Codex work without manual configuration?
+- [ ] Does `npm run check` pass?
