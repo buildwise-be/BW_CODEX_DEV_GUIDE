@@ -1,5 +1,6 @@
 # Feature checklist
 
+- [ ] The repository `buildwise-ui-style` skill and `BUILDWISE_UI_REQUIREMENTS.md` were applied.
 - [ ] `BRAND_RULES.md` applied and `check:brand` passed.
 - [ ] Visual review recorded in `BRAND_REVIEW.md`, or the limitation explicitly stated.
 - [ ] Every text and state exists in French and Dutch in the central catalogs.
@@ -14,4 +15,5 @@
 - [ ] Business rules are documented.
 - [ ] Important behavior is tested.
 - [ ] Mobile rendering was verified.
+- [ ] Minimal header, spacing, and responsive editorial patterns were visually verified where relevant.
 - [ ] The business brief and documentation were updated.

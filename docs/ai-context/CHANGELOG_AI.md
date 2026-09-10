@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-09-10
+
+Added the portable repository-level `buildwise-ui-style` skill and consolidated Buildwise UI requirements. Added a wider editorial layout, minimal header, search, filter, responsive card grid, lightweight card, and pill action-link patterns to the locked theme and documentation.
+
 ## 2026-09-09
 
 Reworked the README around the non-technical business journey. Converted all tracked Markdown documentation and templates to English while preserving mandatory French and Dutch application interfaces.

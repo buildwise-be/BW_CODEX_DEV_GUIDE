@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "bw-business-app-builder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "upstream": {
     "branch": "codex/v2-framework",
     "commit": "302aedc8745bc061c3c92be2ed4d0e6f7290269f",
@@ -32,6 +32,14 @@
     },
     {
       "path": "AGENTS.md",
+      "owner": "Framework"
+    },
+    {
+      "path": ".agents/skills/buildwise-ui-style/SKILL.md",
+      "owner": "Framework"
+    },
+    {
+      "path": "docs/ai-context/BUILDWISE_UI_REQUIREMENTS.md",
       "owner": "Framework"
     },
     {

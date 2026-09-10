@@ -28,6 +28,10 @@ Verified on 2026-09-07: 5 language-check tests, 17 brand tests, generator safegu
 
 The README now provides a direct, non-technical path from a one-sentence business need to scope approval and local testing. All tracked Markdown files are written in English, including generated documentation templates.
 
+## Repository UI skill — 2026-09-10
+
+The repository now embeds `buildwise-ui-style` under `.agents/skills/`, so Codex can discover it without a personal installation. `AGENTS.md` requires the skill and the shared UI requirements before interface work. The central theme now includes the wider editorial layout, minimal header, search, filter, responsive grid, lightweight card, and action-link patterns.
+
 ## Next user action
 
 Describe a business idea in one sentence.

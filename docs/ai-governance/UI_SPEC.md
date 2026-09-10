@@ -1,6 +1,6 @@
 # UI and CSS specification — Buildwise applications
 
-Version 1 — 2026-09-04. Executable source: `assets/brand/theme.css`.
+Version 2 — 2026-09-10. Executable source: `assets/brand/theme.css`.
 This specification is mandatory for generated applications.
 
 ## Origin of the choices
@@ -22,6 +22,8 @@ The sizes, spacing, radii, and states below are framework conventions, not value
 | Surface `--bw-surface` | `#FFFFFF` | Cards, fields, and header |
 | Background `--bw-background` | `#F2F2F2` | Page and table headers |
 | Divider `--bw-border` | `#D9D9D9` | Decorative dividers; not the only field boundary |
+| Search `--bw-search-bg` | `#F1F1F1` | Rounded search surface |
+| Action link `--bw-link-bg` | `#DFF4FB` | Light-blue pill behind a prominent view action |
 | Input border `--bw-input-border` | `#767676` | Perceptible outline on white |
 | Disabled `--bw-disabled-bg` / `--bw-disabled-text` | `#E6E6E6` / `#595959` | Do not reduce global opacity and weaken all contrasts |
 | Information `--bw-info-bg` | `#E0F7FF` | Light background with action-colored text |
@@ -70,11 +72,21 @@ For loading, preserve the label and dimensions, set `aria-busy`, and prevent dup
 ## Spacing and layout
 
 - `--bw-space-*` scale: **4, 8, 12, 16, 24, 32, 48px**. Use the tokens.
-- `bw-shell`: maximum width **1100px**, centered, with **24px** padding.
-- `bw-header`: white surface, **24px** padding and gap, with a **4px** turquoise bottom accent. Logo width: **210px**, automatic height.
+- `bw-shell`: maximum width **1320px**, centered, with **24px** padding.
+- `bw-header`: white surface, **24px** padding and gap, with a **1px** grey bottom border. Keep the header minimal: logo left and language selector right. Add navigation, search, or account controls only when required by the validated journey. Logo width: **210px**, automatic height.
 - Keep at least 16px clear space around the logo as an application convention.
 - Mobile breakpoint: up to and including **600px**. Shell, header, and panel padding becomes **16px**; the header may wrap. Do not use fixed-width mobile layouts.
 - Verify at minimum 390px and 1440px widths, 200% zoom, and keyboard navigation.
+
+## Search, filters, and editorial cards
+
+- `bw-toolbar` groups one dataset search and its filter action. It wraps vertically on mobile.
+- `bw-search` is a light-grey pill that contains a visible label or accessible name, an optional blue icon, and a borderless `bw-input`. Do not duplicate it in the header.
+- Use the primary `bw-button` treatment for opening filters. `bw-filter-panel` uses the light-grey background, fine horizontal borders, and simple rectangular controls.
+- `bw-card-grid` uses four columns above 1000px, two columns up to 1000px, and one column up to 600px.
+- `bw-card` is an editorial grouping with fine horizontal rules, no shadow, and no heavy enclosing border. Use `bw-card__meta` for secondary information.
+- `bw-card__action` is a light-blue pill with bold action text. Its optional `bw-card__action-arrow` is a blue circular arrow. Both parts require an accessible link name and must fit French and Dutch without truncation.
+- Use tables instead of cards when users need dense comparison across repeated fields.
 
 ## Application and verification
 

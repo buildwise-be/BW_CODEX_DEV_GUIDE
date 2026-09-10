@@ -23,7 +23,7 @@ Respect environment permissions and obtain authorization for spending, publicati
 
 ## Quality and project memory
 
-Buildwise branding is mandatory. Read `BRAND_RULES.md` before creating any interface. `check:brand` must pass before tests and build. Record the visual review in `BRAND_REVIEW.md` before claiming visual compliance.
+Buildwise styling is the default. Read `.agents/skills/buildwise-ui-style/SKILL.md`, `BUILDWISE_UI_REQUIREMENTS.md`, and `BRAND_RULES.md` before creating or reviewing an interface. `check:brand` must pass before tests and build. Record the visual review in `BRAND_REVIEW.md` before claiming visual compliance. An explicit user request may set another visual direction and must be documented.
 
 French and Dutch are mandatory. Read `I18N_RULES.md`. Run `check:i18n` before brand checks, tests, and build, and record the review in `I18N_REVIEW.md`.
 

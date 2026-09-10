@@ -13,12 +13,16 @@ const token = (name) => theme.match(new RegExp(`--bw-${name}:\\s*([^;]+);`))?.[1
 test('les valeurs structurantes respectent la spécification UI', () => {
   for (const [name, value] of Object.entries({
     blue: '#0087b7', turquoise: '#00bfb6',
+    'search-bg': '#f1f1f1', 'link-bg': '#dff4fb',
     font: '"Roboto", Arial, Helvetica, sans-serif',
     'radius-pill': '999px', 'radius-panel': '16px', 'radius-control': '8px',
     'control-height': '48px', 'control-compact': '40px',
     'text-md': '1rem', 'text-sm': '0.875rem', 'space-6': '24px',
+    'container-width': '1320px',
   })) assert.equal(token(name), value, name);
   assert.ok(theme.includes('prefers-reduced-motion: reduce'));
+  assert.ok(theme.includes('grid-template-columns: repeat(4, minmax(0, 1fr))'));
+  assert.ok(theme.includes('border-bottom: var(--bw-border-width) solid var(--bw-border)'));
 });
 
 function luminance(hex) {
@@ -65,6 +69,7 @@ for (const [name, path, content] of [
   ['entrée sans styles', 'src/main.tsx', 'export {};'],
   ['logo non référencé', 'src/App.tsx', 'export default function App() { return null; }'],
   ['surcharge du logo', 'src/extra.css', '.bw-logo { filter: grayscale(1); }'],
+  ['surcharge des cartes éditoriales', 'src/extra.css', '.bw-card { box-shadow: 0 1px 2px currentColor; }'],
   ['couleur navigateur', 'index.html', '<meta name="theme-color" content="#123b3a" />'],
 ]) test(`refuse ${name}`, t => {
   const root = fixture(t);

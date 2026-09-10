@@ -19,7 +19,7 @@ Clearly identify fictional data and never present demonstration metrics as real.
 
 ## Buildwise presentation
 
-Apply `docs/ai-governance/BRAND_RULES.md` and use `docs/ai-governance/UI_SPEC.md` for exact CSS values and variants. `npm run check:brand` is part of the delivery criteria. Never bypass a failure by copying a modified theme or disabling the script.
+Use `.agents/skills/buildwise-ui-style/SKILL.md` for interface work, apply `docs/ai-context/BUILDWISE_UI_REQUIREMENTS.md` and `docs/ai-governance/BRAND_RULES.md`, and use `docs/ai-governance/UI_SPEC.md` for exact CSS values and variants. `npm run check:brand` is part of the delivery criteria. Never bypass a failure by copying a modified theme or disabling the script.
 
 Read `assets/brand/README.md`. Reuse the supplied logo and tokens; do not redraw the logo or invent a brand palette. Use local fonts or files with verified rights, not a visual dependency loaded over the network. Provide readable contrast, accessible labels, keyboard use, visible focus, and small-screen support. Status colors never replace text labels.
 

@@ -24,6 +24,12 @@ Every application supports at least French and Dutch from initialization. It use
 
 All tracked Markdown files, including governance, context, examples, and generated wiki or feature templates, are maintained in English. This keeps framework maintenance consistent and searchable. It does not change the mandatory French and Dutch languages of generated application interfaces.
 
+## Portable Buildwise UI skill — 2026-09-10
+
+The Buildwise UI guidance is embedded as a repository skill under `.agents/skills/buildwise-ui-style/`, the repository location officially discovered by Codex. Users opening a clone or extracted ZIP do not need to install a personal skill or plugin. `AGENTS.md` also requires the guidance before interface work.
+
+Reusable editorial patterns from the supplied proposal were adopted. BuildLoop-specific product names, taglines, and calls to action were excluded because this starter must derive content from each validated business brief. Roboto and the existing framework component dimensions remain the approved application typography and control contract.
+
 ## Business application approval
 
 No application scope has been validated. Record the first explicit approval here before changing the brief status.

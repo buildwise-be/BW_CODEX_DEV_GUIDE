@@ -9,7 +9,6 @@ export default function App() {
     <>
       <header className="bw-header">
         <img className="bw-logo" src={`${import.meta.env.BASE_URL}brand/buildwise-logo.svg`} alt="Buildwise" />
-        <span>{t("app.status", language)}</span>
         <nav className="bw-language" aria-label={t("language.label", language)}>
           {(["fr", "nl"] as const).map((code) => (
             <button key={code} className="bw-language__button" type="button"
@@ -19,7 +18,8 @@ export default function App() {
         </nav>
       </header>
       <main className="bw-shell">
-        <section className="bw-panel">
+        <section className="bw-card">
+          <p className="bw-card__meta">{t("app.status", language)}</p>
           <h1>{t("app.ready.title", language)}</h1>
           <p>{t("app.ready.body", language)}</p>
         </section>

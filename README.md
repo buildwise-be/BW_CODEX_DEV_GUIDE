@@ -56,6 +56,7 @@ You approve the business scope and any material change to it. Codex must also as
 | Location | Purpose |
 | --- | --- |
 | `AGENTS.md` | Entry point automatically read by Codex |
+| `.agents/skills/buildwise-ui-style/` | Repository skill applied automatically to interface work |
 | `docs/ai-governance/` | Business-first workflow, coding, brand, and language rules |
 | `docs/ai-context/` | Business brief, decisions, current state, reviews, and limits |
 | `templates/application/` | Neutral application shell created after scope approval |
@@ -67,6 +68,12 @@ You approve the business scope and any material change to it. Codex must also as
 | `scripts/validate-framework.ps1` | Validates framework structure and contracts |
 
 The root `src/` directory is intentionally absent in a fresh clone and is created only after the business scope is approved. `schema/` and `starter/` are not part of the tracked framework; if they appear locally as empty directories, they are harmless workspace remnants and will not appear in a new clone.
+
+## Built-in Buildwise UI skill
+
+The Buildwise UI skill is stored in `.agents/skills/`, the repository-level location discovered by Codex. It travels with the ZIP or clone and requires no personal installation, plugin, account, or configuration. Open the extracted repository as a Codex project; the root instructions make the skill mandatory for interface work. If the project was already open when the skill was added, restart Codex once so it can refresh skill discovery.
+
+The skill routes Codex to the shared visual requirements and exact CSS specification. It keeps application content tied to the approved business brief and does not copy product-specific wording from other applications.
 
 ## Maintainer workflow
 

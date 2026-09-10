@@ -56,7 +56,7 @@ export function checkBrand(root, { frameworkOnly = false } = {}) {
     const rules = [
       [/#(?:[\da-f]{8}|[\da-f]{6}|[\da-f]{4}|[\da-f]{3})\b|\b(?:rgba?|hsla?|oklch|oklab|color-mix)\s*\(/i, 'couleur locale : utiliser un token --bw-*'],
       [/--bw-[\w-]+\s*:/, 'redéfinition du thème central'],
-      [/\.bw-(?:logo|header|button|panel|language)\b[^{}]*\{/, 'surcharge du composant de marque : modifier uniquement le thème après accord'],
+      [/\.bw-(?:logo|header|button|panel|language|toolbar|search|filter-panel|card(?:-grid|__meta|__action(?:-arrow)?)?)\b[^{}]*\{/, 'surcharge du composant de marque : modifier uniquement le thème après accord'],
       [/font-family\s*:|fontFamily\s*:|@font-face|fonts\.(?:googleapis|gstatic)\.com|use\.typekit\.net/i, 'police alternative ou distante'],
       [/\b(?:bg|text|border|ring|fill|stroke|from|via|to)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}\b|\b(?:bg|text|border)-(?:black|white)\b/, 'palette Tailwind alternative'],
       [/(?:background(?:-color)?|color|fill|stroke)\s*:\s*["']?(?!var\b|currentColor\b|inherit\b|transparent\b|none\b|initial\b|unset\b)[a-z]+\b/i, 'couleur nommée ou expression à vérifier'],

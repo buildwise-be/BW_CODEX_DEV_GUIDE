@@ -13,3 +13,9 @@ If a required document is missing, report the blocker and propose restoring it.
 Read the context checklists and relevant wiki pages before delivery.
 Write and maintain every Markdown file in English, including business context
 derived from a conversation in another language.
+
+By default, every interface change follows the Buildwise UI system. Before
+changing or reviewing an interface, read
+`.agents/skills/buildwise-ui-style/SKILL.md`, then
+`docs/ai-context/BUILDWISE_UI_REQUIREMENTS.md`, unless the user explicitly
+requests another visual direction.
