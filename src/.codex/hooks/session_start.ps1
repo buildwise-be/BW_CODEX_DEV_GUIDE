@@ -32,12 +32,12 @@ if ($LASTEXITCODE -eq 0 -and $repoRoot) {
     Set-Location $repoRoot
 }
 
-Write-Host "=== Codex SessionStart: BW Codex Development Framework ==="
+Write-Host "=== Codex SessionStart: BW AI Development Framework ==="
 Write-Host "Workspace: $(Get-Location)"
 
 Write-Section "Framework"
 $hasAgents = Write-FileStatus -Path "AGENTS.md" -Required $true
-$hasManifest = Write-FileStatus -Path ".codex/framework.json" -Required $true
+$hasManifest = Write-FileStatus -Path ".ai/framework.json" -Required $true
 $hasGuide = Write-FileStatus -Path "docs/ai-governance/AI_DEVELOPMENT_GUIDE.md" -Required $true
 [void](Write-FileStatus -Path "docs/ai-governance/PROMPTS.md")
 [void](Write-FileStatus -Path "docs/ai-governance/WIKI_REFRESH_GUIDE.md")
@@ -49,8 +49,11 @@ $requiredProjectDocs = @(
     "docs/ai-context/KNOWN_ISSUES.md"
 )
 
+$hasProjectMemory = $true
 foreach ($doc in $requiredProjectDocs) {
-    [void](Write-FileStatus -Path $doc -Required $true)
+    if (-not (Write-FileStatus -Path $doc -Required $true)) {
+        $hasProjectMemory = $false
+    }
 }
 
 $optionalProjectDocs = @(
@@ -98,7 +101,7 @@ Write-Host "5. Summarize understanding, risks, and ambiguities."
 Write-Host "6. Propose a step-by-step plan."
 Write-Host "7. Wait for approval before modifying files."
 
-if (-not $hasAgents -or -not $hasManifest -or -not $hasGuide) {
+if (-not $hasAgents -or -not $hasManifest -or -not $hasGuide -or -not $hasProjectMemory) {
     Write-Host ""
     Write-Host "Required framework startup context is missing."
     exit 1

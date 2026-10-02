@@ -1,22 +1,25 @@
-# BW Codex Development Framework
+# BW AI Development Framework
 
-Lightweight, repository-centric framework for Codex-assisted software
+Lightweight, repository-centric framework for AI-assisted software
 engineering in Buildwise repositories.
 
 The framework installs a small set of AI governance files, GitHub templates,
-Codex hooks, and starter project-memory templates into a target repository.
+entry points for Codex and Claude, optional Codex hooks, and starter
+project-memory templates into a target repository.
 
 Git remains the single source of truth.
 
 For the full operating model, read
 [AI_DEVELOPMENT_GUIDE.md](src/docs/ai-governance/AI_DEVELOPMENT_GUIDE.md).
 For a concise project overview, read [ABOUT.md](ABOUT.md).
+For assistant startup and switching, read
+[ASSISTANT_SETUP.md](src/docs/ai-governance/ASSISTANT_SETUP.md).
 
 ## Core Model
 
 The framework separates three responsibilities:
 
-- AI governance: how Codex and developers should work.
+- AI governance: how assistants and developers should work.
 - Operational project memory: human-maintained state, decisions, priorities,
   and known issues.
 - Technical knowledge: generated `docs/wiki/` pages inferred from repository
@@ -43,7 +46,8 @@ The installed target layout is:
 
 ```text
 AGENTS.md
-.codex/framework.json
+CLAUDE.md
+.ai/framework.json
 .codex/hooks.json
 .codex/hooks/session_start.ps1
 .github/ISSUE_TEMPLATE/codex-task.md
@@ -55,7 +59,7 @@ docs/wiki/
 
 ## File Ownership
 
-The manifest at `src/.codex/framework.json` defines every installed file.
+The manifest at `src/.ai/framework.json` defines every installed file.
 
 Ownership classes:
 
@@ -66,7 +70,9 @@ Ownership classes:
 
 Install modes:
 
-- `managed`: compare hashes and update only when safe or forced.
+- `managed`: identical content is unchanged; any different existing content
+  is a conflict unless explicitly forced. The installer does not track a
+  previous-version baseline or merge custom instructions automatically.
 - `create-if-missing`: create starter files without overwriting existing ones.
 
 ## Adopt in a Target Repository
@@ -108,7 +114,7 @@ Use the full profile when optional project memory should also be present:
 To detect the installed framework version in a target repository:
 
 ```powershell
-Get-Content C:\path\to\target-repo\.codex\framework.json
+Get-Content C:\path\to\target-repo\.ai\framework.json
 ```
 
 Recommended update flow:
@@ -123,15 +129,32 @@ Recommended update flow:
 
 The installer preserves project-owned and generated files by default.
 
-## Migration from V1
+## Migration from V1 or V2 to V3
 
-Use the migration report before updating an existing V1 target:
+Use the migration report before updating an existing target:
 
 ```powershell
 .\scripts\migration-report.ps1 -TargetPath C:\path\to\target-repo
 ```
 
-V2 replaces `.codex/guide-version.json` with `.codex/framework.json`.
+V3 (3.0.0) moves the V2 manifest from `.codex/framework.json` to
+`.ai/framework.json`. The manifest schema remains version 2. The neutral file
+is authoritative whenever it exists, even if invalid; validation does not
+silently fall back to the old file. A V2-only target can still be validated
+against its legacy manifest, with a migration warning.
+
+The installer leaves old target files in place. Review conflicts in `AGENTS.md`,
+`CLAUDE.md`, and other managed files; preserve custom instructions when merging.
+Use `-Force -Backup` only after reviewing all managed-file replacements. Once
+the migration is verified, the old manifest may be removed manually. Do not
+maintain two active manifests or use an old installer on a migrated target.
+
+Existing `CURRENT_STATE.md` files are never overwritten, including with
+`-Force`. Add the `Session handoff` section from
+[the template](templates/context/CURRENT_STATE.md) while preserving project
+content. Assistants maintain the current state at meaningful milestones and
+check it before their final response. Normal switching needs no preparation
+command; the prepare/resume prompts are optional shortcuts for unfinished work.
 
 V2 also moves reusable workflow content from `docs/ai-context/` to
 `docs/ai-governance/` and moves repository-inferred architecture facts to
@@ -139,6 +162,25 @@ V2 also moves reusable workflow content from `docs/ai-context/` to
 
 Do not automatically delete old project files. Review them and migrate useful
 content deliberately.
+
+The old `codex-task.md` issue-template filename is retained to avoid duplicate
+templates in existing repositories; its displayed content is tool-neutral.
+
+## Validation and Tests
+
+The validator checks required framework files and project-memory presence.
+`-Profile full` also checks optional project memory; `-IncludeWiki` checks wiki
+files. Optional integrations, including hooks, are not required in either
+profile. Validation does not verify memory freshness or assistant behavior.
+
+Run the regression suite in disposable Git repositories:
+
+```powershell
+.\tests\framework.Tests.ps1
+```
+
+See [verification notes](tests/VERIFICATION.md) for results and interactive
+startup checks that still require an actual Claude session.
 
 ## Codex Hook Trust
 

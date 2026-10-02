@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/buildwise-be/BW_CODEX_DEV_GUIDE/schema/framework-manifest.schema.json",
-  "title": "BW Codex Development Framework Manifest",
+  "title": "BW AI Development Framework Manifest",
   "type": "object",
   "required": [
     "schemaVersion",

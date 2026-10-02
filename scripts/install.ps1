@@ -167,10 +167,20 @@ if ($Backup -and -not $Force) {
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
 $repoRoot = Resolve-ExistingPath -Path (Join-Path $scriptRoot "..")
-$manifestPath = Join-Path $repoRoot "src\.codex\framework.json"
+$manifestPath = Join-Path $repoRoot "src\.ai\framework.json"
 $manifest = Read-FrameworkManifest -Path $manifestPath
 $targetInfo = Get-TargetInfo -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
 $targetRoot = $targetInfo.Root
+
+$legacyManifestPath = Join-RootPath -Root $targetRoot -RelativePath ".codex/framework.json"
+$neutralManifestPath = Join-RootPath -Root $targetRoot -RelativePath ".ai/framework.json"
+if (Test-Path -LiteralPath $legacyManifestPath -PathType Leaf) {
+    if (Test-Path -LiteralPath $neutralManifestPath -PathType Leaf) {
+        Write-Warning "Both manifests exist. .ai/framework.json is authoritative; the legacy manifest is ignored."
+    } else {
+        Write-Warning "Legacy installation detected. V3 installs .ai/framework.json and leaves the old manifest untouched. Review migration-report.ps1 first."
+    }
+}
 
 Write-Host "Framework:     $($manifest.name) $($manifest.version)"
 Write-Host "Manifest:      $manifestPath"
@@ -302,4 +312,4 @@ foreach ($change in $plannedChanges) {
 }
 
 Write-Host ""
-Write-Host "Codex development framework files installed."
+Write-Host "BW AI Development Framework files installed."

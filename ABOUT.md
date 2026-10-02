@@ -1,19 +1,20 @@
-# About BW Codex Development Framework
+# About BW AI Development Framework
 
-BW Codex Development Framework is a lightweight governance and memory layer for
-Codex-assisted software development.
+BW AI Development Framework is a lightweight governance and memory layer for
+AI-assisted software development.
 
 It provides a versioned set of repository files that can be installed into
-Buildwise development repositories so Codex sessions and developers share the
+Buildwise development repositories so assistants and developers share the
 same workflow, project-memory structure, GitHub handoff model, and validation
 tooling.
 
 ## What This Repository Contains
 
 - A canonical install payload under `src/`.
-- A short Codex bootstrap file through `AGENTS.md`.
+- Shared startup instructions through `AGENTS.md`, a Claude Code import, and
+  Cowork folder instructions.
 - Framework governance under `docs/ai-governance/`.
-- GitHub Issue and Pull Request templates for Codex-ready work.
+- GitHub Issue and Pull Request templates for assistant-ready work.
 - PowerShell scripts to install, validate, and inspect migrations.
 - Starter templates for project-owned operational memory.
 - Optional starter templates for generated technical wiki pages.
@@ -21,7 +22,7 @@ tooling.
 
 ## Responsibility Model
 
-- AI governance defines how Codex should work.
+- AI governance defines how assistants should work.
 - Operational project memory records human intent, decisions, priorities, and
   current state.
 - Technical wiki pages describe what can be inferred from the repository.
@@ -53,13 +54,13 @@ After installation, target repositories can be checked with:
 Suggested GitHub description:
 
 ```text
-Repository-centric AI development framework for Codex-assisted engineering.
+Repository-centric AI development framework for AI-assisted engineering.
 ```
 
 Suggested topics:
 
 ```text
-codex, agents-md, ai-development, github-workflow, developer-tools, powershell
+codex, claude, agents-md, ai-development, github-workflow, developer-tools, powershell
 ```
 
 ## License

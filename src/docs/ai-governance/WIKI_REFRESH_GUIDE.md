@@ -4,7 +4,7 @@
 
 `docs/wiki/` describes what actually exists in the repository.
 
-It is technical knowledge, not project intent. Codex may generate or refresh it
+It is technical knowledge, not project intent. An assistant may generate or refresh it
 by analyzing the repository, but it must stay grounded in observable files,
 commands, APIs, configuration, tests, and dependencies.
 

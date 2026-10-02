@@ -99,7 +99,7 @@ function Get-ExpectedFiles {
     $files = New-Object System.Collections.Generic.List[object]
 
     foreach ($file in $Manifest.files) {
-        $isFramework = $file.owner -eq "Framework"
+        $isFramework = $file.owner -eq "Framework" -and $file.required -eq $true
         $isRequiredProjectFile = $file.owner -eq "Project" -and $file.required -eq $true
         $isFullProjectFile = $file.owner -eq "Project" -and $ValidationProfile -eq "full"
         $isWikiFile = $file.owner -eq "Generated" -and $ValidateWiki
@@ -114,7 +114,7 @@ function Get-ExpectedFiles {
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
 $repoRoot = Resolve-ExistingPath -Path (Join-Path $scriptRoot "..")
-$sourceManifestPath = Join-Path $repoRoot "src\.codex\framework.json"
+$sourceManifestPath = Join-Path $repoRoot "src\.ai\framework.json"
 $sourceManifest = Read-JsonFile -Path $sourceManifestPath
 $targetInfo = Get-TargetInfo -Path $TargetPath -AllowNonGit:$AllowNonGitTarget
 
@@ -129,29 +129,37 @@ if ($targetInfo.Error) {
     exit 1
 }
 
-$targetManifestPath = Join-RootPath -Root $targetInfo.Root -RelativePath ".codex/framework.json"
+$targetManifestPath = Join-RootPath -Root $targetInfo.Root -RelativePath ".ai/framework.json"
+$legacyManifestPath = Join-RootPath -Root $targetInfo.Root -RelativePath ".codex/framework.json"
 $manifest = $null
 $issues = New-Object System.Collections.Generic.List[string]
 
 if (Test-Path -LiteralPath $targetManifestPath -PathType Leaf) {
     $manifest = Read-JsonFile -Path $targetManifestPath
+    if (Test-Path -LiteralPath $legacyManifestPath -PathType Leaf) {
+        Write-Warning "Both manifests exist. .ai/framework.json is authoritative; the legacy manifest is ignored."
+    }
+} elseif (Test-Path -LiteralPath $legacyManifestPath -PathType Leaf) {
+    $targetManifestPath = $legacyManifestPath
+    $manifest = Read-JsonFile -Path $targetManifestPath
+    Write-Warning "Legacy V2 manifest in use. Run migration-report.ps1 and migrate to .ai/framework.json for V3."
 } else {
-    $issues.Add(".codex/framework.json is missing.") | Out-Null
+    $issues.Add(".ai/framework.json is missing (no legacy .codex/framework.json found).") | Out-Null
     $manifest = $sourceManifest
 }
 
 if (-not $manifest.schemaVersion -or $manifest.schemaVersion -lt 2) {
-    $issues.Add(".codex/framework.json must use schemaVersion 2 or later.") | Out-Null
+    $issues.Add("$targetManifestPath must use schemaVersion 2 or later.") | Out-Null
 }
 
 if (-not $manifest.version) {
-    $issues.Add(".codex/framework.json is missing the version field.") | Out-Null
+    $issues.Add("$targetManifestPath is missing the version field.") | Out-Null
 } elseif (-not (Test-SemVer -Version $manifest.version)) {
-    $issues.Add(".codex/framework.json version is not valid SemVer: $($manifest.version)") | Out-Null
+    $issues.Add("$targetManifestPath version is not valid SemVer: $($manifest.version)") | Out-Null
 }
 
 if (-not $manifest.files) {
-    $issues.Add(".codex/framework.json does not define files.") | Out-Null
+    $issues.Add("$targetManifestPath does not define files.") | Out-Null
 }
 
 $expectedFiles = Get-ExpectedFiles -Manifest $manifest -ValidationProfile $Profile -ValidateWiki:$IncludeWiki
@@ -188,10 +196,11 @@ $targetIsNotReady = $missingFiles.Count -gt 0 -or $issues.Count -gt 0
 
 if ($targetIsNotReady) {
     Write-Host ""
-    Write-Host "Target repository is not Codex-ready."
+    Write-Host "Target repository is missing required AI framework context."
     exit 1
 }
 
 Write-Host ""
-Write-Host "Target repository is Codex-ready."
+Write-Host "Required context files are present for framework $($manifest.version)."
+Write-Host "This checks file presence and basic manifest metadata, not assistant startup or memory freshness."
 exit 0

@@ -97,7 +97,7 @@ if ($targetInfo.Error) {
 }
 
 Write-Host ""
-Write-Host "V1 to V2 migration report"
+Write-Host "V1/V2 to V3 migration report"
 Write-Host ""
 Write-Host "This script reports migration work only. It does not move or delete files."
 
@@ -106,12 +106,24 @@ Write-Host "Framework metadata:"
 Write-PathFinding `
     -Root $targetInfo.Root `
     -Path ".codex/guide-version.json" `
-    -Recommendation "Replace with .codex/framework.json by running the V2 installer."
+    -Recommendation "V1 metadata: migrate to .ai/framework.json with the V3 installer; retain old files until reviewed."
 
 Write-PathFinding `
     -Root $targetInfo.Root `
     -Path ".codex/framework.json" `
-    -Recommendation "Already using V2 framework metadata."
+    -Recommendation "Legacy V2 metadata: install .ai/framework.json. The legacy file is ignored when the neutral manifest exists."
+
+Write-PathFinding `
+    -Root $targetInfo.Root `
+    -Path ".ai/framework.json" `
+    -Recommendation "Authoritative manifest. Never fall back to the legacy file when this file exists, even if invalid."
+
+Write-Host ""
+Write-Host "Assistant entry points:"
+Write-PathFinding -Root $targetInfo.Root -Path "CLAUDE.md" `
+    -Recommendation "Preserve custom instructions; ensure the shared AGENTS.md is imported."
+Write-PathFinding -Root $targetInfo.Root -Path "docs/ai-governance/ASSISTANT_SETUP.md" `
+    -Recommendation "Use the Cowork folder instructions and assistant startup checks."
 
 Write-Host ""
 Write-Host "Governance files:"
@@ -155,8 +167,11 @@ Write-PathFinding `
 Write-Host ""
 Write-Host "Recommended sequence:"
 Write-Host "1. Commit or stash target repository changes."
-Write-Host "2. Run scripts/install.ps1 -DryRun from the V2 framework repository."
+Write-Host "2. Run scripts/install.ps1 -DryRun from the V3 framework repository."
 Write-Host "3. Review managed file conflicts."
 Write-Host "4. Run the real install when the plan is acceptable."
 Write-Host "5. Manually migrate old ARCHITECTURE.md facts into docs/wiki/."
 Write-Host "6. Run scripts/validate-target.ps1."
+Write-Host "7. Add Session handoff to existing CURRENT_STATE.md using the template; preserve project content."
+Write-Host "8. Review ASSISTANT_SETUP.md and verify each assistant's startup."
+Write-Host "Legacy files are never removed automatically. After migration only .ai/framework.json is authoritative."

@@ -1,10 +1,24 @@
 {
   "schemaVersion": 2,
-  "name": "bw-codex-dev-framework",
-  "version": "2.0.1",
+  "name": "bw-ai-dev-framework",
+  "version": "3.0.0",
   "sourceRepository": "https://github.com/buildwise-be/BW_CODEX_DEV_GUIDE",
-  "description": "Repository-centric AI development framework for Codex-assisted software engineering.",
+  "description": "Repository-centric AI development framework for AI-assisted software engineering.",
   "files": [
+    {
+      "path": "CLAUDE.md",
+      "source": "src/CLAUDE.md",
+      "owner": "Framework",
+      "installMode": "managed",
+      "required": true
+    },
+    {
+      "path": "docs/ai-governance/ASSISTANT_SETUP.md",
+      "source": "src/docs/ai-governance/ASSISTANT_SETUP.md",
+      "owner": "Framework",
+      "installMode": "managed",
+      "required": true
+    },
     {
       "path": "AGENTS.md",
       "source": "src/AGENTS.md",
@@ -13,8 +27,8 @@
       "required": true
     },
     {
-      "path": ".codex/framework.json",
-      "source": "src/.codex/framework.json",
+      "path": ".ai/framework.json",
+      "source": "src/.ai/framework.json",
       "owner": "Framework",
       "installMode": "managed",
       "required": true

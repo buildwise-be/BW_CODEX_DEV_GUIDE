@@ -1,8 +1,8 @@
 ---
-name: Codex task
-about: Describe a focused development mission for Codex
+name: AI-assisted task
+about: Describe a focused development mission for an assistant
 title: ""
-labels: codex
+labels: ""
 assignees: ""
 ---
 
