@@ -27,8 +27,12 @@ All 14 regression scenarios passed:
 - Invalid neutral manifest rejection without fallback.
 - Direct startup-hook execution with present and missing required context.
 
-The V2 fixture models the legacy manifest and file layout; it is not a live
-customer repository. The neutral manifest also passed validation against the
+The V2 fixture is labeled 2.0.1 and models the legacy manifest and file layout;
+it is not a live customer repository or a separate historical 2.0.0 checkout.
+Direct 2.0.0 -> 3.0.0 migration uses the same V2 layout, with no required 2.0.1
+intermediate installation. Review each actual target's migration report and
+dry run rather than treating this coverage as validation of that project.
+The neutral manifest also passed validation against the
 existing JSON schema, and the Codex hook configuration parsed as valid JSON.
 
 ## Interactive Checks Not Performed

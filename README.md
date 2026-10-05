@@ -131,11 +131,61 @@ The installer preserves project-owned and generated files by default.
 
 ## Migration from V1 or V2 to V3
 
-Use the migration report before updating an existing target:
+### Direct upgrade from 2.0.0 or 2.0.1
+
+A project using framework **2.0.0 can upgrade directly to 3.0.0**. Installing
+2.0.1 first is not required. The same procedure applies to 2.0.1. This upgrades
+the AI instructions and supporting files, not the application's source code.
+
+Use a checkout of this framework at version 3.0.0. Run the following commands
+from its root, not from the target project. Replace the example path with the
+existing project's path. Run each step separately and inspect its result before
+continuing. Save any target-project changes first; the installer normally
+refuses to write into a dirty Git working tree.
 
 ```powershell
-.\scripts\migration-report.ps1 -TargetPath C:\path\to\target-repo
+# 1. Report legacy files and migration actions; no files are changed.
+.\scripts\migration-report.ps1 -TargetPath "C:\path\to\target-repo"
+
+# 2. Preview creates, preserves, and conflicts; no files are changed.
+.\scripts\install.ps1 -TargetPath "C:\path\to\target-repo" -DryRun
+
+# 3. Install only after reviewing the preview and resolving conflicts below.
+.\scripts\install.ps1 -TargetPath "C:\path\to\target-repo"
+
+# 4. Check required framework and project-memory files.
+.\scripts\validate-target.ps1 -TargetPath "C:\path\to\target-repo"
 ```
+
+### If the installer reports conflicts
+
+Changed V2 governance files normally differ from V3 and can therefore appear
+as conflicts even without project customizations. Any conflict stops the
+installation **before any file is copied** (exit code 2, including in a dry run).
+The scripts do not automatically merge old and new instructions.
+
+Compare each conflicting target file with its V3 source under `src/`. Identify
+project-specific rules that must survive. Either merge the V3 changes into the
+target files manually, or deliberately replace the managed files with backups:
+
+```powershell
+# Preview the replacements and review ALL affected managed files first.
+.\scripts\install.ps1 -TargetPath "C:\path\to\target-repo" -Force -Backup -DryRun
+
+# Apply the reviewed replacements and save timestamped backups.
+.\scripts\install.ps1 -TargetPath "C:\path\to\target-repo" -Force -Backup
+```
+
+`-Force` applies to all differing managed files, not just one selected conflict.
+If using replacement, reapply the necessary project-specific rules from the
+backups to the new files before resuming development. If manually merging,
+install any remaining new files according to the manifest; the installer will
+still flag intentionally customized managed files on subsequent runs.
+Then run validation, review the target project's `git diff`, and commit the
+reviewed migration in that project. Review backups before committing; they are
+local recovery copies, not additional active instructions.
+
+### What is preserved and what changes
 
 V3 (3.0.0) moves the V2 manifest from `.codex/framework.json` to
 `.ai/framework.json`. The manifest schema remains version 2. The neutral file
@@ -150,11 +200,22 @@ the migration is verified, the old manifest may be removed manually. Do not
 maintain two active manifests or use an old installer on a migrated target.
 
 Existing `CURRENT_STATE.md` files are never overwritten, including with
-`-Force`. Add the `Session handoff` section from
+`-Force`. The same applies to existing project-memory templates such as
+`DECISIONS.md`, `KNOWN_ISSUES.md`, and `ROADMAP.md`: missing files are created,
+existing files are preserved. Add the optional `Session handoff` section from
 [the template](templates/context/CURRENT_STATE.md) while preserving project
 content. Assistants maintain the current state at meaningful milestones and
 check it before their final response. Normal switching needs no preparation
 command; the prepare/resume prompts are optional shortcuts for unfinished work.
+The install also supplies `CLAUDE.md` and the Cowork setup instructions. It does
+not transfer conversations or configure accounts, permissions, or connectors.
+
+Compatibility is based on the V2 manifest and layout; the existing automated
+migration fixture is labeled 2.0.1, not a separate historical 2.0.0 checkout.
+Always review the report and preview for the actual target project. See
+[verification notes](tests/VERIFICATION.md) for the exact test coverage.
+
+### Additional considerations for V1
 
 V2 also moves reusable workflow content from `docs/ai-context/` to
 `docs/ai-governance/` and moves repository-inferred architecture facts to
