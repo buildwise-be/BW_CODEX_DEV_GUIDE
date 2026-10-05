@@ -1,4 +1,4 @@
-# BW AI Development Framework
+# BuildWISE AI Development Framework
 
 Lightweight, repository-centric framework for AI-assisted software
 engineering in Buildwise repositories.
@@ -11,7 +11,8 @@ Git remains the single source of truth.
 
 For the full operating model, read
 [AI_DEVELOPMENT_GUIDE.md](src/docs/ai-governance/AI_DEVELOPMENT_GUIDE.md).
-For a concise project overview, read [ABOUT.md](ABOUT.md).
+For benefits, tradeoffs, and when a plain repository is sufficient, read
+[Why use this framework?](WHY_THIS_FRAMEWORK.md).
 For assistant startup and switching, read
 [ASSISTANT_SETUP.md](src/docs/ai-governance/ASSISTANT_SETUP.md).
 
